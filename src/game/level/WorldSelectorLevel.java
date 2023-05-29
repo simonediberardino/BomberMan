@@ -86,43 +86,43 @@ public class WorldSelectorLevel extends Level{
         }
 
 
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,1),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,1),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3,1),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(4,1),-PitchPanel.GRID_SIZE/6,0)).spawn(true,false);
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,1),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,1),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3,1),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(4,1),-PitchPanel.GRID_SIZE/6,0)).forceSpawn();
 
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(6,1),-PitchPanel.GRID_SIZE/3,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,1),-PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,7),+PitchPanel.GRID_SIZE/2,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,9),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,8),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,10),0,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,9),-PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/6)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,8),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/6)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,7),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/6)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,6),PitchPanel.GRID_SIZE*2/3,-PitchPanel.GRID_SIZE*2/3)).spawn(true,false);
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(6,1),-PitchPanel.GRID_SIZE/3,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,1),-PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,7),+PitchPanel.GRID_SIZE/2,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,9),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(2,8),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,10),0,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,9),-PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/6)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,8),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/6)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,7),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/6)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,6),PitchPanel.GRID_SIZE*2/3,-PitchPanel.GRID_SIZE*2/3)).forceSpawn();
 
 
         //OUT OF BOUNDS BARRIER BLOCKS
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,9),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,8),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,9),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,8),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,7),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,7),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,7),0,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,7),0,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,7),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/2)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,8),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,9),0,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,2),PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/3)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3,6),PitchPanel.GRID_SIZE/6,+PitchPanel.GRID_SIZE/3)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(7,4),PitchPanel.GRID_SIZE/6,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(7,5),PitchPanel.GRID_SIZE/6,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,5),-PitchPanel.GRID_SIZE/2,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,4),-PitchPanel.GRID_SIZE/2,0)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,3),-PitchPanel.GRID_SIZE/2,+PitchPanel.GRID_SIZE/3)).spawn(true,false);
-        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,2),-PitchPanel.GRID_SIZE/6,+PitchPanel.GRID_SIZE/2)).spawn(true,false);
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,9),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,8),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,9),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,8),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,7),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,7),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,7),0,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,7),0,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(9,7),PitchPanel.GRID_SIZE/6,-PitchPanel.GRID_SIZE/2)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,8),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,9),0,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(1,2),PitchPanel.GRID_SIZE/3,-PitchPanel.GRID_SIZE/3)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3,6),PitchPanel.GRID_SIZE/6,+PitchPanel.GRID_SIZE/3)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(7,4),PitchPanel.GRID_SIZE/6,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(7,5),PitchPanel.GRID_SIZE/6,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,5),-PitchPanel.GRID_SIZE/2,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(8,4),-PitchPanel.GRID_SIZE/2,0)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(11,3),-PitchPanel.GRID_SIZE/2,+PitchPanel.GRID_SIZE/3)).forceSpawn();
+        new InvisibleBlock(Coordinates.fromRowAndColumnsToCoordinates(new Dimension(10,2),-PitchPanel.GRID_SIZE/6,+PitchPanel.GRID_SIZE/2)).forceSpawn();
     }
 
     @Override
@@ -143,7 +143,7 @@ public class WorldSelectorLevel extends Level{
         worldPortals.forEach(e -> {
             try {
                 Portal p = e.getConstructor().newInstance();
-                p.spawn(true, false);
+                p.forceSpawn();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException instantiationException) {
                 instantiationException.printStackTrace();
             }

@@ -4,69 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ccbb1b27-a219-4d1a-b8bb-02bc4ea72565" name="Default Changelist" comment="- Added ghost sounds;&#10;- Added level based background sounds;&#10;- Fixed pitch background;&#10;- Refactoring;&#10;- Fixed clown coordinates;">
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/AbstractExplosion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/ConfettiExplosion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/FireExplosion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/todo/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/todo/todo.txt" afterDir="false" />
+    <list default="true" id="ccbb1b27-a219-4d1a-b8bb-02bc4ea72565" name="Default Changelist" comment="- Added 2 instances of explosions;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data" beforeDir="false" afterPath="$PROJECT_DIR$/data/data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/BomberManMatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/BomberManMatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/data/DataInputOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/data/DataInputOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/data/PlayerDataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/data/PlayerDataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/blocks/DestroyableBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/blocks/DestroyableBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/AbstractExplosion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/bomb/AbstractExplosion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/Bomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/bomb/Bomb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/Explosion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/ConfettiExplosion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/bomb/ConfettiExplosion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/FireExplosion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/bomb/FireExplosion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/entity/enemies/boss/clown/Clown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/enemies/boss/clown/Clown.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/enemies/npcs/TankEnemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/enemies/npcs/TankEnemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/BomberEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/BomberEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/enemies/npcs/IntelligentEnemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/enemies/npcs/IntelligentEnemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Character.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Character.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Coordinates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/entity/models/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/entity/models/EntityInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/EntityInteractable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Explosive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Explosive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/events/ExplosionLengthPowerUpEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/events/ExplosionLengthPowerUpEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entity/models/MovingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/MovingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/level/Level.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/level/WorldSelectorLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/level/WorldSelectorLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/powerups/FirePowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/powerups/FirePowerUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/ui/panels/menus/MainMenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ui/panels/menus/MainMenuPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -519,7 +472,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685366048070</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="- Added 2 instances of explosions;">
+      <created>1685377841550</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1685377841550</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -536,7 +496,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="temporary fix for concurrent modify exception" />
     <MESSAGE value="Added loading page callback" />
     <MESSAGE value="Added toast messages;&#10;Hat on clown;&#10;Lives;&#10;Player icons;&#10;Bugs fixed;" />
     <MESSAGE value="-Movement with mouse.&#10;-Interaction with mouse on entities.&#10;-Overpassing block bug fixes: entities behind block are now found correctly; Manual movement now overwrites overpassing movement so the player no longer can get stuck while overpassing." />
@@ -561,7 +520,8 @@
     <MESSAGE value="- New images world1 boss;&#10;- Refactoring" />
     <MESSAGE value="- Clown explosion retexturing (wip)" />
     <MESSAGE value="- Added ghost sounds;&#10;- Added level based background sounds;&#10;- Fixed pitch background;&#10;- Refactoring;&#10;- Fixed clown coordinates;" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added ghost sounds;&#10;- Added level based background sounds;&#10;- Fixed pitch background;&#10;- Refactoring;&#10;- Fixed clown coordinates;" />
+    <MESSAGE value="- Added 2 instances of explosions;" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added 2 instances of explosions;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

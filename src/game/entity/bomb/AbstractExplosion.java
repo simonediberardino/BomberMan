@@ -6,11 +6,14 @@ import game.entity.models.*;
 import game.ui.panels.game.PitchPanel;
 import game.utils.Paths;
 
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static game.utils.Utility.loadImage;
 
 public abstract class AbstractExplosion extends MovingEntity {
     public static int MAX_EXPLOSION_LENGTH = 5;
@@ -103,20 +106,43 @@ public abstract class AbstractExplosion extends MovingEntity {
      */
     @Override
     public void move(Coordinates coordinates) {
+        // Calculate the coordinates of the next top-left position based on the current direction and size.
         Coordinates nextTopLeftCoords = nextCoords(direction, getSize());
 
         try {
+            // Get the constructor of the explosion class and specify its parameter types.
             Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(Coordinates.class, Direction.class, int.class, Explosive.class);
 
+            // Create a new instance of the explosion using the constructor and provide the necessary arguments.
             constructor.newInstance(
-                    nextTopLeftCoords,
-                    direction,
-                    distanceFromExplosive + 1,
-                    getExplosive()
-            ).spawn(true,false);
+                    nextTopLeftCoords,  // The calculated next top-left coordinates
+                    direction,         // The current direction
+                    distanceFromExplosive + 1,  // Increase the distance from the explosive by 1
+                    getExplosive()     // The explosive object associated with this instance
+            ).forceSpawn();  // Spawn the explosion with the specified parameters
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            // Print the stack trace if any exceptions occur during the instantiation process.
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the image of the explosion.
+     *
+     * @return The image of the explosion.
+     */
+    @Override
+    public BufferedImage getImage() {
+        if (distanceFromExplosive == 0) {
+            String centralStateImage = String.format("%s_central%s.png", getBasePath(), getState());
+            return loadImage(centralStateImage);
+        }
+
+        String lastStateSuffix = canExpand ? "" : "_last";
+        String directionImageSuffix = String.format("_%s", direction.toString().toLowerCase());
+
+        String flameImagePath = String.format("%s%s%s%s.png", getBasePath(), directionImageSuffix, lastStateSuffix, getState());
+        return loadAndSetImage(flameImagePath);
     }
 
     public int getState() {
@@ -176,7 +202,7 @@ public abstract class AbstractExplosion extends MovingEntity {
                     distanceFromExplosive + 1,
                     explosive,
                     false
-            ).spawn(true,false);
+            ).forceSpawn();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

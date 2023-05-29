@@ -83,10 +83,10 @@ public class Bomb extends MovableBlock implements Explosive {
 
         AudioManager.getInstance().play(SoundModel.EXPLOSION);
 
-        new FireExplosion(getCoords(), Direction.UP, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.RIGHT, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.DOWN, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.LEFT, this).spawn(true,false);
+        new FireExplosion(getCoords(), Direction.UP, this).forceSpawn();
+        new FireExplosion(getCoords(), Direction.RIGHT, this).forceSpawn();
+        new FireExplosion(getCoords(), Direction.DOWN, this).forceSpawn();
+        new FireExplosion(getCoords(), Direction.LEFT, this).forceSpawn();
 
         if (onExplodeCallback != null) onExplodeCallback.run();
     }

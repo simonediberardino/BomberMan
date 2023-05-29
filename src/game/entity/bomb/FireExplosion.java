@@ -14,6 +14,7 @@ public class FireExplosion extends AbstractExplosion{
         super(coordinates, direction, explosive);
     }
 
+
     public FireExplosion(Coordinates coordinates, Direction direction, int distanceFromBomb, Explosive explosive) {
         super(coordinates, direction, distanceFromBomb, explosive);
     }
@@ -24,26 +25,7 @@ public class FireExplosion extends AbstractExplosion{
 
     @Override
     protected String getBasePath() {
-        return String.format("%s/bomb/", Paths.getEntitiesFolder());
-    }
-
-    /**
-     * Returns the image of the explosion.
-     *
-     * @return The image of the explosion.
-     */
-    @Override
-    public BufferedImage getImage() {
-        if (distanceFromExplosive == 0) {
-            return loadImage(String.format("%sflame_central" + getState() + ".png", getBasePath()));
-        }
-
-        String isLast = canExpand ? "" : "_last";
-        String imageFileName = "flame_" + direction.toString().toLowerCase();
-
-        // Load and set the image of the flame.
-        String imagePath = String.format("%s%s%s%s.png", getBasePath(), imageFileName, isLast, getState());
-        return loadAndSetImage(imagePath);
+        return String.format("%s/bomb/flame", Paths.getEntitiesFolder());
     }
 
     @Override

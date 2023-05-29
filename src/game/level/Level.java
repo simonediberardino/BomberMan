@@ -154,7 +154,7 @@ public abstract class Level {
 
     protected void spawnBoss(){
         Boss boss = getBoss();
-        if(boss != null) boss.spawn(true, false);
+        if(boss != null) boss.forceSpawn();
     }
 
     // This method spawns enemies in the game.

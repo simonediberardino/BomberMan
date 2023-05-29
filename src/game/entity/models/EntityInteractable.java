@@ -88,8 +88,8 @@ public abstract class EntityInteractable extends Entity {
 
         // Determine the direction to move in
         switch (d) {
-            case RIGHT: x = stepSize;break;
-            case LEFT: x = -stepSize;break;
+            case RIGHT: x = stepSize; break;
+            case LEFT: x = -stepSize; break;
             case UP: y = -stepSize; break;
             case DOWN: y = stepSize; break;
         }

@@ -412,8 +412,10 @@ public abstract class Character extends MovingEntity {
     protected final void attackReceived(int damage) {
         synchronized ((Object) lastDamageTime) {
             if (Utility.timePassed(lastDamageTime) < INTERACTION_DELAY_MS)
-                return
-                        ;
+                return;
+
+            if(healthPoints == 0) return;
+
             lastDamageTime = System.currentTimeMillis();
             // Reduce the health points by the specified amount
             healthPoints -= damage;

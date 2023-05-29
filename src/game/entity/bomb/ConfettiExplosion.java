@@ -29,20 +29,6 @@ public class ConfettiExplosion extends AbstractExplosion{
 
     @Override
     protected String getBasePath() {
-        return String.format("%s/clown/clown_explosion/", Paths.getEnemiesFolder());
-    }
-
-    @Override
-    public BufferedImage getImage() {
-        if (distanceFromExplosive == 0) {
-            return loadImage(String.format("%sclown_explosion_central" + getState() + ".png", getBasePath()));
-        }
-
-        String isLast = canExpand ? "" : "_last";
-        String imageFileName = "clown_explosion_" + direction.toString().toLowerCase();
-
-        // Load and set the image of the flame.
-        String imagePath = String.format("%s%s%s%s.png", getBasePath(), imageFileName, isLast, getState());
-        return loadAndSetImage(imagePath);
+        return String.format("%s/clown/clown_explosion/clown_explosion", Paths.getEnemiesFolder());
     }
 }

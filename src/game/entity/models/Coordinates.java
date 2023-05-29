@@ -215,25 +215,27 @@ public class Coordinates implements Comparable<Coordinates> {
 
 
     public synchronized static List<Entity> getEntitiesOnCoordinates(List<Coordinates> desiredCoords){
-        List<Entity> entityLinkedList = new LinkedList<>();
-        // Check for each entity if it occupies the specified coordinates
-        Set<? extends Entity> entities = new HashSet<>(Bomberman.getMatch().getEntities()) ;
-        for (Entity e : entities) {
-            for (Coordinates coord : desiredCoords) {
-                int entityBottomRightX = e.getCoords().getX() + e.getSize() - 1;
-                int entityBottomRightY = e.getCoords().getY() + e.getSize() - 1;
+        List<Entity> entityList = new ArrayList<>();
 
+        // Iterate over each entity
+        for (Entity e : Bomberman.getMatch().getEntities()) {
+            int entityBottomRightX = e.getCoords().getX() + e.getSize() - 1;
+            int entityBottomRightY = e.getCoords().getY() + e.getSize() - 1;
+
+            // Check if any desired coordinate falls within the entity's bounding box
+            for (Coordinates coord : desiredCoords) {
                 if (coord.getX() >= e.getCoords().getX()
                         && coord.getX() <= entityBottomRightX
                         && coord.getY() >= e.getCoords().getY()
                         && coord.getY() <= entityBottomRightY
                 ) {
-                    entityLinkedList.add(e);
+                    entityList.add(e);
+                    break; // Exit the inner loop as soon as a match is found
                 }
             }
         }
 
-        return entityLinkedList;
+        return entityList;
     }
 
     /**

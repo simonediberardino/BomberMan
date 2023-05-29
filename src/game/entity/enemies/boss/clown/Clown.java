@@ -161,7 +161,7 @@ public class Clown extends Boss implements Explosive {
                             Orb.SIZE,
                             Orb.SIZE
                     ), d
-            ).spawn(true,false);
+            ).forceSpawn();
         }
     }
 
@@ -170,7 +170,7 @@ public class Clown extends Boss implements Explosive {
      */
     private void spawnEnhancedOrbs() {
         for (EnhancedDirection d: EnhancedDirection.values()) {
-            new Orb(Coordinates.fromDirectionToCoordinateOnEntity(this,d,Orb.SIZE),d).spawn(true, false);
+            new Orb(Coordinates.fromDirectionToCoordinateOnEntity(this,d,Orb.SIZE),d).forceSpawn();
         }
     }
 
@@ -214,7 +214,7 @@ public class Clown extends Boss implements Explosive {
      */
     public void throwHat() {
         EnhancedDirection d = EnhancedDirection.randomDirectionTowardsCenter(this);
-        new Hat(Coordinates.fromDirectionToCoordinateOnEntity(this, d, 0), d).spawn(true, false);
+        new Hat(Coordinates.fromDirectionToCoordinateOnEntity(this, d, 0), d).forceSpawn();
         hasHat = false;
     }
 

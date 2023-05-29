@@ -27,15 +27,26 @@ public abstract class MovingEntity extends EntityInteractable {
     public List<Direction> getAvailableDirections() {
         List<Direction> result = new LinkedList<>();
 
+        // Cache the result of getNewCoordinatesOnDirection() to avoid redundant calculations
+        List<Coordinates> newCoordinates;
+
         // Iterate over each direction
         for (Direction d : Direction.values()) {
-            List<Coordinates> newCoordinates = getNewCoordinatesOnDirection(d, PIXEL_UNIT, getSize() / 2);
-            // Check if any entities on the next coordinates are blocks or have invalid coordinates
-            boolean areCoordinatesValid = Coordinates.getEntitiesOnCoordinates(
-                    newCoordinates
-            ).stream().noneMatch(this::isObstacle);
+            newCoordinates = getNewCoordinatesOnDirection(d, PIXEL_UNIT, getSize() / 2);
 
-            areCoordinatesValid = areCoordinatesValid && newCoordinates.get(0).validate(this); // since the pitch is squared, if a coordinate is valid, then all the other new ones are as well;
+            // Check if any entities on the next coordinates are blocks or have invalid coordinates
+            boolean areCoordinatesValid = true;
+
+            // Iterate over the entities on the new coordinates, using for instead of streams for performance reasons;
+            for (Entity entity : Coordinates.getEntitiesOnCoordinates(newCoordinates)) {
+                if (isObstacle(entity)) {
+                    areCoordinatesValid = false;
+                    break; // Exit the loop as soon as an obstacle is found
+                }
+            }
+
+            // Validate all the new coordinates at once
+            areCoordinatesValid = areCoordinatesValid && newCoordinates.stream().allMatch(coord -> coord.validate(this));
 
             // If all the next coordinates are valid, add this direction to the list of available directions
             if (areCoordinatesValid) {

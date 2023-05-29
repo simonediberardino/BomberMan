@@ -45,17 +45,17 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
         // Get the current time in milliseconds
         long currentTime = System.currentTimeMillis();
 
-        // Get a list of all the available directions the agent can move in
-        List<Direction> availableDirections = getAvailableDirections()
-                .stream()
-                .filter(e -> getSupportedDirections().contains(e))
-                .collect(Collectors.toList());
-
-        // If forceChange is true, remove the current direction from the list of available directions
-
         // If it hasn't been long enough since the last direction update, keep moving in the same direction, unless last move was blocked
-        if (currentTime - lastDirectionUpdate < DIRECTION_REFRESH_RATE && !forceChange) {
+        if (!forceChange && currentTime - lastDirectionUpdate < DIRECTION_REFRESH_RATE) {
             return currDirection;
+        }
+
+        // Get a list of available directions
+        List<Direction> availableDirections = new ArrayList<>();
+        for (Direction direction : getAvailableDirections()) {
+            if (getSupportedDirections().contains(direction)) {
+                availableDirections.add(direction);
+            }
         }
 
         if (availableDirections.isEmpty()) {
@@ -63,18 +63,14 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
         }
 
         // Choose a new direction randomly, or keep the current direction with a certain probability
-        Direction newDirection = null;
-        if (Math.random() * 100 > CHANGE_DIRECTION_RATE) {
-            newDirection = currDirection;
+        double randomValue = Math.random() * 100;
+        if (randomValue > CHANGE_DIRECTION_RATE) {
+            return currDirection;
         }
 
-        // If a new direction hasn't been chosen, choose one randomly from the available options
-        if (newDirection == null) {
-            newDirection = availableDirections.get((int) (Math.random() * availableDirections.size()));
-        }
-
-        // Send the command corresponding to the new direction to the game engine
-        return newDirection;
+        // Choose a random direction from the available options
+        int randomIndex = (int) (Math.random() * availableDirections.size());
+        return availableDirections.get(randomIndex);
     }
 
     @Override

@@ -217,6 +217,10 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         spawn(forceSpawn,true);
     }
 
+    public final void forceSpawn() {
+        spawn(true, false);
+    }
+
     // checks if entity has already been spawned
     // if not, force spawn it and add it to the game state
     public final void spawn(boolean forceSpawn, boolean forceCentering) {
@@ -241,18 +245,13 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         int sign = 0;
 
         switch (d){
-            case UP:case LEFT: sign = -1; break; // if direction is up or left, sign is negative
-            case DOWN:case RIGHT: sign = 1; break; // if direction is down or right, sign is positive
+            case UP: case LEFT: sign = -1; break; // if direction is up or left, sign is negative
+            case DOWN: case RIGHT: sign = 1; break; // if direction is down or right, sign is positive
         }
 
         switch (d){
-            case LEFT:
-            case RIGHT:
-                return new Coordinates(getCoords().getX() + distance*sign, getCoords().getY()); // calculate new x-coordinate based on direction and distance
-
-            case DOWN:
-            case UP:
-                return new Coordinates(getCoords().getX() , getCoords().getY() + distance * sign); // calculate new y-coordinate based on direction and distance
+            case LEFT: case RIGHT: return new Coordinates(getCoords().getX() + distance*sign, getCoords().getY()); // calculate new x-coordinate based on direction and distance
+            case DOWN: case UP: return new Coordinates(getCoords().getX() , getCoords().getY() + distance * sign); // calculate new y-coordinate based on direction and distance
         }
 
         return null; // shouldn't happen
@@ -287,116 +286,201 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         return desiredCoords; // shouldn't happen
     }
 
+    /**
+     * Generates a list of coordinates for moving towards the right direction.
+     *
+     * @param steps  the number of steps to take
+     * @param offset the offset between each step
+     * @return a list of coordinates representing the movement towards the right
+     */
     protected List<Coordinates> getNewCoordinatesOnRight(int steps, int offset) {
         List<Coordinates> coordinates = new ArrayList<>();
         int last = 0;
+
         for (int step = 0; step <= steps / offset; step++) {
             for (int i = 0; i <= getSize() / offset; i++) {
-                if (i== getSize()/offset) last = PitchPanel.PIXEL_UNIT;
+                if (i == getSize() / offset) {
+                    last = PitchPanel.PIXEL_UNIT;
+                }
 
-                coordinates.add(new Coordinates(getCoords().getX() + getSize()+step * offset, getCoords().getY() + i * offset - last));
+                int x = getCoords().getX() + getSize() + step * offset;
+                int y = getCoords().getY() + i * offset - last;
+                coordinates.add(new Coordinates(x, y));
             }
         }
+
         return coordinates;
     }
 
+
+    /**
+     * Generates a list of coordinates for moving towards the left direction.
+     *
+     * @param steps  the number of steps to take
+     * @param offset the offset between each step
+     * @return a list of coordinates representing the movement towards the left
+     */
     protected List<Coordinates> getNewCoordinatesOnLeft(int steps, int offset) {
         List<Coordinates> coordinates = new ArrayList<>();
         int first = steps;
         int last = 0;
-        for (int step = 0; step <= steps/offset; step++) {
-            for (int i = 0; i <= getSize() / offset; i++) {
-                if (i== getSize()/offset) last = PitchPanel.PIXEL_UNIT;
-                coordinates.add(new Coordinates(getCoords().getX() - first - step * offset, getCoords().getY() + i * offset - last));
-            }first =0;
-        }
-        return coordinates;
-    }
-
-    protected List<Coordinates> getNewCoordinatesOnUp(int steps, int offset) {
-        List<Coordinates> coordinates = new ArrayList<>();
-        int first = steps, last = 0;
-
-        for (int step = 0; step <= steps/offset; step++) {
-            for (int i = 0; i <= getSize() / offset; i++) {
-                if (i== getSize()/offset) last = PitchPanel.PIXEL_UNIT;
-                coordinates.add(new Coordinates(getCoords().getX() + i * offset - last, getCoords().getY() - first - step * offset));
-            }
-            first = 0;
-        }
-
-        return coordinates;
-    }
-
-    protected List<Coordinates> getNewCoordinatesOnDown(int steps, int offset, int size) {
-        List<Coordinates> coordinates = new ArrayList<>();
-        int first = steps, last = 0;
 
         for (int step = 0; step <= steps / offset; step++) {
             for (int i = 0; i <= getSize() / offset; i++) {
-                if (i== getSize()/offset)
+                if (i == getSize() / offset) {
                     last = PitchPanel.PIXEL_UNIT;
-
-                coordinates.add(new Coordinates(getCoords().getX() + i * offset - last, getCoords().getY() + size - 1 + first + step * offset));
+                }
+                int x = getCoords().getX() - first - step * offset;
+                int y = getCoords().getY() + i * offset - last;
+                coordinates.add(new Coordinates(x, y));
             }
+
             first = 0;
         }
-        
+
+        return coordinates;
+    }
+
+    /**
+     * Generates a list of coordinates for moving upwards.
+     *
+     * @param steps  the number of steps to take
+     * @param offset the offset between each step
+     * @return a list of coordinates representing the movement upwards
+     */
+    protected List<Coordinates> getNewCoordinatesOnUp(int steps, int offset) {
+        List<Coordinates> coordinates = new ArrayList<>();
+        int first = steps;
+        int last = 0;
+
+        for (int step = 0; step <= steps / offset; step++) {
+            for (int i = 0; i <= getSize() / offset; i++) {
+                if (i == getSize() / offset) {
+                    last = PitchPanel.PIXEL_UNIT;
+                }
+
+                int x = getCoords().getX() + i * offset - last;
+                int y = getCoords().getY() - first - step * offset;
+                coordinates.add(new Coordinates(x, y));
+            }
+
+            first = 0;
+        }
+
         return coordinates;
     }
 
 
+    /**
+     * Generates a list of coordinates for moving downwards.
+     *
+     * @param steps  the number of steps to take
+     * @param offset the offset between each step
+     * @param size   the size of the object
+     * @return a list of coordinates representing the movement downwards
+     */
+    protected List<Coordinates> getNewCoordinatesOnDown(int steps, int offset, int size) {
+        List<Coordinates> coordinates = new ArrayList<>();
+        int first = steps;
+        int last = 0;
 
+        for (int step = 0; step <= steps / offset; step++) {
+            for (int i = 0; i <= getSize() / offset; i++) {
+                if (i == getSize() / offset) {
+                    last = PitchPanel.PIXEL_UNIT;
+                }
+
+                int x = getCoords().getX() + i * offset - last;
+                int y = getCoords().getY() + size - 1 + first + step * offset;
+                coordinates.add(new Coordinates(x, y));
+            }
+
+            first = 0;
+        }
+
+        return coordinates;
+    }
+    /**
+     * Sets the padding value for the top.
+     *
+     * @param p the padding value to set
+     */
     public void setPaddingTop(int p){
-        paddingTop=p;
+        paddingTop = p;
     }
 
+    /**
+     * Sets the padding value for the width.
+     *
+     * @param p the padding value to set
+     */
     public void setPaddingWidth(int p){
         paddingWidth = p;
     }
 
+    /**
+     * Calculates and retrieves the padding value for the top using the default height ratio.
+     *
+     * @return the calculated padding value for the top
+     */
     public int calculateAndGetPaddingTop(){
         return calculateAndGetPaddingTop(getHitboxSizeToHeightRatio());
     }
 
+    /**
+     * Calculates and retrieves the padding value for the top using the given ratio.
+     *
+     * @param ratio the ratio to use for calculation
+     * @return the calculated padding value for the top
+     */
     public int calculateAndGetPaddingTop(double ratio){
         return (int) paddingTopFunction.execute(ratio);
     }
 
+    /**
+     * Retrieves the padding value for the top.
+     *
+     * @return the padding value for the top
+     */
     public int getPaddingTop(){
         return paddingTop;
     }
 
+    /**
+     * Retrieves the padding value for the width.
+     *
+     * @return the padding value for the width
+     */
     public int getPaddingWidth(){
         return paddingWidth;
     }
 
+    /**
+     * Calculates and retrieves the padding value for the width using the default width ratio.
+     *
+     * @return the calculated padding value for the width
+     */
     public int calculateAndGetPaddingWidth(){
         return calculateAndGetPaddingWidth(getHitboxSizeToWidthRatio());
     }
 
+    /**
+     * Calculates and retrieves the padding value for the width using the given ratio.
+     *
+     * @param ratio the ratio to use for calculation
+     * @return the calculated padding value for the width
+     */
     public int calculateAndGetPaddingWidth(double ratio){
         return (int) paddingWidthFunction.execute(ratio);
     }
 
+    /**
+     * Retrieves the draw priority value.
+     *
+     * @return the draw priority value
+     */
     public int getDrawPriority() {
         return 1;
-    }
-
-    @Override
-    public int compareTo(Entity other) {
-        return Comparator.comparing(Entity::getDrawPriority)
-                .thenComparing(e -> e.getCoords().getY())
-                .thenComparingInt(e -> (int) e.getId())
-                .compare(this, other);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Entity)) return false;
-        Entity entity = (Entity) o;
-        return id == entity.id;
     }
 
     /**
@@ -529,16 +613,32 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
     public void setAlpha(float alpha){
         this.alpha = Utility.ensureRange(alpha, 0, 1);
     }
 
     public float getAlpha() {
         return alpha;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Entity other) {
+        return Comparator.comparing(Entity::getDrawPriority)
+                .thenComparing(e -> e.getCoords().getY())
+                .thenComparingInt(e -> (int) e.getId())
+                .compare(this, other);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Entity)) return false;
+        Entity entity = (Entity) o;
+        return id == entity.id;
     }
 }
