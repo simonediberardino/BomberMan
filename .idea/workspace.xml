@@ -5,69 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccbb1b27-a219-4d1a-b8bb-02bc4ea72565" name="Default Changelist" comment="- Added ghost sounds;&#10;- Added level based background sounds;&#10;- Fixed pitch background;&#10;- Refactoring;&#10;- Fixed clown coordinates;">
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/AbstractExplosion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/ConfettiExplosion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/entity/bomb/FireExplosion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/todo/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/todo/todo.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/bomb_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/bomb_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_central3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_central3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_down_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_down_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_left_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_left_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_right_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_right_last3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last0.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bomb/flame_up_last3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/entities/bomb/flame_up_last3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data" beforeDir="false" afterPath="$PROJECT_DIR$/data/data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/BomberManMatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/BomberManMatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/data/DataInputOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/data/DataInputOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/data/PlayerDataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/data/PlayerDataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/blocks/DestroyableBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/blocks/DestroyableBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/Bomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/bomb/Bomb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/bomb/Explosion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/enemies/boss/clown/Clown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/enemies/boss/clown/Clown.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/enemies/npcs/TankEnemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/enemies/npcs/TankEnemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/BomberEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/BomberEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Enemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/EntityInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/EntityInteractable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entity/models/Explosive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entity/models/Explosive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/events/ExplosionLengthPowerUpEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/events/ExplosionLengthPowerUpEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/level/WorldSelectorLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/level/WorldSelectorLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/powerups/FirePowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/powerups/FirePowerUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/ui/panels/menus/MainMenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ui/panels/menus/MainMenuPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/sound/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/sound/AudioManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -532,7 +472,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -653,11 +592,16 @@
           <line>134</line>
           <option name="timeStamp" value="203" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Bomberman.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="204" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/BomberMan$Bomberman.ic" NAME="Bomberman Coverage Results" MODIFIED="1685151923216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/BomberMan$Unnamed.ic" NAME="Unnamed Coverage Results" MODIFIED="1683345048610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/BomberMan$Bomberman.ic" NAME="Bomberman Coverage Results" MODIFIED="1685151923216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

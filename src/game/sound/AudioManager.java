@@ -5,11 +5,14 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
 
 import javax.sound.sampled.*;
 
 public class AudioManager {
+    private HashMap<SoundModel, List<Clip>> audioHashMap = new HashMap<>();
     private static AudioManager instance;
+
 
     public static AudioManager getInstance() {
         if (instance == null)
@@ -32,6 +35,12 @@ public class AudioManager {
     public Clip play(SoundModel soundModel, boolean loop) {
         return play(soundModel.toString(), loop);
     }
+    public void addSoundToHashMap(SoundModel key, Clip obj){
+        HashMap<SoundModel, List<Clip>> sounds = audioHashMap;
+        List<Clip> tempList =  sounds.get(key);
+        if(tempList == null) audioHashMap.put(key, Collections.singletonList(obj));
+        else tempList.add(obj);
+    }
 
     public Clip play(String sound, boolean loop){
         try {
@@ -52,6 +61,7 @@ public class AudioManager {
 
             // Start playing the clip
             clip.start();
+            //
             return clip;
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e1) {
             e1.printStackTrace();
