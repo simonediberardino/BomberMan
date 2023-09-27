@@ -21,7 +21,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
     private static ControllerManager instance;
     private static final int KEY_ESC = KeyEvent.VK_ESCAPE;
     private static int KEY_DELAY_MS = setDefaultCommandDelay();
-    private final List<Command> commandQueue = new ArrayList<>();
+    public Set<Command> commandQueue = new HashSet<>();
 
     // Key-Command mapping
     private Map<Integer, Command> keyAssignment;
@@ -30,55 +30,62 @@ public class ControllerManager extends Observable2 implements KeyListener {
     private final Map<Command, Long> commandEventsTime = new HashMap<>();
     private PeriodicTask task;
 
-    public ControllerManager() {
+    public ControllerManager(){
         instance = this;
         setupTask();
-        setKeyMap();
+        // If illegal keys are found, reset the key map;
+        try{
+            setKeyMap();
+        }catch (IllegalArgumentException e){
+            DataInputOutput.getPlayerDataObject().resetKeys();
+            DataInputOutput.updateStoredPlayerData();
+            setKeyMap();
+            e.printStackTrace();
+        }
     }
 
-    private void setKeyMap() {
-        keyAssignment = Map.of(
-                DataInputOutput.getPlayerDataObject().getForwardKey(), Command.MOVE_UP,
-                DataInputOutput.getPlayerDataObject().getLeftKey(), Command.MOVE_LEFT,
-                DataInputOutput.getPlayerDataObject().getBackKey(), Command.MOVE_DOWN,
-                DataInputOutput.getPlayerDataObject().getRightKey(), Command.MOVE_RIGHT,
-                DataInputOutput.getPlayerDataObject().getBombKey(), Command.PLACE_BOMB,
-                KEY_ESC, Command.PAUSE
+    private void setKeyMap(){
+        keyAssignment = Map.ofEntries(
+                entry(DataInputOutput.getPlayerDataObject().getForwardKey(), Command.MOVE_UP),
+                entry(DataInputOutput.getPlayerDataObject().getLeftKey(), Command.MOVE_LEFT),
+                entry(DataInputOutput.getPlayerDataObject().getBackKey(), Command.MOVE_DOWN),
+                entry(DataInputOutput.getPlayerDataObject().getRightKey(), Command.MOVE_RIGHT),
+                entry(DataInputOutput.getPlayerDataObject().getBombKey(), Command.PLACE_BOMB),
+                entry(KEY_ESC, Command.PAUSE)
         );
     }
 
-    public void onKeyPressed(Command action) {
-        if (action != null) {
-            long currentTime = System.currentTimeMillis();
-            long lastEventTime = commandEventsTime.getOrDefault(action, 0L);
+    public void onKeyPressed(Command action){
+        // Ignore the event if the time elapsed since the last event is less than KEY_DELAY_MS
 
-            if (currentTime - lastEventTime >= KEY_DELAY_MS) {
-                commandEventsTime.put(action, currentTime);
-                commandQueue.add(action);
-                resume();
-            }
+        if(action != null) {
+            commandEventsTime.put(action, System.currentTimeMillis());
+            commandQueue.add(action);
         }
+
+        resume();
     }
 
+    /**
+     * Handles key pressed events and notifies observers with the corresponding command that should be executed.
+     *
+     * @param e the KeyEvent object that contains the information of the key that was pressed.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         Command action = keyAssignment.get(e.getKeyCode());
-        if (action != null) {
-            onKeyPressed(action);
-            // Interrupt mouse movement if needed
-            Bomberman.getMatch().getMouseControllerManager().stopPeriodicTask();
-        }
+        if(Utility.timePassed( commandEventsTime.getOrDefault(action, 0L)) < KEY_DELAY_MS) return;
+
+
+        onKeyPressed(action);
+        // if a button is pressed, mouse movement gets interrupted
+        Bomberman.getMatch().getMouseControllerManager().stopPeriodicTask();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         Command action = keyAssignment.get(e.getKeyCode());
-        if (action != null) {
-            commandQueue.remove(action);
-            if (commandQueue.isEmpty()) {
-                stop();
-            }
-        }
+        onKeyReleased(action);
     }
 
     public void onKeyReleased(Command action){
@@ -88,8 +95,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
 
     private void setupTask() {
         task = new PeriodicTask(() -> {
-            Set<Command> commandsToNotify = new HashSet<>(commandQueue); // Batch notifications
-            for (Command command : commandsToNotify) {
+            for (Command command : new HashSet<>(commandQueue)) {
                 notifyObservers(command);
             }
         }, KEY_DELAY_MS);
