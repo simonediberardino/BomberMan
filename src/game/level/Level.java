@@ -23,6 +23,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -230,10 +231,19 @@ public abstract class Level {
 
     public void playLevelSound() {
         String soundPath = getLevelBackgroundSound();
-        if(!new File(soundPath).exists()) return;
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        currentLevelSound = AudioManager.getInstance().play(soundPath, true);
+        if(soundPath == null) return;
+
+        // Attempt to load the resource as an InputStream
+        InputStream soundStream = classLoader.getResourceAsStream(soundPath);
+
+        if (soundStream != null) {
+            // If the resource exists, play it using AudioManager
+            currentLevelSound = AudioManager.getInstance().play(soundPath, true);
+        }
     }
+
 
     public void stopLevelSound() {
         if (currentLevelSound == null) {
@@ -285,12 +295,27 @@ public abstract class Level {
      * @return returns the path to the file: if a specific instance of the file exists for the current level, then return it, else return the current world instance;
      */
     protected String getFileForCurrentLevel(String path) {
-        String specificLevelPath = Paths.getCurrentLevelFolder() + "/" + path;
-        if(new File(specificLevelPath).exists()) return specificLevelPath;
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        String currentWorldPath = Paths.getCurrentWorldCommonFolder() + "/" + path;
-        if(new File(currentWorldPath).exists()) return currentWorldPath;
+        // First, try to load the resource from the specific level folder
+        InputStream specificLevelStream = classLoader.getResourceAsStream(Paths.getCurrentLevelFolder() + "/" + path);
+        if (specificLevelStream != null) {
+            return Paths.getCurrentLevelFolder() + "/" + path;
+        }
 
+        // If not found, try to load from the current world's common folder
+        InputStream currentWorldStream = classLoader.getResourceAsStream(Paths.getCurrentWorldCommonFolder() + "/" + path);
+        if (currentWorldStream != null) {
+            return Paths.getCurrentWorldCommonFolder() + "/" + path;
+        }
+
+        // If still not found, load from the common folder in the JAR
+        InputStream commonStream = classLoader.getResourceAsStream("common/" + path);
+        if (commonStream != null) {
+            return "common/" + path;
+        }
+
+        // File not found
         return Paths.getWorldsFolder() + "/common/" + path;
     }
 

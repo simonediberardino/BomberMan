@@ -42,7 +42,7 @@ public class AudioManager {
     }
     public Clip play(String sound, boolean loop, int volumePercentage){
         try {
-            InputStream in = new BufferedInputStream(new FileInputStream(sound));
+            InputStream in = new BufferedInputStream(getClass().getResourceAsStream(String.format("/%s", sound)));
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);
             Clip clip = AudioSystem.getClip();
 
@@ -110,7 +110,7 @@ public class AudioManager {
     }
 
     public void playBackgroundSong(String newSong) {
-        if(newSong.equals(currentBackgroundSong)) return;
+        if(currentBackgroundSong.equals(newSong)) return;
 
         if(!currentBackgroundSong.isBlank()){
             stopAllInstancesOfSound(currentBackgroundSong);

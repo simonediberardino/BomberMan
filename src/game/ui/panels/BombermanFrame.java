@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -139,10 +140,26 @@ public class BombermanFrame extends JFrame {
 
     private void setFrameCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage(Paths.getCursorPath());
-        Cursor c = toolkit.createCustomCursor(image, new Point(getX(), getY()), "img");
-        setCursor(c);
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        // Use ClassLoader to load the image resource from the JAR file
+        InputStream inputStream = classLoader.getResourceAsStream(Paths.getCursorPath());
+
+        if (inputStream == null) {
+            System.out.println("Cursor image not found in resources.");
+            return;
+        }
+
+        try {
+            byte[] imageBytes = inputStream.readAllBytes();
+            Image image = toolkit.createImage(imageBytes);
+            Cursor c = toolkit.createCustomCursor(image, new Point(getX(), getY()), "img");
+            setCursor(c);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     /**
      Gets the pitch panel from the match panel.

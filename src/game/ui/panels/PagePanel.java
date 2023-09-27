@@ -32,7 +32,11 @@ public abstract class PagePanel extends JPanel {
 
         // Scale the background image to fit the size of the panel and draw it
         if (width != 0 && height != 0) {
-            g.drawImage(backgroundImage.getScaledInstance(width, height, 1), 0, 0, null);
+            try{
+                g.drawImage(backgroundImage.getScaledInstance(width, height, 1), 0, 0, null);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if(toastHandler.getText() != null){

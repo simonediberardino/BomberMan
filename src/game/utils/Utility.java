@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
 
@@ -52,9 +53,17 @@ public class Utility {
      */
     public static BufferedImage loadImage(String fileName) {
         try {
-            return ImageIO.read(new File(fileName));
+            // Use ClassLoader to load the image from the JAR file
+            InputStream inputStream = Utility.class.getResourceAsStream("/" + fileName);
+
+            if (inputStream != null) {
+                return ImageIO.read(inputStream);
+            } else {
+                System.out.println("Can't find " + fileName + " in the JAR!");
+                return null;
+            }
         } catch (IOException e) {
-            System.out.println("Can't read " + fileName + "!");
+            System.out.println("Error loading " + fileName + ": " + e.getMessage());
             return null;
         }
     }
