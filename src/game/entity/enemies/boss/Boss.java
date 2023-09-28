@@ -1,6 +1,5 @@
 package game.entity.enemies.boss;
 
-import game.Bomberman;
 import game.entity.enemies.npcs.IntelligentEnemy;
 import game.entity.models.Entity;
 import game.entity.models.Coordinates;
