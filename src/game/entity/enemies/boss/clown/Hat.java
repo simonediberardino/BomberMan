@@ -7,6 +7,7 @@ import game.entity.models.Coordinates;
 import game.entity.models.Direction;
 import game.entity.models.EnhancedDirection;
 import game.utils.Paths;
+import game.values.DrawPriority;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -101,7 +102,7 @@ public class Hat extends Orb {
     }
 
     @Override
-    public int getDrawPriority() {
-        return 20;
+    public DrawPriority getDrawPriority() {
+        return DrawPriority.DRAW_PRIORITY_3;
     }
 }

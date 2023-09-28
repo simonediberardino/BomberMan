@@ -9,6 +9,7 @@ import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
 import game.utils.Utility;
+import game.values.DrawPriority;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -322,8 +323,8 @@ public abstract class Character extends MovingEntity {
     }
 
     @Override
-    public int getDrawPriority() {
-        return 2;
+    public DrawPriority getDrawPriority() {
+        return DrawPriority.DRAW_PRIORITY_2;
     }
 
     /**

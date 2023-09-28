@@ -8,11 +8,13 @@ import game.events.Observer2;
 import game.events.RunnablePar;
 import game.sound.AudioManager;
 import game.utils.Utility;
+import game.values.DrawPriority;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static game.sound.SoundModel.LIGHT_GLITCH;
 import static game.utils.Utility.loadImage;
@@ -59,16 +61,26 @@ public class PitchPanel extends JPanel implements Observer2 {
 
     @Override
     public void paint(Graphics g) {
-
         super.paint(g);
         this.g2d = (Graphics2D) g;
+
         Image img = loadImage(Bomberman.getMatch().getCurrentLevel().getPitchImagePath());
         g.drawImage(img.getScaledInstance((int) getMaximumSize().getWidth(), (int) getMaximumSize().getHeight(),1), 0, 0, null);
 
         Set<? extends Entity> setEntities = Bomberman.getMatch().getEntities();
-        // Draw each entity in the set
-        for (Entity e: setEntities) {
-            drawEntity(g2d, e);
+
+        // Group entities by draw priority in parallel
+        Map<DrawPriority, java.util.List<Entity>> groupedEntities = setEntities
+                .parallelStream()
+                .collect(Collectors.groupingByConcurrent(Entity::getDrawPriority,
+                        ConcurrentHashMap::new,
+                        Collectors.toList())
+                );
+
+        // Draw entities in the desired order
+        for (DrawPriority d : DrawPriority.values()) {
+            java.util.List<Entity> entitiesToDraw = groupedEntities.getOrDefault(d, Collections.emptyList());
+            entitiesToDraw.parallelStream().forEach(e -> drawEntity(g2d, e));
         }
 
         // Runs custom callbacks;

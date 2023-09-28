@@ -9,6 +9,7 @@ import game.entity.models.Coordinates;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
+import game.values.DrawPriority;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -66,11 +67,6 @@ public abstract class PowerUp extends EntityInteractable {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Override
-    public int getDrawPriority() {
-        return -1;
     }
 
     /**

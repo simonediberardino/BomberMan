@@ -6,6 +6,7 @@ import game.tasks.GameTickerObserver;
 import game.events.RunnablePar;
 import game.ui.panels.game.PitchPanel;
 import game.utils.Utility;
+import game.values.DrawPriority;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -345,9 +346,7 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         
         return coordinates;
     }
-
-
-
+    
     public void setPaddingTop(int p){
         paddingTop=p;
     }
@@ -380,8 +379,8 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
         return (int) paddingWidthFunction.execute(ratio);
     }
 
-    public int getDrawPriority() {
-        return 1;
+    public DrawPriority getDrawPriority() {
+        return DrawPriority.DRAW_PRIORITY_1;
     }
 
     @Override

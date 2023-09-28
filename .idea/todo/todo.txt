@@ -1,2 +1,8 @@
-- Life+ on every level completed
-- enemies overpassing blocks
+- power up respawn destroyable blocks;
+- respawn enemies;
+- spawn boss;
+- add rounds on left;
+- mistery box;
+- music on pause off;
+- Remove lives on arena;
+- Remove portal on arena;

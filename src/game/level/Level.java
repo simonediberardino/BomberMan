@@ -63,7 +63,7 @@ public abstract class Level {
     public abstract int getMaxDestroyableBlocks();
     public abstract Class<? extends Level> getNextLevel();
     public abstract Class<? extends Enemy>[] availableEnemies();
-
+    public void onAllEnemiesEliminated() {}
     public final String getLevelSoundtrack() {
         return getSoundForCurrentLevel("soundtrack.wav");
     }
@@ -133,6 +133,10 @@ public abstract class Level {
     public void generateEntities(JPanel jPanel) {
         generateStone(jPanel);
         generatePlayer();
+        startLevel();
+    }
+
+    public void startLevel() {
         generateDestroyableBlock();
         spawnBoss();
         spawnEnemies();
@@ -160,7 +164,7 @@ public abstract class Level {
         DataInputOutput.updateStoredPlayerData();
     }
 
-    protected void spawnBoss(){
+    protected void spawnBoss() {
         Boss boss = getBoss();
         if(boss != null) boss.spawn(true, false);
     }

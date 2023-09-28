@@ -220,7 +220,7 @@ public class Coordinates implements Comparable<Coordinates> {
         List<Entity> entityLinkedList = new LinkedList<>();
         // Check for each entity if it occupies the specified coordinates
         Set<? extends Entity> entities = new HashSet<>(Bomberman.getMatch().getEntities()) ;
-        for (Entity e : entities) {
+        entities.parallelStream().forEach(e -> {
             for (Coordinates coord : desiredCoords) {
                 int entityBottomRightX = e.getCoords().getX() + e.getSize() - 1;
                 int entityBottomRightY = e.getCoords().getY() + e.getSize() - 1;
@@ -233,7 +233,7 @@ public class Coordinates implements Comparable<Coordinates> {
                     entityLinkedList.add(e);
                 }
             }
-        }
+        });
 
         return entityLinkedList;
     }
@@ -247,7 +247,7 @@ public class Coordinates implements Comparable<Coordinates> {
         ArrayList<Coordinates> arrayCoordinates = getAllCoordinates(Coordinates.roundCoordinates(nextOccupiedCoords),GRID_SIZE);
         // Get all the blocks and entities in the game
         var entities = Bomberman.getMatch().getEntities();
-        return entities.stream().filter(e->arrayCoordinates.stream().anyMatch(coords->doesCollideWith(coords,e))).collect(Collectors.toList());
+        return entities.parallelStream().filter(e -> arrayCoordinates.stream().anyMatch(coords -> doesCollideWith(coords, e))).collect(Collectors.toList());
     }
 
     /**

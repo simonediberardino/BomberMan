@@ -4,7 +4,7 @@ import game.Bomberman;
 import game.entity.blocks.DestroyableBlock;
 import game.entity.models.*;
 import game.ui.panels.game.PitchPanel;
-import game.utils.Paths;
+import game.values.DrawPriority;
 
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Constructor;
@@ -64,9 +64,10 @@ public abstract class AbstractExplosion extends MovingEntity {
         //on first (center) explosion
         if (distanceFromExplosive == 0) {
             List<Coordinates> desiredCoords = getAllCoordinates();
-            for (Entity e: Bomberman.getMatch().getEntities())
-                if (desiredCoords.stream().anyMatch(coord -> Coordinates.doesCollideWith(coord, e)))
-                    interact(e);
+            Bomberman.getMatch().getEntities()
+                    .parallelStream()
+                    .filter(e -> desiredCoords.stream().anyMatch(coord -> Coordinates.doesCollideWith(coord, e)))
+                    .forEach(this::interact);
         }
 
         if (getCanExpand())
@@ -74,8 +75,8 @@ public abstract class AbstractExplosion extends MovingEntity {
     }
 
     @Override
-    public int getDrawPriority() {
-        return 21;
+    public DrawPriority getDrawPriority() {
+        return DrawPriority.DRAW_PRIORITY_4;
     }
 
     /**

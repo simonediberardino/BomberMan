@@ -2,6 +2,7 @@ package game.ui.panels.menus;
 
 import game.Bomberman;
 import game.level.WorldSelectorLevel;
+import game.level.world1.World1Arena;
 import game.level.world1.World1Level5;
 import game.level.world2.World2Level1;
 import game.level.world2.World2Level2;
@@ -49,7 +50,7 @@ public class MainMenuPanel extends BaseMenu {
      */
     private JButton createStartLevelButton() {
         JButton startLevelButton = new YellowButton(get(PLAY));
-        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new WorldSelectorLevel()));
+        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new World1Arena()));
         return startLevelButton;
     }
 

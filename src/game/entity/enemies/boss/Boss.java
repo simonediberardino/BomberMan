@@ -1,6 +1,5 @@
 package game.entity.enemies.boss;
 
-import game.Bomberman;
 import game.entity.enemies.npcs.IntelligentEnemy;
 import game.entity.models.Entity;
 import game.entity.models.Coordinates;
@@ -8,8 +7,8 @@ import game.powerups.PowerUp;
 import game.powerups.portal.EndLevelPortal;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
+import game.values.DrawPriority;
 
-import java.awt.*;
 import java.util.*;
 
 import static game.ui.panels.game.PitchPanel.GRID_SIZE;
@@ -43,8 +42,8 @@ public abstract class Boss extends IntelligentEnemy {
     }
 
     @Override
-    public int getDrawPriority() {
-        return 20;
+    public DrawPriority getDrawPriority() {
+        return DrawPriority.DRAW_PRIORITY_3;
     }
 
     @Override

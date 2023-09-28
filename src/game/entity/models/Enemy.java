@@ -5,6 +5,7 @@ import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
 import game.entity.bomb.ConfettiExplosion;
+import game.events.EnemyDespawnedGameEvent;
 import game.events.KilledEnemyEvent;
 import game.events.ScoreGameEvent;
 import game.ui.panels.game.PitchPanel;
@@ -47,6 +48,7 @@ public abstract class Enemy extends Character{
         super.onDespawn();
         Bomberman.getMatch().decreaseEnemiesAlive();
         Bomberman.getMatch().getGameTickerObservable().unregister(this);
+        new EnemyDespawnedGameEvent().invoke(null);
     }
 
     @Override
