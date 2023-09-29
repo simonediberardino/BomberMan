@@ -219,7 +219,8 @@ public class Coordinates implements Comparable<Coordinates> {
     public static List<Entity> getEntitiesOnCoordinates(List<Coordinates> desiredCoords){
         List<Entity> entityLinkedList = new LinkedList<>();
         // Check for each entity if it occupies the specified coordinates
-        Set<? extends Entity> entities = new HashSet<>(Bomberman.getMatch().getEntities()) ;
+        List<? extends Entity> entities = Bomberman.getMatch().getEntities();
+
         entities.parallelStream().forEach(e -> {
             for (Coordinates coord : desiredCoords) {
                 int entityBottomRightX = e.getCoords().getX() + e.getSize() - 1;

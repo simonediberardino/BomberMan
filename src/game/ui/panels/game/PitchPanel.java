@@ -13,6 +13,7 @@ import game.values.DrawPriority;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -67,8 +68,15 @@ public class PitchPanel extends JPanel implements Observer2 {
         Image img = loadImage(Bomberman.getMatch().getCurrentLevel().getPitchImagePath());
         g.drawImage(img.getScaledInstance((int) getMaximumSize().getWidth(), (int) getMaximumSize().getHeight(),1), 0, 0, null);
 
-        Set<? extends Entity> setEntities = Bomberman.getMatch().getEntities();
-        setEntities.forEach(e -> drawEntity(g2d, e));
+        List<? extends Entity> setEntities = Bomberman.getMatch().getEntitiesCopy();
+
+        for (Entity e : setEntities) {
+            try {
+                drawEntity(g2d, e);
+            }catch (ConcurrentModificationException ex){
+                ex.printStackTrace();
+            }
+        }
         // Runs custom callbacks;
         graphicsCallbacks.forEach((key, value) -> value.execute(g2d));
     }

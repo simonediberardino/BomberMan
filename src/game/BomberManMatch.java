@@ -1,5 +1,6 @@
 package game;
 
+import game.data.SortedLinkedList;
 import game.hardwareinput.ControllerManager;
 import game.hardwareinput.MouseControllerManager;
 import game.data.DataInputOutput;
@@ -22,7 +23,7 @@ public class BomberManMatch {
     private InventoryElementController inventoryElementControllerLives;
     private GameTickerObservable gameTickerObservable;
     private long lastGamePauseStateTime = System.currentTimeMillis();
-    private final Set<Entity> entities;
+    private final SortedLinkedList<Entity> entities;
     public ControllerManager controllerManager;
     private final MouseControllerManager mouseControllerManager;
     private Level currentLevel;
@@ -36,7 +37,7 @@ public class BomberManMatch {
 
     public BomberManMatch(Level currentLevel) {
         this.currentLevel = currentLevel;
-        this.entities = new TreeSet<>();
+        this.entities = new SortedLinkedList<>();
 
         this.controllerManager = new ControllerManager();
         this.mouseControllerManager = new MouseControllerManager();
@@ -67,10 +68,15 @@ public class BomberManMatch {
         return player;
     }
 
-    public Set<?extends Entity> getEntities(){
+    public List<?extends Entity> getEntities(){
         synchronized (entities) {
-            if(entities.isEmpty()) return new TreeSet<>();
-            return new TreeSet<>(entities);
+            return entities;
+        }
+    }
+
+    public List<? extends Entity> getEntitiesCopy() {
+        synchronized (entities) {
+            return new LinkedList<>(entities);
         }
     }
 
@@ -153,7 +159,7 @@ public class BomberManMatch {
     public void destroy() {
         pauseGame();
 
-        Set<? extends Entity> list = getEntities();
+        List<? extends Entity> list = getEntities();
         for (Entity e: list) {
             e.despawn();
         }
