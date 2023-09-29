@@ -38,11 +38,6 @@ public abstract class PagePanel extends JPanel {
                 e.printStackTrace();
             }
         }
-
-        if(toastHandler.getText() != null){
-            toastHandler.showToast((Graphics2D) g);
-            repaint();
-        }
     }
 
     public ToastHandler getToastHandler(){

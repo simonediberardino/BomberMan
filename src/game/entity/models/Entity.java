@@ -19,7 +19,7 @@ import static game.utils.Utility.loadImage;
 /**
  * Represents an entity in the game world, such as a player, enemy, or obstacle.
  */
-public abstract class Entity extends GameTickerObserver implements Comparable<Entity>{
+public abstract class Entity extends GameTickerObserver {
     protected Set<Class<? extends Entity>> passiveInteractionEntities = getBasePassiveInteractionEntities();
     protected BufferedImage image;
     protected int lastImageIndex;
@@ -381,14 +381,6 @@ public abstract class Entity extends GameTickerObserver implements Comparable<En
 
     public DrawPriority getDrawPriority() {
         return DrawPriority.DRAW_PRIORITY_1;
-    }
-
-    @Override
-    public int compareTo(Entity other) {
-        return Comparator.comparing(Entity::getDrawPriority)
-                .thenComparing(e -> e.getCoords().getY())
-                .thenComparingInt(e -> (int) e.getId())
-                .compare(this, other);
     }
 
     @Override
