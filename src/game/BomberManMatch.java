@@ -69,8 +69,8 @@ public class BomberManMatch {
 
     public Set<?extends Entity> getEntities(){
         synchronized (entities) {
-            if(entities.isEmpty()) return new HashSet<>();
-            return new HashSet<>(entities);
+            if(entities.isEmpty()) return new TreeSet<>();
+            return new TreeSet<>(entities);
         }
     }
 
