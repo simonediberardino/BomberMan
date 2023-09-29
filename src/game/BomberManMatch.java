@@ -36,7 +36,7 @@ public class BomberManMatch {
 
     public BomberManMatch(Level currentLevel) {
         this.currentLevel = currentLevel;
-        this.entities = new HashSet<>();
+        this.entities = new TreeSet<>();
 
         this.controllerManager = new ControllerManager();
         this.mouseControllerManager = new MouseControllerManager();

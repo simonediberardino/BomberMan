@@ -1,6 +1,5 @@
 package game.ui.viewelements.misc;
 
-import game.Bomberman;
 import game.sound.AudioManager;
 import game.utils.Utility;
 
@@ -24,11 +23,8 @@ public class ToastHandler {
     private int toastY = TOAST_START_Y;
     private String text;
     private boolean permanent = false;
-    private boolean isBusy = false;
 
     public void showToast(Graphics2D g) {
-        isBusy = true;
-
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -137,12 +133,7 @@ public class ToastHandler {
         g2d.drawString(text,  textX, textY);
     }
 
-    public boolean isBusy() {
-        return isBusy;
-    }
-
     public void cancel(){
-        isBusy = false;
         animStoppedTime = 0;
         toastY = TOAST_START_Y;
         permanent = false;
@@ -158,8 +149,6 @@ public class ToastHandler {
         this.text = text;
         this.permanent = permanent;
         AudioManager.getInstance().play(BONUS_ALERT);
-
-        Bomberman.getBombermanFrame().repaint();
     }
 
     public static ToastHandler getInstance(){

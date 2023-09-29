@@ -247,7 +247,7 @@ public class Coordinates implements Comparable<Coordinates> {
         ArrayList<Coordinates> arrayCoordinates = getAllCoordinates(Coordinates.roundCoordinates(nextOccupiedCoords),GRID_SIZE);
         // Get all the blocks and entities in the game
         var entities = Bomberman.getMatch().getEntities();
-        return entities.stream().filter(e -> arrayCoordinates.stream().anyMatch(coords -> doesCollideWith(coords, e))).collect(Collectors.toList());
+        return entities.parallelStream().filter(e -> arrayCoordinates.stream().anyMatch(coords -> doesCollideWith(coords, e))).collect(Collectors.toList());
     }
 
     /**

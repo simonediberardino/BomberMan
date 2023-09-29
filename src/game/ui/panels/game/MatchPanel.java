@@ -165,8 +165,8 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         // Create a new JPanel for the left side of the game window
         JPanel leftPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
+            public void paint(Graphics g) {
+                super.paint(g);
                 // Draw the image scaled to the specified border size on the left side of the panel
                 g.drawImage(image.getScaledInstance(borderSize, (int) frame.getPreferredSize().getHeight(), 1), pitchPanel.getX() - borderSize, 0, null);
             }
@@ -174,10 +174,10 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
 
         inventoryPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
+            public void paint(Graphics g) {
                 Image powerUpsBorder = Utility.loadImage(Paths.getPowerUpsBorderPath()).getScaledInstance(getWidth(), getHeight(), 0);
                 g.drawImage(powerUpsBorder, 0, 0, null);
-                super.paintComponent(g);
+                super.paint(g);
             }
         };
 
@@ -212,8 +212,8 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         // Create a new JPanel for the top of the game window
         JPanel topPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
+            public void paint(Graphics g) {
+                super.paint(g);
                 // Draw the image scaled to the specified border size on the top of the panel
                 g.drawImage(image.getScaledInstance(pitchPanel.getWidth() + borderSize * 2, borderSize / 2, 1), leftPanelWidth - borderSize, pitchPanel.getY() - borderSize/2, null);
             }
@@ -237,8 +237,8 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
     private JPanel createBottomPanel(int width, int height, Image image, int borderSize, int leftPanelWidth) {
         JPanel bottomPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
+            public void paint(Graphics g) {
+                super.paint(g);
                 g.drawImage(image.getScaledInstance(pitchPanel.getWidth() + borderSize * 2, borderSize / 2, 1), leftPanelWidth - borderSize, 0, null);
             }
         };
@@ -250,8 +250,8 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         // Create a new JPanel for the right side of the game window
         JPanel rightPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
+            public void paint(Graphics g) {
+                super.paint(g);
                 if(powerUpsPanel != null){
                     int offset = 15;
                     int logoWidth = Utility.px(240);
@@ -266,10 +266,10 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
 
         powerUpsPanel = new JPanel() {
             @Override
-            public void paintComponent(Graphics g) {
+            public void paint(Graphics g) {
                 Image powerUpsBorder = Utility.loadImage(Paths.getPowerUpsBorderPath()).getScaledInstance(getWidth(), getHeight(), 0);
                 g.drawImage(powerUpsBorder, 0, 0, null);
-                super.paintComponent(g);
+                super.paint(g);
             }
         };
 

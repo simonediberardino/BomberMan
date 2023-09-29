@@ -1,14 +1,9 @@
 package game.level;
 
-import game.data.DataInputOutput;
 import game.events.RoundArenaPassedGameEvent;
 import game.events.RoundPassedGameEvent;
-import game.localization.Localization;
-import game.ui.viewelements.misc.ToastHandler;
 
 import javax.swing.*;
-
-import static game.localization.Localization.WELCOME_TEXT;
 
 public abstract class ArenaLevel extends Level {
     private final static int MIN_ENEMIES_COUNT = 3;
