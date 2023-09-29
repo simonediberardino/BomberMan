@@ -37,9 +37,11 @@ public class AudioManager {
     public Clip play(SoundModel soundModel, boolean loop) {
         return play(soundModel.toString(), loop);
     }
+
     public Clip play(SoundModel soundModel,boolean loop, int volumePercentage){
         return play(soundModel.toString(),loop,volumePercentage);
     }
+
     public Clip play(String sound, boolean loop, int volumePercentage){
         try {
             InputStream in = new BufferedInputStream(getClass().getResourceAsStream(String.format("/%s", sound)));

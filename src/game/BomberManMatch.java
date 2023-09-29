@@ -68,17 +68,12 @@ public class BomberManMatch {
         return player;
     }
 
-    public List<?extends Entity> getEntities(){
-        synchronized (entities) {
-            return entities;
-        }
-    }
-
-    public List<? extends Entity> getEntitiesCopy() {
+    public List<? extends Entity> getEntities(){
         synchronized (entities) {
             return new LinkedList<>(entities);
         }
     }
+
 
     public void addEntity(Entity entity) {
         synchronized (entities){

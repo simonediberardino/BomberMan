@@ -68,7 +68,7 @@ public class PitchPanel extends JPanel implements Observer2 {
         Image img = loadImage(Bomberman.getMatch().getCurrentLevel().getPitchImagePath());
         g.drawImage(img.getScaledInstance((int) getMaximumSize().getWidth(), (int) getMaximumSize().getHeight(),1), 0, 0, null);
 
-        List<? extends Entity> setEntities = Bomberman.getMatch().getEntitiesCopy();
+        List<? extends Entity> setEntities = Bomberman.getMatch().getEntities();
 
         for (Entity e : setEntities) {
             try {

@@ -6,3 +6,4 @@
 - music on pause off;
 - Remove lives on arena;
 - Remove portal on arena;
+- Points spawn boss;

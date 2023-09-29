@@ -169,8 +169,8 @@ public abstract class EntityInteractable extends Entity {
             }
             canMove = false;
         }else{
-            for (Entity e: interactedEntities) {
-                interact(e);
+            if(interactedEntities != null){
+                interactedEntities.stream().filter(Objects::nonNull).forEach(this::interact);
             }
         }
 
