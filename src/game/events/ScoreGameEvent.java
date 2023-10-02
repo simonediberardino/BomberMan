@@ -10,7 +10,6 @@ import game.entity.models.Character;
 public class ScoreGameEvent implements GameEvent{
     @Override
     public void invoke(Object arg) {
-        DataInputOutput.increaseScore((Integer) arg);
-        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getScore());
+        Bomberman.getMatch().getCurrentLevel().onScoreGameEvent((int) arg);
     }
 }

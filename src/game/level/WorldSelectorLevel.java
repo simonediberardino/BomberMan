@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static game.localization.Localization.ISLAND;
 
-public class WorldSelectorLevel extends Level{
+public class WorldSelectorLevel extends StoryLevel{
     public final static HashMap<Integer, Class<? extends WorldPortal>> WORLDS_ID_TO_PORTAL = new HashMap<>() {{
         put(1, World1Portal.class);
         put(2, World2Portal.class);

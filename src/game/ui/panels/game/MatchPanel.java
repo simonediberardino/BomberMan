@@ -186,9 +186,13 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         inventoryPanel.setLayout(new GridLayout(0, 1));
 
         inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerPoints().getView());
-        inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerLives().getView());
         inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerBombs().getView());
 
+        if(Bomberman.getMatch().getCurrentLevel().isArenaLevel()) {
+            inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerRounds().getView());
+        }else{
+            inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerLives().getView());
+        }
         leftPanel.setLayout(new GridBagLayout());
         leftPanel.add(inventoryPanel, new GridBagConstraints());
 

@@ -32,7 +32,7 @@ public abstract class PowerUp extends EntityInteractable {
             TransparentBombsPowerUp.class
     };
 
-    public ArrayList<Class<?extends PowerUp>> incompatiblePowerUps = new ArrayList<>();
+    private ArrayList<Class<?extends PowerUp>> incompatiblePowerUps = new ArrayList<>();
 
     // The default duration for a power-up, in seconds
     public static final int DEFAULT_DURATION_SEC = 15;
@@ -78,7 +78,6 @@ public abstract class PowerUp extends EntityInteractable {
         super(coordinates);
     }
 
-
     /**
      * Returns the duration of the power-up in milliseconds.
      *
@@ -92,10 +91,9 @@ public abstract class PowerUp extends EntityInteractable {
      * @param entity the BomberEntity to apply the power-up to
      */
     public final void apply(BomberEntity entity) {
-        if (applied || !isSpawned()) return;
+        if (applied) return;
 
-
-        if(!canPickUp(entity))return;
+        if(!canPickUp(entity)) return;
 
         this.applied = true;
         this.despawn();
@@ -175,6 +173,10 @@ public abstract class PowerUp extends EntityInteractable {
     @Override
     protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
         return new HashSet<>(Collections.singletonList(Player.class));
+    }
+
+    public ArrayList<Class<? extends PowerUp>> getIncompatiblePowerUps() {
+        return incompatiblePowerUps;
     }
 
     public boolean isDisplayable() {

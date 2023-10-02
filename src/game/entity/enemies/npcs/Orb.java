@@ -125,5 +125,4 @@ public abstract class Orb extends Enemy {
     public void doUpdate(boolean gameState) {
         if(gameState) moveOrb();
     }
-
 }

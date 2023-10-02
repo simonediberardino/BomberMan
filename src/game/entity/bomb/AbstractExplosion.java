@@ -35,7 +35,8 @@ public abstract class AbstractExplosion extends MovingEntity {
     protected boolean appearing = true;
     protected int explosionState = 1;
     protected long lastRefresh = 0;
-    protected final Explosive explosive;
+    private final Explosive explosive;
+    private ExplosiveCaller caller;
 
     public AbstractExplosion(Coordinates coordinates, Direction direction, Explosive explosive) {
         this(coordinates, direction, 0, explosive);
@@ -185,6 +186,14 @@ public abstract class AbstractExplosion extends MovingEntity {
     public boolean getCanExpand() {
         if (distanceFromExplosive >= maxDistance) canExpand = false;
         return canExpand;
+    }
+    public ExplosiveCaller getCaller(){
+        if(explosive instanceof ExplosiveCaller){
+            return (ExplosiveCaller) explosive;
+        }if (explosive instanceof CalledExplosive){
+            return ((CalledExplosive) explosive).getCaller();
+        }
+        return null;
     }
 
     public void onObstacle(Coordinates coordinates){

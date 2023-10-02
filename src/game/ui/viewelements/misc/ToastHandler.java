@@ -1,5 +1,6 @@
 package game.ui.viewelements.misc;
 
+import game.events.NewToastGameEvent;
 import game.sound.AudioManager;
 import game.utils.Utility;
 
@@ -140,15 +141,19 @@ public class ToastHandler {
         text = null;
     }
 
-    public void show(String text){
-        show(text, false);
+    public void show(String text, boolean playSound) {
+        show(text, false, playSound);
     }
 
-    public void show(String text, boolean permanent){
+    public void show(String text){
+        show(text, false, true);
+    }
+
+    public void show(String text, boolean permanent, boolean playSound){
         cancel();
         this.text = text;
         this.permanent = permanent;
-        AudioManager.getInstance().play(BONUS_ALERT);
+        new NewToastGameEvent().invoke(playSound);
     }
 
     public static ToastHandler getInstance(){

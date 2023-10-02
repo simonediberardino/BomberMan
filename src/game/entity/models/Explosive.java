@@ -1,5 +1,7 @@
 package game.entity.models;
 
+import game.entity.bomb.ExplosiveCaller;
+
 import java.util.List;
 
 public interface Explosive {
@@ -7,4 +9,5 @@ public interface Explosive {
     boolean isObstacleOfExplosion(Entity e);
     List<Class<? extends Entity>> getExplosionInteractionEntities();
     int getMaxExplosionDistance();
+
 }

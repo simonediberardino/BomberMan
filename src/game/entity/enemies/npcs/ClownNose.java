@@ -12,6 +12,7 @@ public class ClownNose extends Orb {
     public ClownNose(Coordinates coordinates, EnhancedDirection enhancedDirection) {
         super(coordinates,enhancedDirection);
     }
+
     public ClownNose(Coordinates coordinates, Direction direction) {
         super(coordinates,direction);
     }
@@ -31,12 +32,6 @@ public class ClownNose extends Orb {
         return new String[]{
                 getBasePath()
         };
-    }
-
-    @Override
-    protected void onDespawn() {
-        super.onDespawn();
-
     }
 
     @Override

@@ -72,8 +72,7 @@ public abstract class Entity extends GameTickerObserver {
     protected String getBasePath(){ return ""; }
 
     protected void onSpawn(){}
-    protected void onDespawn(){
-    }
+    protected void onDespawn(){}
 
     /**
      * Performs an interaction between this entity and another entity.
@@ -402,7 +401,7 @@ public abstract class Entity extends GameTickerObserver {
      * Handles mouse click interactions.
      * If the entity is within one grid size distance from the player's center coordinates, it gets eliminated.
      */
-    protected void mouseClickInteraction() {
+    protected void onMouseClickInteraction() {
         Coordinates centerCoordinatesOfEntity = Coordinates.roundCoordinates(Coordinates.getCenterCoordinatesOfEntity(Bomberman.getMatch().getPlayer()));
         // Check if the entity is within one grid size distance from the player's center coordinates
         if (getCoords().distanceTo(Coordinates.roundCoordinates(centerCoordinatesOfEntity)) <= PitchPanel.GRID_SIZE) {
@@ -414,7 +413,7 @@ public abstract class Entity extends GameTickerObserver {
      * Handles mouse drag interactions.
      * This method allows dragging the entity to move it around.
      */
-    protected void mouseDragInteraction() {
+    protected void onMouseDragInteraction() {
         Entity player = Bomberman.getMatch().getPlayer();
         MouseControllerManager mouseControllerManager = Bomberman.getMatch().getMouseControllerManager();
         Coordinates centerCoordinatesOfEntity = Coordinates.roundCoordinates(Coordinates.getCenterCoordinatesOfEntity(player));
@@ -512,12 +511,12 @@ public abstract class Entity extends GameTickerObserver {
         }
 
         if(canEntityInteractWithMouseClick()){
-            mouseClickInteraction();
+            onMouseClickInteraction();
             return;
         }
 
         if(canEntityInteractWithMouseDrag()) {
-            mouseDragInteraction();
+            onMouseDragInteraction();
         }
     }
 

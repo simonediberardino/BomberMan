@@ -32,7 +32,7 @@ public class MouseControllerManager extends MouseAdapter implements MouseMotionL
 
     private final Runnable task = () -> {
         Player currPlayer = Bomberman.getMatch().getPlayer();
-        if(currPlayer == null)return;
+        if(currPlayer == null) return;
         onCooldown();
 
         //interact with mouse

@@ -1,9 +1,6 @@
-- power up respawn destroyable blocks;
-- respawn enemies;
-- spawn boss;
-- add rounds on left;
-- mistery box;
+
+high priorities:
+- remote not working;
 - music on pause off;
-- Remove lives on arena;
-- Remove portal on arena;
 - Points spawn boss;
+- respawn enemies;

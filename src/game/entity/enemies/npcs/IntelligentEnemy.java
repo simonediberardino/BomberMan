@@ -4,6 +4,8 @@ import game.entity.Player;
 import game.entity.models.*;
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
+import game.events.KilledEnemyEvent;
+import game.events.ScoreGameEvent;
 
 import java.util.*;
 import java.util.List;
@@ -93,5 +95,12 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
         }
 
         move(chooseDirection(false));
+    }
+
+    @Override
+    protected void onEliminated() {
+        super.onEliminated();
+        new KilledEnemyEvent().invoke(this);
+        new ScoreGameEvent().invoke(this.getMaxHp());
     }
 }

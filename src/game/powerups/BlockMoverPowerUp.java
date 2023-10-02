@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class BlockMoverPowerUp extends PowerUp{
     public BlockMoverPowerUp(Coordinates coordinates){
         super(coordinates);
-        incompatiblePowerUps.add(Hammer.class);
+        getIncompatiblePowerUps().add(Hammer.class);
     }
 
     @Override

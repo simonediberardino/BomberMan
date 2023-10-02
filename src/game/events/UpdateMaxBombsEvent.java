@@ -1,5 +1,6 @@
 package game.events;
 
+import game.Bomberman;
 import game.data.DataInputOutput;
 
 /**
@@ -8,8 +9,6 @@ import game.data.DataInputOutput;
 public class UpdateMaxBombsEvent implements GameEvent{
     @Override
     public void invoke(Object arg) {
-        DataInputOutput.increaseObtainedBombs();
-        new UpdateCurrentAvailableBombsEvent().invoke(arg);
-
+        Bomberman.getMatch().getCurrentLevel().onUpdateMaxBombsGameEvent((int) arg);
     }
 }

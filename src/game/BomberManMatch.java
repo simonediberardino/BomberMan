@@ -4,6 +4,7 @@ import game.data.SortedLinkedList;
 import game.hardwareinput.ControllerManager;
 import game.hardwareinput.MouseControllerManager;
 import game.data.DataInputOutput;
+import game.level.ArenaLevel;
 import game.tasks.GamePausedObserver;
 import game.tasks.GameTickerObservable;
 import game.entity.*;
@@ -11,7 +12,7 @@ import game.entity.models.*;
 import game.level.Level;
 import game.ui.panels.game.MatchPanel;
 import game.ui.panels.menus.PausePanel;
-import game.viewcontrollers.InventoryElementController;
+import game.viewcontrollers.*;
 import game.utils.Paths;
 import game.utils.Utility;
 
@@ -21,10 +22,11 @@ public class BomberManMatch {
     private InventoryElementController inventoryElementControllerPoints;
     private InventoryElementController inventoryElementControllerBombs;
     private InventoryElementController inventoryElementControllerLives;
+    private InventoryElementController inventoryElementControllerRounds;
     private GameTickerObservable gameTickerObservable;
     private long lastGamePauseStateTime = System.currentTimeMillis();
     private final SortedLinkedList<Entity> entities;
-    public ControllerManager controllerManager;
+    private ControllerManager controllerManager;
     private final MouseControllerManager mouseControllerManager;
     private Level currentLevel;
     private Player player;
@@ -48,12 +50,17 @@ public class BomberManMatch {
     }
 
     private void setupViewControllers() {
-        inventoryElementControllerPoints = new InventoryElementController(0, Paths.getInventoryPath() + "/points.png");
-        inventoryElementControllerLives = new InventoryElementController(0, Paths.getPowerUpsFolder()  + "/lives_up.png");
-        inventoryElementControllerBombs = new InventoryElementController(0, Paths.getEntitiesFolder()  + "/bomb/bomb_0.png");
+        inventoryElementControllerPoints = new InventoryElementControllerPoints();
+        inventoryElementControllerBombs = new InventoryElementControllerBombs();
+
+        if(currentLevel.isArenaLevel()) {
+            inventoryElementControllerRounds = new InventoryElementControllerRounds();
+        }else{
+            inventoryElementControllerLives = new InventoryElementControllerLives();
+            inventoryElementControllerLives.setNumItems(DataInputOutput.getLives());
+        }
 
         inventoryElementControllerPoints.setNumItems((int) DataInputOutput.getScore());
-        inventoryElementControllerLives.setNumItems(DataInputOutput.getLives());
     }
 
     public Level getCurrentLevel() {
@@ -149,6 +156,10 @@ public class BomberManMatch {
 
     public InventoryElementController getInventoryElementControllerLives() {
         return inventoryElementControllerLives;
+    }
+
+    public InventoryElementController getInventoryElementControllerRounds() {
+        return inventoryElementControllerRounds;
     }
 
     public void destroy() {

@@ -338,6 +338,7 @@ public abstract class Character extends MovingEntity {
         synchronized ((Object) lastDamageTime) {
             if (Utility.timePassed(lastDamageTime) < INTERACTION_DELAY_MS)
                 return;
+
             lastDamageTime = System.currentTimeMillis();
 
             // Reduce the health points by the specified amount

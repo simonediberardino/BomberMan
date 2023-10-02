@@ -73,9 +73,9 @@ public class GameOverPanel extends BaseMenu {
     }
 
     private void showToastMessage() {
-        int lives = DataInputOutput.getLives();
-        String message = Localization.get(YOU_DIED).replace("%lives%", Integer.toString(lives));
-        ToastHandler.getInstance().show(message, true);
+        Level lastLevel = Level.getCurrLevel();
+        String diedMessage = lastLevel.getDiedMessage();
+        ToastHandler.getInstance().show(diedMessage, true);
     }
 
     @Override

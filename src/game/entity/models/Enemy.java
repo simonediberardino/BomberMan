@@ -37,13 +37,6 @@ public abstract class Enemy extends Character{
     }
 
     @Override
-    protected void onEliminated() {
-        super.onEliminated();
-        new KilledEnemyEvent().invoke(this);
-        new ScoreGameEvent().invoke(this.getMaxHp());
-    }
-
-    @Override
     protected void onDespawn() {
         super.onDespawn();
         Bomberman.getMatch().decreaseEnemiesAlive();

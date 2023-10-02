@@ -6,8 +6,9 @@ import game.entity.enemies.npcs.TankEnemy;
 import game.entity.enemies.npcs.YellowBall;
 import game.entity.models.Enemy;
 import game.level.Level;
+import game.level.StoryLevel;
 
-public abstract class World2Level extends Level {
+public abstract class World2Level extends StoryLevel {
     @Override
     public int getWorldId() {
         return 2;

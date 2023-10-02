@@ -4,6 +4,7 @@ import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.Bomb;
 import game.entity.bomb.ConfettiExplosion;
+import game.entity.bomb.ExplosiveCaller;
 import game.entity.enemies.npcs.ClownNose;
 import game.entity.enemies.npcs.Orb;
 import game.entity.enemies.boss.Boss;
@@ -21,12 +22,11 @@ import java.util.List;
 import static game.utils.Utility.px;
 
 /**
-
- The Clown class represents a type of Boss entity that implements the Explosive interface.
- It has a boolean property hasHat that determines whether the Clown is wearing a hat or not.
- The Clown entity can spawn orbs, enhanced orbs, explosions and throw its hat in random directions.
+ * The Clown class represents a type of Boss entity that implements the Explosive interface.
+ * It has a boolean property hasHat that determines whether the Clown is wearing a hat or not.
+ * The Clown entity can spawn orbs, enhanced orbs, explosions and throw its hat in random directions.
  */
-public class Clown extends Boss implements Explosive {
+public class Clown extends Boss implements Explosive, ExplosiveCaller {
     private final ArrayList<ConfettiExplosion> explosions = new ArrayList<>();
     private static final float RATIO_HEIGHT_WITH_HAT = 0.7517f;
     private static final float RATIO_HEIGHT = 0.87f;
@@ -35,19 +35,20 @@ public class Clown extends Boss implements Explosive {
 
 
     /**
-     The hasHat property represents whether the Clown entity is wearing a hat or not.
+     * The hasHat property represents whether the Clown entity is wearing a hat or not.
      */
     private boolean hasHat;
 
     /**
-     Constructor for the Clown entity that takes in the entity's starting coordinates and sets its initial hasHat value to true.
-     @param coordinates The starting coordinates of the Clown entity.
+     * Constructor for the Clown entity that takes in the entity's starting coordinates and sets its initial hasHat value to true.
+     *
+     * @param coordinates The starting coordinates of the Clown entity.
      */
-    private Clown(Coordinates coordinates){
+    private Clown(Coordinates coordinates) {
         super(coordinates);
     }
 
-    public Clown(){
+    public Clown() {
         super(null);
         hitboxSizetoWidthRatio = RATIO_WIDTH;
         hasHat = true;
@@ -64,27 +65,28 @@ public class Clown extends Boss implements Explosive {
     }
 
     /**
-
-     Overrides the getBaseSkins method from the Boss superclass to return an array of skin paths based on the hasHat value.
-     @return A String array of skin paths for the Clown entity.
+     * Overrides the getBaseSkins method from the Boss superclass to return an array of skin paths based on the hasHat value.
+     *
+     * @return A String array of skin paths for the Clown entity.
      */
     @Override
     public String[] getCharacterOrientedImages() {
-        return new String[] { getImageFromRageStatus() };
+        return new String[]{getImageFromRageStatus()};
     }
 
     /**
-     @return A boolean value representing whether the Clown entity is wearing a hat or not.
+     * @return A boolean value representing whether the Clown entity is wearing a hat or not.
      */
     public boolean isHatImage(String path) {
         String[] toks = path.split("_");
-        if(toks.length <= 1) return false;
+        if (toks.length <= 1) return false;
 
         return toks[1].equals("1");
     }
+
     @Override
-    public float getHitboxSizeToHeightRatio(String path){
-        hitboxSizeToHeightRatio= isHatImage(path) ? RATIO_HEIGHT_WITH_HAT : RATIO_HEIGHT;
+    public float getHitboxSizeToHeightRatio(String path) {
+        hitboxSizeToHeightRatio = isHatImage(path) ? RATIO_HEIGHT_WITH_HAT : RATIO_HEIGHT;
         return hitboxSizeToHeightRatio;
     }
 
@@ -96,18 +98,19 @@ public class Clown extends Boss implements Explosive {
     }
 
     /**
-
-     Setter method for the hasHat property.
-     @param hasHat A boolean value representing whether the Clown entity is wearing a hat or not.
+     * Setter method for the hasHat property.
+     *
+     * @param hasHat A boolean value representing whether the Clown entity is wearing a hat or not.
      */
     public void setHasHat(boolean hasHat) {
         this.hasHat = hasHat;
     }
-    /**
 
-     Overrides the isObstacleOfExplosion method from the Explosive interface to check if the input entity is null or if it is an obstacle for the Clown entity's explosion.
-     @param e The entity to check if it is an obstacle for the Clown entity's explosion.
-     @return A boolean value representing whether the input entity is an obstacle for the Clown entity's explosion or not.
+    /**
+     * Overrides the isObstacleOfExplosion method from the Explosive interface to check if the input entity is null or if it is an obstacle for the Clown entity's explosion.
+     *
+     * @param e The entity to check if it is an obstacle for the Clown entity's explosion.
+     * @return A boolean value representing whether the input entity is an obstacle for the Clown entity's explosion or not.
      */
     @Override
     public boolean isObstacleOfExplosion(Entity e) {
@@ -115,8 +118,9 @@ public class Clown extends Boss implements Explosive {
     }
 
     /**
-     Overrides the getExplosionObstacles method from the Explosive interface to return an empty list.
-     @return An empty List object.
+     * Overrides the getExplosionObstacles method from the Explosive interface to return an empty list.
+     *
+     * @return An empty List object.
      */
     @Override
     public List<Class<? extends Entity>> getExplosionObstacles() {
@@ -156,7 +160,7 @@ public class Clown extends Boss implements Explosive {
      * Spawns orbs in all directions around this entity.
      */
     private void spawnOrbs() {
-        for (Direction d: Direction.values()) {
+        for (Direction d : Direction.values()) {
             new ClownNose(
                     Coordinates.fromDirectionToCoordinateOnEntity(
                             this,
@@ -164,7 +168,7 @@ public class Clown extends Boss implements Explosive {
                             Orb.SIZE,
                             Orb.SIZE
                     ), d
-            ).spawn(true,false);
+            ).spawn(true, false);
         }
     }
 
@@ -172,8 +176,12 @@ public class Clown extends Boss implements Explosive {
      * Spawns enhanced orbs in all enhanced directions around this entity.
      */
     private void spawnEnhancedOrbs() {
-        for (EnhancedDirection d: EnhancedDirection.values()) {
-            new ClownNose(Coordinates.fromDirectionToCoordinateOnEntity(this,d,Orb.SIZE),d).spawn(true, false);
+        for (EnhancedDirection d : EnhancedDirection.values()) {
+            new ClownNose(Coordinates.fromDirectionToCoordinateOnEntity(
+                    this,
+                    d,
+                    Orb.SIZE
+            ), d).spawn(true, false);
         }
     }
 
@@ -195,7 +203,7 @@ public class Clown extends Boss implements Explosive {
                 break;
         }
 
-        return new int[]{ inwardOffset, parallelOffset };
+        return new int[]{inwardOffset, parallelOffset};
     }
 
     /**
@@ -205,7 +213,7 @@ public class Clown extends Boss implements Explosive {
         Direction[] dirs = Direction.values();
         LinkedList<Direction> directions = new LinkedList<>(Arrays.asList(dirs));
         directions.remove(Direction.DOWN);
-        Direction d = directions.get((int) (Math.random()*directions.size()));
+        Direction d = directions.get((int) (Math.random() * directions.size()));
 
         int[] offsets = calculateExplosionOffsets(d);
         AudioManager.getInstance().play(SoundModel.EXPLOSION_CONFETTI);
@@ -223,6 +231,7 @@ public class Clown extends Boss implements Explosive {
 
     /**
      * Updates this entity's state.
+     *
      * @param gamestate the current gamestate
      */
     public void doUpdate(boolean gamestate) {
@@ -235,7 +244,7 @@ public class Clown extends Boss implements Explosive {
         // Check if the entity should shoot an explosion
         Utility.runPercentage(getShootingChance(), this::spawnExplosion);
 
-        if(hasHat){
+        if (hasHat) {
             Utility.runPercentage(getShootingChance(), this::throwHat);
         }
 
@@ -319,10 +328,9 @@ public class Clown extends Boss implements Explosive {
     }
 
 
-
     @Override
     protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
-        List<Class<?extends Entity>> list = new ArrayList<>();
+        List<Class<? extends Entity>> list = new ArrayList<>();
         list.addAll(super.getBasePassiveInteractionEntities());
         list.add(Hat.class);
         return new HashSet<>(list);

@@ -17,13 +17,13 @@ import game.utils.Utility;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public class Bomb extends MovableBlock implements Explosive {
+public abstract class Bomb extends MovableBlock implements Explosive, CalledExplosive {
     public static final int BOMB_SIZE = PitchPanel.COMMON_DIVISOR * 2;
     public static final long PLACE_INTERVAL = 1000;
     private final List<AbstractExplosion> explosions = new ArrayList<>();
     private static final int EXPLODE_TIMER = 5000;
     private Runnable onExplodeCallback;
-    private final BomberEntity caller;
+    private final ExplosiveCaller caller;
 
     public Bomb(BomberEntity entity) {
         super(Coordinates.getCenterCoordinatesOfEntity(entity));
@@ -124,12 +124,12 @@ public class Bomb extends MovableBlock implements Explosive {
     }
 
     @Override
-    public int getMaxExplosionDistance() {
-        return caller != null ? caller.getCurrExplosionLength() : Bomberman.getMatch().getCurrentLevel().getExplosionLength();
+    public int getMaxExplosionDistance(){
+        return Bomberman.getMatch().getCurrentLevel().getExplosionLength();
     }
 
     @Override
-    public void mouseClickInteraction(){
+    public void onMouseClickInteraction(){
         eliminated();
     }
 
@@ -142,6 +142,8 @@ public class Bomb extends MovableBlock implements Explosive {
     protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
         return new HashSet<>(Arrays.asList(FireExplosion.class, AbstractExplosion.class));
     }
-
+    public ExplosiveCaller getCaller(){
+        return caller;
+    }
 }
 

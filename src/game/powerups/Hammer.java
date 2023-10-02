@@ -15,7 +15,7 @@ public class Hammer extends PowerUp{
      */
     public Hammer(Coordinates coordinates) {
         super(coordinates);
-        incompatiblePowerUps.add(BlockMoverPowerUp.class);
+        getIncompatiblePowerUps().add(BlockMoverPowerUp.class);
     }
 
     @Override

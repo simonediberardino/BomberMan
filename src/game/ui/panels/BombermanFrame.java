@@ -33,12 +33,14 @@ public class BombermanFrame extends JFrame {
         public void paint(Graphics g) {
             super.paint(g);
             ToastHandler toastHandler = ToastHandler.getInstance();
-            if(toastHandler.getText() != null){
-                toastHandler.showToast((Graphics2D) g);
-                repaint();
+            if (toastHandler.getText() == null) {
+                return;
             }
+            toastHandler.showToast((Graphics2D) g);
+            repaint();
         }
     };
+
     private MatchPanel matchPanel;
     private MainMenuPanel mainMenuPanel;
     private LoadingPanel loadingPanel;

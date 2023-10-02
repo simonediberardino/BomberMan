@@ -1,5 +1,6 @@
 package game.entity.enemies.boss;
 
+import game.Bomberman;
 import game.entity.enemies.npcs.IntelligentEnemy;
 import game.entity.models.Entity;
 import game.entity.models.Coordinates;
@@ -30,7 +31,7 @@ public abstract class Boss extends IntelligentEnemy {
 
     public Boss(Coordinates coordinates){
         super(coordinates);
-        super.setMaxHp(1000);
+        super.setMaxHp(Bomberman.getMatch().getCurrentLevel().getBossMaxHealth());
         super.setHp(getMaxHp());
         super.setAttackDamage(1000);
     }

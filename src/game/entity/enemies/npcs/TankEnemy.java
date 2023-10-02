@@ -3,6 +3,7 @@ package game.entity.enemies.npcs;
 import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
 import game.entity.bomb.Bomb;
+import game.entity.bomb.ExplosiveCaller;
 import game.entity.bomb.FireExplosion;
 import game.entity.models.*;
 import game.entity.models.Coordinates;
@@ -14,7 +15,7 @@ import game.utils.Utility;
 
 import java.util.*;
 
-public class TankEnemy extends IntelligentEnemy implements Explosive {
+public class TankEnemy extends IntelligentEnemy implements Explosive, ExplosiveCaller {
     private static final int STANDING_STILL_PERIOD = 1000;
     private static final int PROBABILITY_OF_SHOOTING = 30;
     private static final int SHOOTING_REFRESH_RATE = 2000;

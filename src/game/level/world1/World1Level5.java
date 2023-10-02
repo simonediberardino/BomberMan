@@ -8,6 +8,7 @@ import game.entity.enemies.boss.ghost.GhostBoss;
 import game.entity.enemies.npcs.FlyingEnemy;
 import game.entity.enemies.npcs.Helicopter;
 import game.entity.enemies.npcs.YellowBall;
+import game.entity.enemies.npcs.Zombie;
 import game.entity.models.Coordinates;
 import game.entity.models.Enemy;
 import game.level.Level;
@@ -43,7 +44,8 @@ public class World1Level5 extends World1Level{
     public Class<? extends Enemy>[] availableEnemies() {
         return new Class[]{
                 YellowBall.class,
-                Helicopter.class
+                Helicopter.class,
+                Zombie.class
         };
     }
 

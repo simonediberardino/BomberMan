@@ -5,16 +5,21 @@ import game.data.DataInputOutput;
 import game.entity.*;
 import game.entity.blocks.DestroyableBlock;
 import game.entity.blocks.StoneBlock;
+import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.entity.enemies.boss.Boss;
+import game.entity.models.BomberEntity;
 import game.entity.models.Enemy;
+import game.entity.models.Entity;
+import game.events.AllEnemiesEliminatedGameEvent;
 import game.events.RoundPassedGameEvent;
+import game.events.UpdateCurrentAvailableBombsEvent;
 import game.level.world1.*;
 import game.level.world2.*;
 import game.entity.models.Coordinates;
+import game.localization.Localization;
 import game.powerups.PowerUp;
 import game.powerups.portal.EndLevelPortal;
 import game.sound.AudioManager;
-import game.sound.SoundModel;
 import game.utils.Paths;
 import game.utils.Utility;
 
@@ -22,11 +27,13 @@ import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 import java.awt.*;
-import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static game.data.DataInputOutput.increaseExplosionLength;
+import static game.localization.Localization.YOU_DIED;
+import static game.sound.SoundModel.BONUS_ALERT;
 import static game.ui.panels.game.PitchPanel.GRID_SIZE;
 
 
@@ -59,8 +66,14 @@ public abstract class Level {
     }};
 
     public abstract Boss getBoss();
+    public int getBossMaxHealth() {
+        return 1000;
+    }
+
     public abstract int startEnemiesCount();
     public abstract int getMaxDestroyableBlocks();
+    public abstract boolean isArenaLevel();
+    public abstract String getDiedMessage();
     public abstract Class<? extends Level> getNextLevel();
     public abstract Class<? extends Enemy>[] availableEnemies();
     public void onAllEnemiesEliminated() {}
@@ -173,7 +186,10 @@ public abstract class Level {
     protected void spawnEnemies() {
         // Get an array of available enemy classes.
         Class<? extends Enemy>[] availableEnemies = availableEnemies();
+        spawnEnemies(availableEnemies);
+    }
 
+    protected final void spawnEnemies(Class<? extends Enemy>[] availableEnemies) {
         // Spawn a number of enemies at the start of the game.
         for (int i = 0; i < startEnemiesCount(); i++) {
             // Select a random enemy class from the availableEnemies array.
@@ -256,8 +272,26 @@ public abstract class Level {
         currentLevelSound.stop();
     }
 
+    public void despawnDestroyableBlocks() {
+        Bomberman.getMatch()
+                .getEntities()
+                .stream()
+                .filter(entity -> entity instanceof DestroyableBlock)
+                .forEach(Entity::despawn);
+    }
+
+    public void spawnMisteryBox() {
+        Coordinates c = Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE*2);
+        Entity mysteryBox = new MysteryBoxPerk(Bomberman.getMatch().getPlayer());
+        mysteryBox.setCoords(c);
+        mysteryBox.spawn();
+    }
+
     // This method generates destroyable blocks in the game board.
-    public void generateDestroyableBlock(){
+    public void generateDestroyableBlock() {
+        // Despawn all the previous destroyable blocks;
+        despawnDestroyableBlocks();
+
         DestroyableBlock block = new DestroyableBlock(new Coordinates(0,0));
 
         // Initialize a counter for the number of destroyable blocks spawned.
@@ -271,7 +305,7 @@ public abstract class Level {
                 block.spawn();
 
                 // Force the first spawned block to have the End level portal
-                if (i == 0 && !isLastLevelOfWorld()) {
+                if (i == 0 && !isLastLevelOfWorld() && !isArenaLevel()) {
                     block.setPowerUpClass(EndLevelPortal.class);
                 } else {
                     block.setPowerUpClass(PowerUp.getRandomPowerUpClass());
@@ -293,7 +327,6 @@ public abstract class Level {
     protected String getSoundForCurrentLevel(String path){
         return getFileForCurrentLevel(String.format("sound/%s", path));
     }
-
 
     /**
      * @return returns the path to the file: if a specific instance of the file exists for the current level, then return it, else return the current world instance;
@@ -330,5 +363,54 @@ public abstract class Level {
     @Override
     public String toString() {
         return String.format("Level %d, World %d", getLevelId(), getWorldId());
+    }
+
+    public void onDeathGameEvent() {
+        DataInputOutput.increaseDeaths();
+        DataInputOutput.decreaseLives();
+        DataInputOutput.decreaseScore(1000);
+    }
+
+    public void onDefeatGameEvent() {
+        DataInputOutput.increaseLost();
+    }
+
+    public void onEnemyDespawned() {
+        if(Bomberman.getMatch().getEnemiesAlive() == 0) {
+            new AllEnemiesEliminatedGameEvent().invoke(null);
+        }
+    }
+
+    public void explosionLengthPowerUpEvent() {
+        increaseExplosionLength();
+    }
+
+    public void onKilledEnemy() {
+        DataInputOutput.increaseKills();
+    }
+
+    public void onRoundPassedGameEvent() {
+        DataInputOutput.increaseRounds();
+    }
+
+    public void onScoreGameEvent(int arg) {
+        DataInputOutput.increaseScore(arg);
+        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getScore());
+    }
+
+    public void onPurchaseItem(int price) {
+        AudioManager.getInstance().play(BONUS_ALERT);
+        DataInputOutput.decreaseScore(price);
+        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getScore());
+    }
+
+    public void onUpdateCurrentAvailableBombsEvent(int arg) {
+        Bomberman.getMatch().getPlayer().setCurrentBombs((int) arg);
+        Bomberman.getMatch().getInventoryElementControllerBombs().setNumItems((int) arg);
+    }
+
+    public void onUpdateMaxBombsGameEvent(int arg) {
+        DataInputOutput.increaseObtainedBombs();
+        new UpdateCurrentAvailableBombsEvent().invoke(arg);
     }
 }

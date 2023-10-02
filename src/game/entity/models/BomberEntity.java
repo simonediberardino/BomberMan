@@ -2,7 +2,10 @@ package game.entity.models;
 
 import game.Bomberman;
 import game.entity.Player;
+import game.entity.bomb.AllyBomb;
 import game.entity.bomb.Bomb;
+import game.entity.bomb.ExplosiveCaller;
+import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.powerups.PowerUp;
 import game.sound.SoundModel;
@@ -10,7 +13,7 @@ import game.utils.Utility;
 
 import java.util.*;
 
-public abstract class BomberEntity extends Character {
+public abstract class BomberEntity extends Character implements ExplosiveCaller {
     public static final int MAX_BOMB_CAN_HOLD = 10;
     private final List<Class<? extends Entity>> listInteractWithMouseClick = new ArrayList<>();
     private final List<Class<? extends Entity>> listInteractWithMouseDrag = new ArrayList<>();
@@ -27,6 +30,7 @@ public abstract class BomberEntity extends Character {
      */
     public BomberEntity(Coordinates coordinates) {
         super(coordinates);
+        listInteractWithMouseClick.add(MysteryBoxPerk.class);
     }
 
     public int getCurrExplosionLength(){
@@ -66,7 +70,7 @@ public abstract class BomberEntity extends Character {
         lastPlacedBombTime = System.currentTimeMillis();
         placedBombs++;
 
-        Bomb bomb = new Bomb(this);
+        Bomb bomb = new AllyBomb(this);
 
         if(this instanceof Player){
             new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs()-1);

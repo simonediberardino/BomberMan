@@ -76,6 +76,18 @@ public class Localization {
         put(Locale.ITALY, "Benvenuto %user% su Bomberman!");
     }};
 
+    public static final HashMap<Locale, String> MYSTERY_BOX_ERROR_MONEY = new HashMap<>() {{
+        put(Locale.ENGLISH, "YOU DON'T HAVE ENOUGH COINS [%price%]");
+        put(Locale.ITALY, "NON HAI ABBASTANZA MONETE [%price%]");
+    }};
+
+
+    public static final HashMap<Locale, String> MYSTERY_BOX_CONFIRM = new HashMap<>() {{
+        put(Locale.ENGLISH, "CLICK AGAIN TO CONFIRM YOUR PURCHASE [%price%]");
+        put(Locale.ITALY, "PREMI DI NUOVO PER CONFERMARE [%price%]");
+    }};
+
+
     public static final HashMap<Locale, String> PRESS_ESC_CONTINUE = new HashMap<>() {{
         put(Locale.ENGLISH, "PRESS ESCAPE TO RESUME");
         put(Locale.ITALY, "PREMI ESCAPE PER CONTINUARE");
@@ -94,6 +106,11 @@ public class Localization {
     public static final HashMap<Locale, String> YOU_DIED = new HashMap<>() {{
         put(Locale.ENGLISH, "YOU DIED! YOU HAVE %lives% LIVES LEFT.");
         put(Locale.ITALY, "SEI MORTO! HAI %lives% VITE RIMANENTI.");
+    }};
+
+    public static final HashMap<Locale, String> ARENA_DIED = new HashMap<>() {{
+        put(Locale.ENGLISH, "YOU DIED! YOU SURVIVED %rounds% ROUNDS.");
+        put(Locale.ITALY, "SEI MORTO! SEI SOPRAVVISSUTO %rounds% ROUND.");
     }};
 
     public static final HashMap<Locale, String> RESET_WORLD = new HashMap<>() {{

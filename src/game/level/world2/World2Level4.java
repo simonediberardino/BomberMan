@@ -21,7 +21,6 @@ public class World2Level4 extends World2Level {
     @Override
     public Class<? extends Enemy>[] availableEnemies() {
         return new Class[]{
-                Zombie.class,
                 FastEnemy.class,
                 TankEnemy.class
         };
