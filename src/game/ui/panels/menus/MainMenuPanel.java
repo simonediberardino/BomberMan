@@ -48,7 +48,7 @@ public class MainMenuPanel extends BaseMenu {
      */
     private JButton createStartLevelButton() {
         JButton startLevelButton = new YellowButton(get(PLAY));
-        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new World2Arena()));
+        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new WorldSelectorLevel()));
         return startLevelButton;
     }
 

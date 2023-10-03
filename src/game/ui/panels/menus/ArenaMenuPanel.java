@@ -32,7 +32,7 @@ public class ArenaMenuPanel extends BaseMenu {
 
     private JButton createArenaWorld1Button() {
         JButton b = new YellowButton(get(ARENA_WORLD_1));
-        b.addActionListener(l -> Bomberman.startLevel(new WorldSelectorLevel()));
+        b.addActionListener(l -> Bomberman.startLevel(new World1Arena()));
         return b;
     }
 
