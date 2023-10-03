@@ -2,14 +2,11 @@ package game.ui.panels.menus;
 
 import game.Bomberman;
 import game.level.WorldSelectorLevel;
-import game.level.world1.World1Arena;
-import game.level.world1.World1Level5;
-import game.level.world2.*;
+import game.ui.panels.BombermanFrame;
 import game.ui.panels.settings.ProfilePanel;
 import game.ui.panels.settings.SettingsPanel;
 import game.ui.viewelements.bombermanbutton.RedButton;
 import game.ui.viewelements.bombermanbutton.YellowButton;
-import game.ui.panels.BombermanFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +23,8 @@ public class MainMenuPanel extends BaseMenu {
      * Constructs a MenuPanel with the specified CardLayout, parent JPanel, and BombermanFrame.
      *
      * @param cardLayout the CardLayout to use
-     * @param parent the parent JPanel
-     * @param frame the BombermanFrame
+     * @param parent     the parent JPanel
+     * @param frame      the BombermanFrame
      */
     public MainMenuPanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame) {
         super(cardLayout, parent, frame);

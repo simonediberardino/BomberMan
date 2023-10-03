@@ -5,9 +5,9 @@ import game.data.DataInputOutput;
 import game.level.Level;
 import game.level.WorldSelectorLevel;
 import game.localization.Localization;
+import game.ui.panels.BombermanFrame;
 import game.ui.viewelements.bombermanbutton.RedButton;
 import game.ui.viewelements.misc.ToastHandler;
-import game.ui.panels.BombermanFrame;
 import game.utils.Paths;
 
 import javax.swing.*;
@@ -24,8 +24,8 @@ public class GameOverPanel extends BaseMenu {
      * Constructs a MenuPanel with the specified CardLayout, parent JPanel, and BombermanFrame.
      *
      * @param cardLayout the CardLayout to use
-     * @param parent the parent JPanel
-     * @param frame the BombermanFrame
+     * @param parent     the parent JPanel
+     * @param frame      the BombermanFrame
      */
     public GameOverPanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame) {
         super(cardLayout, parent, frame, Paths.getDeathWallpaper());
@@ -66,7 +66,7 @@ public class GameOverPanel extends BaseMenu {
         return mainMenuButton;
     }
 
-    private void updatePlayAgainButtonText(){
+    private void updatePlayAgainButtonText() {
         boolean hasLives = DataInputOutput.getInstance().getLives() > 0;
         String text = hasLives ? Localization.get(PLAY_AGAIN) : Localization.get(RESET_WORLD);
         retryButton.setText(text);

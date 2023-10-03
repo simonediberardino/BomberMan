@@ -16,9 +16,12 @@ public class AudioManager {
     private static int MAX_VOLUME_MANAGER = 20;
     private static float MAX_VOLUME = 5f;
     private static float MIN_VOLUME = -5f;
-    private String currentBackgroundSong = "";
-    private final HashMap<String, LinkedList<Clip>> audioHashMap = new HashMap<>();
     private static AudioManager instance;
+    private final HashMap<String, LinkedList<Clip>> audioHashMap = new HashMap<>();
+    private String currentBackgroundSong = "";
+
+    private AudioManager() {
+    }
 
     public static AudioManager getInstance() {
         if (instance == null)
@@ -26,15 +29,14 @@ public class AudioManager {
         return instance;
     }
 
-    private AudioManager() {}
-
-    public Clip play(SoundModel soundModel){
+    public Clip play(SoundModel soundModel) {
         return play(soundModel, false);
     }
 
     /**
      * Plays the specified sound model.
-     *  @param soundModel The sound model to play.
+     *
+     * @param soundModel The sound model to play.
      * @param loop       Determines whether the sound should be played in a loop.
      * @return
      */
@@ -42,16 +44,16 @@ public class AudioManager {
         return play(soundModel.toString(), loop, calculateVolumeFromStorage());
     }
 
-    public Clip play(String sound, boolean loop){
-        return play(sound,loop, calculateVolumeFromStorage());
+    public Clip play(String sound, boolean loop) {
+        return play(sound, loop, calculateVolumeFromStorage());
     }
 
-    public Clip play(SoundModel soundModel, boolean loop, int volumePercentage){
+    public Clip play(SoundModel soundModel, boolean loop, int volumePercentage) {
         return play(soundModel.toString(), loop, volumePercentage);
     }
 
 
-    public Clip play(String sound, boolean loop, int volumePercentage){
+    public Clip play(String sound, boolean loop, int volumePercentage) {
         try {
             InputStream in = new BufferedInputStream(getClass().getResourceAsStream(String.format("/%s", sound)));
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);
@@ -96,9 +98,9 @@ public class AudioManager {
         return (int) Math.max(percentage, 0.0); // Ensure the percentage is not less than 0%
     }
 
-    public void addSoundToHashMap(String soundModelString, Clip obj){
-        List<Clip> tempList =  audioHashMap.get(soundModelString);
-        if(tempList == null) audioHashMap.put(soundModelString, new LinkedList<> (Collections.singletonList(obj)));
+    public void addSoundToHashMap(String soundModelString, Clip obj) {
+        List<Clip> tempList = audioHashMap.get(soundModelString);
+        if (tempList == null) audioHashMap.put(soundModelString, new LinkedList<>(Collections.singletonList(obj)));
         else tempList.add(obj);
     }
 
@@ -110,25 +112,25 @@ public class AudioManager {
         }
 
         Clip c = map.pop();
-        if(map.isEmpty()) audioHashMap.remove(soundModelString);
+        if (map.isEmpty()) audioHashMap.remove(soundModelString);
         return c;
     }
 
     public void stopAllInstancesOfSound(String soundModelString) {
         Clip c;
-        while((c = removeSoundFromHashMap(soundModelString)) != null){
+        while ((c = removeSoundFromHashMap(soundModelString)) != null) {
             c.stop();
         }
     }
 
-    public void playBackgroundSong(){
+    public void playBackgroundSong() {
         playBackgroundSong(Paths.getDefaultSoundTrack());
     }
 
     public void playBackgroundSong(String newSong) {
-        if(currentBackgroundSong.equals(newSong)) return;
+        if (currentBackgroundSong.equals(newSong)) return;
 
-        if(!currentBackgroundSong.isBlank()){
+        if (!currentBackgroundSong.isBlank()) {
             stopAllInstancesOfSound(currentBackgroundSong);
         }
 
@@ -141,9 +143,9 @@ public class AudioManager {
         currentBackgroundSong = "";
     }
 
-    public void stop(String soundModelString){
+    public void stop(String soundModelString) {
         Clip c = removeSoundFromHashMap(soundModelString);
-        if(c != null) c.stop();
+        if (c != null) c.stop();
     }
 
 }

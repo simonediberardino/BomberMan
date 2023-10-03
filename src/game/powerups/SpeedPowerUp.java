@@ -1,8 +1,8 @@
 package game.powerups;
 
-import game.hardwareinput.ControllerManager;
 import game.entity.models.BomberEntity;
 import game.entity.models.Coordinates;
+import game.hardwareinput.ControllerManager;
 import game.utils.Paths;
 
 import java.awt.image.BufferedImage;

@@ -6,9 +6,9 @@ import game.powerups.EmptyPowerup;
 import game.powerups.PowerUp;
 import game.ui.panels.BombermanFrame;
 import game.ui.panels.PagePanel;
-import game.values.Dimensions;
 import game.utils.Paths;
 import game.utils.Utility;
+import game.values.Dimensions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +43,7 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         resizeWindowToFitComponents(); // Resize the game frame to fit the components
     }
 
-    private void createParentPanel(){
+    private void createParentPanel() {
         setLayout(new BorderLayout()); // Set the layout of the parent panel
         setOpaque(false); // Set the panel to be transparent
     }
@@ -60,11 +60,10 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
      * It creates four panels (left, top, bottom, and right), each with the border image of the game.
      */
     /**
-
-     Creates and sets the border panels to the gamePanelWithBorders.
-     Calculates the dimensions and border sizes for the panels.
-     Uses createLeftPanel, createTopPanel, createBottomPanel, and createRightPanel methods to create the panels.
-     Sets the panels as opaque.
+     * Creates and sets the border panels to the gamePanelWithBorders.
+     * Calculates the dimensions and border sizes for the panels.
+     * Uses createLeftPanel, createTopPanel, createBottomPanel, and createRightPanel methods to create the panels.
+     * Sets the panels as opaque.
      */
     private void createBorderPanels() {
         // calculate width of left and right border panels
@@ -121,8 +120,7 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
     }
 
     /**
-
-     Adds the border panels and the game panel to gamePanelWithBorders using BorderLayout.
+     * Adds the border panels and the game panel to gamePanelWithBorders using BorderLayout.
      */
     private void addPanelsToGamePanelWithBorders() {
         add(leftPanel, BorderLayout.WEST);
@@ -131,22 +129,22 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         add(rightPanel, BorderLayout.EAST);
         add(pitchPanel, BorderLayout.CENTER);
     }
-    /**
 
-     Adds gamePanelWithBorders to the parent panel using BorderLayout.
+    /**
+     * Adds gamePanelWithBorders to the parent panel using BorderLayout.
      */
     private void addGamePanelWithBordersToParentPanel() {
     }
-    /**
 
-     Sets the layout of the main panel to BorderLayout and adds parentPanel to it.
+    /**
+     * Sets the layout of the main panel to BorderLayout and adds parentPanel to it.
      */
     private void setLayoutAndAddParentPanel() {
         add(pitchPanel, BorderLayout.CENTER);
     }
 
     /**
-     Resizes the window to fit the components.
+     * Resizes the window to fit the components.
      */
     private void resizeWindowToFitComponents() {
         frame.pack();
@@ -188,9 +186,9 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerPoints().getView());
         inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerBombs().getView());
 
-        if(Bomberman.getMatch().getCurrentLevel().isArenaLevel()) {
+        if (Bomberman.getMatch().getCurrentLevel().isArenaLevel()) {
             inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerRounds().getView());
-        }else{
+        } else {
             inventoryPanel.add(Bomberman.getMatch().getInventoryElementControllerLives().getView());
         }
         leftPanel.setLayout(new GridBagLayout());
@@ -219,7 +217,7 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
             public void paint(Graphics g) {
                 super.paint(g);
                 // Draw the image scaled to the specified border size on the top of the panel
-                g.drawImage(image.getScaledInstance(pitchPanel.getWidth() + borderSize * 2, borderSize / 2, 1), leftPanelWidth - borderSize, pitchPanel.getY() - borderSize/2, null);
+                g.drawImage(image.getScaledInstance(pitchPanel.getWidth() + borderSize * 2, borderSize / 2, 1), leftPanelWidth - borderSize, pitchPanel.getY() - borderSize / 2, null);
             }
         };
         // Set the preferred size of the panel to the specified width and height
@@ -256,12 +254,12 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                if(powerUpsPanel != null){
+                if (powerUpsPanel != null) {
                     int offset = 15;
                     int logoWidth = Utility.px(240);
                     int logoHeight = Utility.px(88);
                     Image powerupsLogo = Utility.loadImage(Paths.getPowerupsLogoPath()).getScaledInstance(logoWidth, logoHeight, 0);
-                    g.drawImage(powerupsLogo, powerUpsPanel.getX() - logoWidth / 2 + powerUpsPanel.getWidth()/2, powerUpsPanel.getY() - logoHeight - offset, null);
+                    g.drawImage(powerupsLogo, powerUpsPanel.getX() - logoWidth / 2 + powerUpsPanel.getWidth() / 2, powerUpsPanel.getY() - logoHeight - offset, null);
                 }
                 // Draw the image scaled to the specified border size on the right side of the panel
                 g.drawImage(image.getScaledInstance(borderSize, (int) frame.getPreferredSize().getHeight(), 1), 0, 0, null);
@@ -299,7 +297,8 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
         final List<PowerUp> powerUpsToShow = powerUpList.stream().map(p -> {
             try {
                 return p.getConstructor(Coordinates.class).newInstance(new Coordinates());
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 return null;
             }
         }).filter(p -> p != null && p.isDisplayable()).collect(Collectors.toList());
@@ -322,7 +321,7 @@ public class MatchPanel extends PagePanel implements CustomSoundMode {
 
         // Iterate over each power-up class
         for (PowerUp p : powerUpsToShow) {
-            if(!p.isDisplayable()) continue;
+            if (!p.isDisplayable()) continue;
 
             // Scale the power-up image to the desired dimensions
             Image img = p.getImage().getScaledInstance(powerUpImageDimension, powerUpImageDimension, 0);

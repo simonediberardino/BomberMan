@@ -24,17 +24,17 @@ import static game.ui.panels.game.PitchPanel.GRID_SIZE;
 
 
 public class Player extends BomberEntity {
-    public static final Coordinates SPAWN_OFFSET = new Coordinates((GRID_SIZE - SIZE)/2 ,GRID_SIZE-SIZE);
+    public static final Coordinates SPAWN_OFFSET = new Coordinates((GRID_SIZE - SIZE) / 2, GRID_SIZE - SIZE);
     private final Set<Class<? extends Entity>> interactionEntities = new HashSet<>();
 
-     public Player(Coordinates coordinates) {
+    public Player(Coordinates coordinates) {
         super(coordinates);
         this.hitboxSizeToHeightRatio = 0.733f;
     }
 
     private void updateBombs() {
-         int maxBombs = DataInputOutput.getInstance().getObtainedBombs();
-         new UpdateCurrentAvailableBombsEvent().invoke(maxBombs);
+        int maxBombs = DataInputOutput.getInstance().getObtainedBombs();
+        new UpdateCurrentAvailableBombsEvent().invoke(maxBombs);
     }
 
     @Override
@@ -127,10 +127,11 @@ public class Player extends BomberEntity {
         super.onEliminated();
         new DeathGameEvent().invoke(null);
     }
+
     public void handleAction(Command command) {
         if (!Bomberman.getMatch().getGameState()) {
             return;
-    }
+        }
         if (canMove) {
             switch (command) {
                 // For move up and move down, use left and right as opposite directions respectively.
@@ -154,9 +155,10 @@ public class Player extends BomberEntity {
     }
 
     @Override
-    public Coordinates getSpawnOffset(){
+    public Coordinates getSpawnOffset() {
         return SPAWN_OFFSET;
     }
+
     // Handle the command entered by the player;
     @Override
     public void update(Object arg) {

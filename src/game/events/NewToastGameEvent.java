@@ -9,7 +9,7 @@ public class NewToastGameEvent implements GameEvent {
     @Override
     public void invoke(Object arg) {
         Bomberman.getBombermanFrame().getParentPanel().repaint();
-        if((boolean) arg){
+        if ((boolean) arg) {
             AudioManager.getInstance().play(BONUS_ALERT);
         }
     }

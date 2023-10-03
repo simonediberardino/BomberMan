@@ -3,9 +3,9 @@ package game.powerups.portal;
 import game.Bomberman;
 import game.data.DataInputOutput;
 import game.entity.models.BomberEntity;
+import game.entity.models.Coordinates;
 import game.level.Level;
 import game.level.world1.World1Level1;
-import game.entity.models.Coordinates;
 import game.utils.Paths;
 import game.utils.Utility;
 
@@ -17,14 +17,14 @@ import java.util.Optional;
 import static game.level.Level.ID_TO_FIRST_LEVEL_MAP;
 import static game.level.Level.ID_TO_LEVEL;
 
-public abstract class WorldPortal extends Portal{
+public abstract class WorldPortal extends Portal {
     private final int worldId;
 
-    public WorldPortal(int worldId){
+    public WorldPortal(int worldId) {
         this(null, worldId);
     }
 
-    public WorldPortal(Coordinates coordinates, int worldId){
+    public WorldPortal(Coordinates coordinates, int worldId) {
         super(coordinates);
         this.worldId = worldId;
         setCoords(getDefaultCoords());
@@ -32,7 +32,7 @@ public abstract class WorldPortal extends Portal{
 
     @Override
     public int getSize() {
-        return super.getSize()*3;
+        return super.getSize() * 3;
     }
 
     @Override
@@ -75,7 +75,8 @@ public abstract class WorldPortal extends Portal{
 
             // Start the level with the obtained level instance
             Bomberman.startLevel(levelToStart);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             // Print the stack trace if there is an exception
             e.printStackTrace();
         }

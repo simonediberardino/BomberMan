@@ -3,7 +3,6 @@ package game.entity.enemies.npcs;
 import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
 import game.entity.bomb.Bomb;
-import game.entity.bomb.ExplosiveCaller;
 import game.entity.bomb.FireExplosion;
 import game.entity.models.*;
 import game.entity.models.Coordinates;
@@ -15,7 +14,7 @@ import game.utils.Utility;
 
 import java.util.*;
 
-public class TankEnemy extends IntelligentEnemy implements Explosive, ExplosiveCaller {
+public class TankEnemy extends IntelligentEnemy implements Explosive {
     private static final int STANDING_STILL_PERIOD = 1000;
     private static final int PROBABILITY_OF_SHOOTING = 30;
     private static final int SHOOTING_REFRESH_RATE = 2000;
@@ -31,44 +30,53 @@ public class TankEnemy extends IntelligentEnemy implements Explosive, ExplosiveC
     }
 
     public String[] getCharacterOrientedImages() {
-        return new String[]{
-                String.format("%s/tank/tank_%s.png", Paths.getEnemiesFolder(), imageDirection.toString().toLowerCase())
-        };
+        return new String[]{String.format("%s/tank/tank_%s.png", Paths.getEnemiesFolder(), imageDirection.toString().toLowerCase())};
     }
 
     /**
      * Ran every game tick;
+     *
      * @param arg
      */
     @Override
     public void doUpdate(boolean arg) {
-        if (Utility.timePassed(lastUpdate) > SHOOTING_REFRESH_RATE) {
-            lastUpdate = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
 
+        // Check if it's time to update the shooting behavior
+        if (Utility.timePassed(lastUpdate) > SHOOTING_REFRESH_RATE) {
+            lastUpdate = currentTime;
+
+            // Check if the entity can shoot and if a random probability allows shooting
             if (canShoot && Math.random() * 100 < PROBABILITY_OF_SHOOTING) {
-                // explosion offset only used on vertical directions
+                // Calculate new coordinates with an explosion offset for vertical directions
                 Coordinates newCoords = getNewTopLeftCoordinatesOnDirection(currDirection, AbstractExplosion.SIZE);
-                if(currDirection == Direction.UP || currDirection == Direction.DOWN){
+                if (currDirection == Direction.UP || currDirection == Direction.DOWN) {
                     int x = newCoords.getX() + AbstractExplosion.SPAWN_OFFSET;
-                    newCoords = new Coordinates(x,newCoords.getY());
+                    newCoords = new Coordinates(x, newCoords.getY());
                 }
+
+                // Play the explosion sound and create a new FireExplosion
                 AudioManager.getInstance().play(SoundModel.EXPLOSION);
-                new FireExplosion(newCoords, currDirection, this);
+
+                new FireExplosion(this, newCoords, currDirection, this);
+
                 canMove = false;
             }
             canShoot = true;
         }
 
+        // Check if it's time to allow movement again after standing still
         if (Utility.timePassed(lastUpdate) > STANDING_STILL_PERIOD) {
             canMove = true;
         }
 
+        // Call the superclass's doUpdate method
         super.doUpdate(arg);
     }
 
     @Override
-    public List<Class<? extends Entity>> getExplosionObstacles() {
-        return Collections.emptyList();
+    public Set<Class<? extends Entity>> getExplosionObstacles() {
+        return Collections.emptySet();
     }
 
     @Override

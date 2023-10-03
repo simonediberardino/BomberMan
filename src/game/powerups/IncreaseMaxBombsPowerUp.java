@@ -9,7 +9,7 @@ import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
 
-public class IncreaseMaxBombsPowerUp extends PowerUp{
+public class IncreaseMaxBombsPowerUp extends PowerUp {
 
     /**
      * Constructs a PowerUp entity with the specified coordinates.
@@ -32,7 +32,7 @@ public class IncreaseMaxBombsPowerUp extends PowerUp{
 
     @Override
     protected void doApply(BomberEntity entity) {
-        new UpdateMaxBombsEvent().invoke(entity.getCurrentBombs()+1);
+        new UpdateMaxBombsEvent().invoke(entity.getCurrentBombs() + 1);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class GradientCallbackHandler {
     private final float step;
     private Timer t;
 
-    public GradientCallbackHandler(RunnablePar p, final float start, final float end, final float step){
+    public GradientCallbackHandler(RunnablePar p, final float start, final float end, final float step) {
         this.p = p;
         this.start = start;
         this.end = end;
@@ -27,7 +27,7 @@ public class GradientCallbackHandler {
             p.execute(currValue.get());
 
             boolean hasFinished = step >= 0 ? currValue.get() <= end : currValue.get() >= end;
-            if(hasFinished) t.stop();
+            if (hasFinished) t.stop();
         });
 
         t.start();

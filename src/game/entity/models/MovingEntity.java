@@ -10,7 +10,7 @@ import java.util.List;
 import static game.ui.panels.game.PitchPanel.PIXEL_UNIT;
 
 public abstract class MovingEntity extends EntityInteractable {
-    public MovingEntity(Coordinates coordinates){
+    public MovingEntity(Coordinates coordinates) {
         super(coordinates);
     }
 

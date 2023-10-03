@@ -2,24 +2,36 @@ package game.entity.bomb;
 
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
+import game.entity.models.Entity;
 import game.entity.models.Explosive;
 import game.utils.Paths;
 
-import java.awt.image.BufferedImage;
-
-import static game.utils.Utility.loadImage;
-
-public class ConfettiExplosion extends AbstractExplosion{
-    public ConfettiExplosion(Coordinates coordinates, Direction direction, Explosive explosive) {
-        super(coordinates, direction, explosive);
+public class ConfettiExplosion extends AbstractExplosion {
+    public ConfettiExplosion(
+            Entity owner,
+            Coordinates coordinates,
+            Direction direction,
+            Explosive explosive) {
+        super(owner, coordinates, direction, explosive);
     }
 
-    public ConfettiExplosion(Coordinates coordinates, Direction direction, int distanceFromBomb, Explosive explosive) {
-        super(coordinates, direction, distanceFromBomb, explosive);
+    public ConfettiExplosion(
+            Entity owner,
+            Coordinates coordinates,
+            Direction direction,
+            int distanceFromBomb,
+            Explosive explosive) {
+        super(owner, coordinates, direction, distanceFromBomb, explosive);
     }
 
-    public ConfettiExplosion(Coordinates coordinates, Direction direction, int distanceFromExplosive, Explosive explosive, boolean canExpand) {
-        super(coordinates, direction, distanceFromExplosive, explosive, canExpand);
+    public ConfettiExplosion(
+            Entity owner,
+            Coordinates coordinates,
+            Direction direction,
+            int distanceFromExplosive,
+            Explosive explosive,
+            boolean canExpand) {
+        super(owner, coordinates, direction, distanceFromExplosive, explosive, canExpand);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package game.level.world1;
 
 import game.entity.enemies.boss.Boss;
-import game.entity.models.Enemy;
-import game.level.Level;
 import game.level.StoryLevel;
 
 public abstract class World1Level extends StoryLevel {

@@ -8,7 +8,7 @@ import game.utils.Paths;
 import java.awt.image.BufferedImage;
 
 public class TransparentDestroyableBlocksPowerUp extends PowerUp {
-    public TransparentDestroyableBlocksPowerUp(Coordinates coords){
+    public TransparentDestroyableBlocksPowerUp(Coordinates coords) {
         super(coords);
     }
 

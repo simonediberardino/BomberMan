@@ -12,7 +12,7 @@ import game.ui.panels.game.PitchPanel;
 
 import java.util.*;
 
-public abstract class Enemy extends Character{
+public abstract class Enemy extends Character {
     public Enemy() {
         this(null);
         setCoords(Coordinates.randomCoordinatesFromPlayer(getSize()));
@@ -45,14 +45,14 @@ public abstract class Enemy extends Character{
     }
 
     @Override
-    public Set<Class<? extends Entity>> getInteractionsEntities(){
+    public Set<Class<? extends Entity>> getInteractionsEntities() {
         return new HashSet<>(Collections.singletonList(Player.class));
     }
 
     public final void update(Object gameState) {
         super.update(gameState);
 
-        if((boolean) gameState)
+        if ((boolean) gameState)
             doUpdate((Boolean) gameState);
     }
 

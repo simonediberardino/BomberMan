@@ -1,42 +1,41 @@
-
 package game.hardwareinput;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
-import game.tasks.PeriodicTask;
 import game.events.Observable2;
+import game.tasks.PeriodicTask;
 import game.utils.Utility;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.Map.entry;
 
 /**
- This class represents an Observable object that observes key events and notifies its observers of the
- corresponding command that should be executed based on the key that was pressed.
+ * This class represents an Observable object that observes key events and notifies its observers of the
+ * corresponding command that should be executed based on the key that was pressed.
  */
 public class ControllerManager extends Observable2 implements KeyListener {
-    private static ControllerManager instance;
     private static final int KEY_ESC = KeyEvent.VK_ESCAPE;
-    private static int KEY_DELAY_MS = setDefaultCommandDelay();
+    private static ControllerManager instance;
+    // Stores the time of the last key event for each command
+    private final Map<Command, Long> commandEventsTime = new HashMap<>();    private static int KEY_DELAY_MS = setDefaultCommandDelay();
     public Set<Command> commandQueue = new HashSet<>();
 
     // Key-Command mapping
     private Map<Integer, Command> keyAssignment;
-
-    // Stores the time of the last key event for each command
-    private final Map<Command, Long> commandEventsTime = new HashMap<>();
     private PeriodicTask task;
-
-    public ControllerManager(){
+    public ControllerManager() {
         instance = this;
         setupTask();
         // If illegal keys are found, reset the key map;
-        try{
+        try {
             setKeyMap();
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             DataInputOutput.getInstance().resetKeys();
             DataInputOutput.getInstance().updateStoredPlayerData();
             setKeyMap();
@@ -44,7 +43,23 @@ public class ControllerManager extends Observable2 implements KeyListener {
         }
     }
 
-    private void setKeyMap(){
+    public static int decreaseCommandDelay() {
+        KEY_DELAY_MS = 15;
+        if (instance != null) {
+            instance.updateDelay();
+        }
+        return KEY_DELAY_MS;
+    }
+
+    public static int setDefaultCommandDelay() {
+        KEY_DELAY_MS = 30;
+        if (instance != null) {
+            instance.updateDelay();
+        }
+        return KEY_DELAY_MS;
+    }
+
+    private void setKeyMap() {
         keyAssignment = Map.ofEntries(
                 entry(DataInputOutput.getInstance().getForwardKey(), Command.MOVE_UP),
                 entry(DataInputOutput.getInstance().getLeftKey(), Command.MOVE_LEFT),
@@ -55,10 +70,10 @@ public class ControllerManager extends Observable2 implements KeyListener {
         );
     }
 
-    public void onKeyPressed(Command action){
+    public void onKeyPressed(Command action) {
         // Ignore the event if the time elapsed since the last event is less than KEY_DELAY_MS
 
-        if(action != null) {
+        if (action != null) {
             commandEventsTime.put(action, System.currentTimeMillis());
             commandQueue.add(action);
         }
@@ -74,7 +89,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         Command action = keyAssignment.get(e.getKeyCode());
-        if(Utility.timePassed( commandEventsTime.getOrDefault(action, 0L)) < KEY_DELAY_MS) return;
+        if (Utility.timePassed(commandEventsTime.getOrDefault(action, 0L)) < KEY_DELAY_MS) return;
 
 
         onKeyPressed(action);
@@ -88,9 +103,9 @@ public class ControllerManager extends Observable2 implements KeyListener {
         onKeyReleased(action);
     }
 
-    public void onKeyReleased(Command action){
+    public void onKeyReleased(Command action) {
         commandQueue.remove(action);
-        if(commandQueue.isEmpty()) stop();
+        if (commandQueue.isEmpty()) stop();
     }
 
     private void setupTask() {
@@ -104,17 +119,19 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     private void resume() {
-        try{
-            if(task != null) {
+        try {
+            if (task != null) {
                 task.resume();
             }
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     private void stop() {
-        try{
-            if(task != null) task.stop();
-        }catch (Exception ignored){}
+        try {
+            if (task != null) task.stop();
+        } catch (Exception ignored) {
+        }
     }
 
     public boolean isCommandPressed(Command c) {
@@ -125,21 +142,9 @@ public class ControllerManager extends Observable2 implements KeyListener {
         instance.task.setDelay(KEY_DELAY_MS);
     }
 
-    public static int decreaseCommandDelay() {
-        KEY_DELAY_MS = 15;
-        if (instance != null) {
-            instance.updateDelay();
-        }
-        return KEY_DELAY_MS;
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 
-    public static int setDefaultCommandDelay(){
-        KEY_DELAY_MS = 30;
-        if (instance != null) {
-            instance.updateDelay();
-        }
-        return KEY_DELAY_MS;
-    }
 
-    @Override public void keyTyped(KeyEvent e) {}
 }

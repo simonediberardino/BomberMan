@@ -4,7 +4,7 @@ import game.values.BomberColors;
 
 import java.awt.*;
 
-public class YellowButton extends BombermanButton{
+public class YellowButton extends BombermanButton {
     public YellowButton(String text) {
         super(text);
     }
@@ -16,6 +16,6 @@ public class YellowButton extends BombermanButton{
 
     @Override
     public Color getMouseHoverBackgroundColor() {
-        return  new Color(255, 102, 0);
+        return new Color(255, 102, 0);
     }
 }

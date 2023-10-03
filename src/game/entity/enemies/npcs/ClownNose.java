@@ -10,11 +10,11 @@ import game.utils.Paths;
 
 public class ClownNose extends Orb {
     public ClownNose(Coordinates coordinates, EnhancedDirection enhancedDirection) {
-        super(coordinates,enhancedDirection);
+        super(coordinates, enhancedDirection);
     }
 
     public ClownNose(Coordinates coordinates, Direction direction) {
-        super(coordinates,direction);
+        super(coordinates, direction);
     }
 
     @Override
@@ -23,8 +23,9 @@ public class ClownNose extends Orb {
     }
 
     /**
-     Returns an array of the skin of the Orb.
-     @return an array of the skin of the Orb
+     * Returns an array of the skin of the Orb.
+     *
+     * @return an array of the skin of the Orb
      */
     @Override
     //

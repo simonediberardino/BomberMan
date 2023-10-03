@@ -12,6 +12,6 @@ public class World2Portal extends WorldPortal {
 
     @Override
     Coordinates getDefaultCoords() {
-        return (Coordinates.fromRowAndColumnsToCoordinates(new Dimension(6,7),0,-PitchPanel.GRID_SIZE/2));
+        return (Coordinates.fromRowAndColumnsToCoordinates(new Dimension(6, 7), 0, -PitchPanel.GRID_SIZE / 2));
     }
 }

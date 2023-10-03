@@ -15,6 +15,7 @@ public class Zombie extends IntelligentEnemy {
         setMaxHp(300);
         setHp(getMaxHp());
     }
+
     @Override
     public float getSpeed() {
         return 0.5f;
@@ -27,7 +28,7 @@ public class Zombie extends IntelligentEnemy {
 
     @Override
     public String[] getCharacterOrientedImages() {
-        return new String[] {
+        return new String[]{
                 String.format("%s/zombie_%s_0.png", getBasePath(), imageDirection.toString().toLowerCase()),
                 String.format("%s/zombie_%s_1.png", getBasePath(), imageDirection.toString().toLowerCase()),
                 String.format("%s/zombie_%s_2.png", getBasePath(), imageDirection.toString().toLowerCase()),

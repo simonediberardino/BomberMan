@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class IntelligentEnemy extends Enemy implements ICPU {
-    public int CHANGE_DIRECTION_RATE = 10; // percentage
     public static final int DIRECTION_REFRESH_RATE = 500;
+    public int CHANGE_DIRECTION_RATE = 10; // percentage
 
-    public IntelligentEnemy(){
+    public IntelligentEnemy() {
         super();
         hitboxSizeToHeightRatio = 0.733f;
     }
@@ -29,8 +29,7 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
     protected final void doInteract(Entity e) {
         if (e instanceof BomberEntity) {
             super.doInteract(e);
-        }
-        else if (isObstacle(e) || e == null) {
+        } else if (isObstacle(e) || e == null) {
             changeDirection();
         }
     }
@@ -85,7 +84,7 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
     }
 
     @Override
-    public Set<Class<? extends Entity>> getInteractionsEntities(){
+    public Set<Class<? extends Entity>> getInteractionsEntities() {
         return new HashSet<>(Collections.singletonList(Player.class));
     }
 

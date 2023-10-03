@@ -3,7 +3,7 @@ package game.entity.enemies.npcs;
 import game.utils.Paths;
 
 public class Helicopter extends FlyingEnemy {
-    public Helicopter(){
+    public Helicopter() {
         super();
     }
 

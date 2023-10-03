@@ -34,6 +34,7 @@ abstract class MysteryBox extends HardBlock {
     }
 
     abstract int getPrice();
+
     abstract void onPurchaseConfirm();
 
     @Override
@@ -106,7 +107,8 @@ abstract class MysteryBox extends HardBlock {
     }
 
     @Override
-    protected void doInteract(Entity e) {}
+    protected void doInteract(Entity e) {
+    }
 
     @Override
     public int getSize() {
@@ -115,7 +117,7 @@ abstract class MysteryBox extends HardBlock {
 
     @Override
     public BufferedImage getImage() {
-        return loadAndSetImage(Paths.getPowerUpsFolder() + "/box_" + status.toString() +".png");
+        return loadAndSetImage(Paths.getPowerUpsFolder() + "/box_" + status.toString() + ".png");
     }
 
     private enum Status {

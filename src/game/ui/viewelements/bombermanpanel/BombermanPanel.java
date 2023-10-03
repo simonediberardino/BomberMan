@@ -12,11 +12,11 @@ public abstract class BombermanPanel extends JPanel {
     private final Color borderColor = getBorderColor();
     private final Color shadowColor = new Color(0, 0, 0, 150);
 
-    public abstract Color getBorderColor();
-
     public BombermanPanel() {
         setOpaque(false);
     }
+
+    public abstract Color getBorderColor();
 
     @Override
     protected void paintComponent(Graphics g) {

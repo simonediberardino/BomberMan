@@ -7,7 +7,7 @@ import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
 
-public class RemoteControl extends PowerUp{
+public class RemoteControl extends PowerUp {
     /**
      * Constructs a PowerUp entity with the specified coordinates.
      *

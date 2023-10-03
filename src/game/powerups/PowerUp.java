@@ -3,13 +3,11 @@ package game.powerups;
 import game.BomberManMatch;
 import game.Bomberman;
 import game.entity.Player;
-import game.entity.models.*;
 import game.entity.models.Character;
-import game.entity.models.Coordinates;
+import game.entity.models.*;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
-import game.values.DrawPriority;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -19,7 +17,7 @@ import java.util.*;
  */
 public abstract class PowerUp extends EntityInteractable {
     // A static array of power-up classes
-    public static final Class<? extends PowerUp>[] POWER_UPS = new Class[] {
+    public static final Class<? extends PowerUp>[] POWER_UPS = new Class[]{
             ArmorPowerUp.class,
             FirePowerUp.class,
             SpeedPowerUp.class,
@@ -31,17 +29,22 @@ public abstract class PowerUp extends EntityInteractable {
             IncreaseMaxBombsPowerUp.class,
             TransparentBombsPowerUp.class
     };
-
-    private ArrayList<Class<?extends PowerUp>> incompatiblePowerUps = new ArrayList<>();
-
     // The default duration for a power-up, in seconds
     public static final int DEFAULT_DURATION_SEC = 15;
-
+    // Whether the power-up has already been applied or not
+    protected boolean applied = false;
+    private final ArrayList<Class<? extends PowerUp>> incompatiblePowerUps = new ArrayList<>();
     // The character the power-up is applied to
     private Character character;
 
-    // Whether the power-up has already been applied or not
-    protected boolean applied = false;
+    /**
+     * Constructs a PowerUp entity with the specified coordinates.
+     *
+     * @param coordinates the coordinates of the PowerUp entity
+     */
+    public PowerUp(Coordinates coordinates) {
+        super(coordinates);
+    }
 
     /**
      * Returns a random power-up class from the POWER_UPS array.
@@ -61,21 +64,13 @@ public abstract class PowerUp extends EntityInteractable {
     public static PowerUp spawnRandomPowerUp(Coordinates coordinates) {
         try {
             PowerUp powerUp = getRandomPowerUpClass().getConstructor(Coordinates.class).newInstance(coordinates);
-            powerUp.spawn(true,true);
+            powerUp.spawn(true, true);
             return powerUp;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Constructs a PowerUp entity with the specified coordinates.
-     *
-     * @param coordinates the coordinates of the PowerUp entity
-     */
-    public PowerUp(Coordinates coordinates) {
-        super(coordinates);
     }
 
     /**
@@ -93,7 +88,7 @@ public abstract class PowerUp extends EntityInteractable {
     public final void apply(BomberEntity entity) {
         if (applied) return;
 
-        if(!canPickUp(entity)) return;
+        if (!canPickUp(entity)) return;
 
         this.applied = true;
         this.despawn();
@@ -104,7 +99,7 @@ public abstract class PowerUp extends EntityInteractable {
         AudioManager.getInstance().play(SoundModel.POWERUP);
         entity.getActivePowerUps().add(this.getClass());
 
-        if(isDisplayable())
+        if (isDisplayable())
             matchPanel.refreshPowerUps(entity.getActivePowerUps());
 
         int duration = getDuration() * 1000;
@@ -121,7 +116,7 @@ public abstract class PowerUp extends EntityInteractable {
                     return;
                 }
                 entity.removeActivePowerUp(thisPowerUp);
-                if(isDisplayable())
+                if (isDisplayable())
                     matchPanel.refreshPowerUps(entity.getActivePowerUps());
                 PowerUp.this.cancel(entity);
             }
@@ -184,7 +179,6 @@ public abstract class PowerUp extends EntityInteractable {
     }
 
     /**
-     *
      * @return wheter the powerup can be picked up indefinite times or not;
      */
     public boolean canPickUp(BomberEntity entity) {

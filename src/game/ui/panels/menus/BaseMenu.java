@@ -32,10 +32,10 @@ public abstract class BaseMenu extends PagePanel {
         addButtons();
     }
 
-    private void addButtons(){
+    private void addButtons() {
         List<JButton> buttons = getButtons();
 
-        for(JButton b : buttons) listButtonsPanel.add(b);
+        for (JButton b : buttons) listButtonsPanel.add(b);
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class BaseMenu extends PagePanel {
         listButtonsPanel.setLayout(new GridLayout(0, 1));
         listButtonsPanel.setOpaque(false);
 
-        for(int i = 0; i < getButtonsPadding(); i++){
+        for (int i = 0; i < getButtonsPadding(); i++) {
             listButtonsPanel.add(new Space());
         }
 
@@ -54,6 +54,7 @@ public abstract class BaseMenu extends PagePanel {
     }
 
     protected abstract int getButtonsPadding();
+
     protected abstract List<JButton> getButtons();
 
     @Override

@@ -7,7 +7,7 @@ import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
 
-public class LivesPowerUp extends PowerUp{
+public class LivesPowerUp extends PowerUp {
     /**
      * Constructs a PowerUp entity with the specified coordinates.
      *
@@ -33,7 +33,8 @@ public class LivesPowerUp extends PowerUp{
     }
 
     @Override
-    protected void cancel(BomberEntity entity) {}
+    protected void cancel(BomberEntity entity) {
+    }
 
     @Override
     public boolean isDisplayable() {

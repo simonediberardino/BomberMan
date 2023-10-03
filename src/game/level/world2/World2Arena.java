@@ -13,7 +13,7 @@ import game.level.Level;
 public class World2Arena extends ArenaLevel {
     @Override
     public Class<? extends Enemy>[] getSpecialRoundEnemies() {
-        return new Class[] {
+        return new Class[]{
                 TankEnemy.class,
                 Zombie.class
         };

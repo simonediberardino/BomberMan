@@ -7,7 +7,7 @@ import javax.swing.text.DocumentFilter;
 public class BombermanTextFieldFilter extends DocumentFilter {
     private int limit = -1;
 
-    public BombermanTextFieldFilter(){
+    public BombermanTextFieldFilter() {
 
     }
 
@@ -22,7 +22,7 @@ public class BombermanTextFieldFilter extends DocumentFilter {
 
     @Override
     public void replace(final FilterBypass fb, final int offset, final int length, final String text, final AttributeSet attrs) throws BadLocationException {
-        if(fb.getDocument().getLength() >= limit && limit > 0) return;
+        if (fb.getDocument().getLength() >= limit && limit > 0) return;
 
         super.replace(fb, offset, length, text.toUpperCase(), attrs);
     }

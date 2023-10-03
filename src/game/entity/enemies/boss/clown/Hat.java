@@ -14,6 +14,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Hat extends Orb {
+    public Hat(Coordinates coordinates, EnhancedDirection enhancedDirection) {
+        super(coordinates, enhancedDirection);
+        setMaxHp(300);
+        setHp(getMaxHp());
+    }
+
     @Override
     protected String getBasePath() {
         return Paths.getEnemiesFolder() + "/clown/hat";
@@ -35,12 +41,6 @@ public class Hat extends Orb {
         };
     }
 
-    public Hat(Coordinates coordinates, EnhancedDirection enhancedDirection) {
-        super(coordinates, enhancedDirection);
-        setMaxHp(300);
-        setHp(getMaxHp());
-    }
-
     @Override
     public int getSize() {
         return SIZE * 3;
@@ -48,9 +48,9 @@ public class Hat extends Orb {
 
     @Override
     protected void doInteract(Entity e) {
-        if(e == null) return;
+        if (e == null) return;
 
-        if(e instanceof Clown) {
+        if (e instanceof Clown) {
             ((Clown) e).setHasHat(true);
             despawn();
         } else {
@@ -64,11 +64,11 @@ public class Hat extends Orb {
     }
 
     protected void updateDirection() {
-        if(!canMove || !isAlive) return;
+        if (!canMove || !isAlive) return;
 
         if (enhancedDirection == null) {
             // When hitting a wall, bounce and change direction;
-            if(!moveOrInteract(direction))
+            if (!moveOrInteract(direction))
                 direction = direction.opposite();
 
             updateLastDirection(direction);
@@ -87,18 +87,18 @@ public class Hat extends Orb {
     }
 
     @Override
-    public Set<Class<? extends Entity>> getInteractionsEntities(){
+    public Set<Class<? extends Entity>> getInteractionsEntities() {
         return new HashSet<>(Arrays.asList(Player.class, Clown.class));
     }
 
     @Override
-    public Set<Class<? extends Entity>> getObstacles(){
+    public Set<Class<? extends Entity>> getObstacles() {
         return new HashSet<>();
     }
 
     @Override
     public void doUpdate(boolean gameState) {
-        if(gameState) updateDirection();
+        if (gameState) updateDirection();
     }
 
     @Override

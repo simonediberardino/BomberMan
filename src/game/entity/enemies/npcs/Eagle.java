@@ -2,7 +2,7 @@ package game.entity.enemies.npcs;
 
 import game.utils.Paths;
 
-public class Eagle extends FlyingEnemy{
+public class Eagle extends FlyingEnemy {
     @Override
     protected String getBasePath() {
         return Paths.getEnemiesFolder() + "/eagle";

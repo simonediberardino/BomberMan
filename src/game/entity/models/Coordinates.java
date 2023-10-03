@@ -314,9 +314,11 @@ public class Coordinates implements Comparable<Coordinates> {
     public static boolean isBlockOccupied(Coordinates nextOccupiedCoords){
         return !getEntitiesOnBlock(nextOccupiedCoords).isEmpty();
     }
-    public static ArrayList<Coordinates> getAllBlocksInAreaFromDirection(Entity e, Direction d, int depth){
+
+    public static List<Coordinates> getAllBlocksInAreaFromDirection(Entity e, Direction d, int depth){
         switch (d){
-            case LEFT:return getAllBlocksInArea
+            case LEFT:
+                return getAllBlocksInArea
                     (e.getCoords().plus(new Coordinates(-GRID_SIZE*depth+1,0)),
                      e.getCoords().plus(new Coordinates(1,e.getSize()-1)));
             case DOWN: return Coordinates.getAllBlocksInArea(

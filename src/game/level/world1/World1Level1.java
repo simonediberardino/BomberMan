@@ -1,11 +1,8 @@
 package game.level.world1;
 
-import game.entity.enemies.boss.Boss;
-import game.entity.enemies.npcs.FlyingEnemy;
 import game.entity.enemies.npcs.YellowBall;
 import game.entity.models.Enemy;
 import game.level.Level;
-import game.level.world2.World2Level;
 
 public class World1Level1 extends World1Level {
     public static final int LEVEL_ID = 1;

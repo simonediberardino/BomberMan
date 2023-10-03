@@ -92,7 +92,7 @@ public class Localization {
         put(Locale.ENGLISH, "PRESS ESCAPE TO RESUME");
         put(Locale.ITALY, "PREMI ESCAPE PER CONTINUARE");
     }};
-    
+
     public static final HashMap<Locale, String> STARTING_LEVEL = new HashMap<>() {{
         put(Locale.ENGLISH, "STARTING %level%!");
         put(Locale.ITALY, "%level% INIZIATO!");

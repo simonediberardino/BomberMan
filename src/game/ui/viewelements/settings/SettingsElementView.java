@@ -3,7 +3,6 @@ package game.ui.viewelements.settings;
 import game.utils.Utility;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 import static game.values.Dimensions.DEFAULT_PADDING;
@@ -13,7 +12,7 @@ public abstract class SettingsElementView extends JPanel {
     protected final int LEFT_PADDING = DEFAULT_PADDING * 3;
     protected final int RIGHT_PADDING = DEFAULT_PADDING * 10;
 
-    protected SettingsElementView(JPanel gridPanel){
+    protected SettingsElementView(JPanel gridPanel) {
         // Setting empty border for the SettingsElementView object
         setBorder(BorderFactory.createEmptyBorder(DEFAULT_PADDING, LEFT_PADDING, DEFAULT_PADDING, RIGHT_PADDING));
 

@@ -1,13 +1,12 @@
 package game.ui.panels.settings;
 
 import game.data.DataInputOutput;
-import game.localization.Localization;
 import game.events.RunnablePar;
+import game.localization.Localization;
 import game.sound.AudioManager;
 import game.ui.panels.BombermanFrame;
 import game.ui.viewelements.settings.SettingsElementView;
 import game.ui.viewelements.settings.SlideElementView;
-import game.ui.viewelements.settings.TextFieldElementView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
 
 import static game.localization.Localization.*;
 
-public class SettingsPanel extends BoxMenuPanel{
+public class SettingsPanel extends BoxMenuPanel {
     /**
      * Constructs a ProfilePanel object.
      *
@@ -31,7 +30,7 @@ public class SettingsPanel extends BoxMenuPanel{
         return addTextFieldElementView(label, keyChar, runnablePar, 1);
     }
 
-    private SlideElementView createSlideElementView(String title, int currValue, RunnablePar callback){
+    private SlideElementView createSlideElementView(String title, int currValue, RunnablePar callback) {
         return addSlideElementView(title, currValue, callback);
     }
 
@@ -77,16 +76,16 @@ public class SettingsPanel extends BoxMenuPanel{
                 DataInputOutput.getInstance().getBombKeyChar(),
                 createKeyRunnable(integer -> DataInputOutput.getInstance().setBombKey(integer))
         );
+
         SettingsElementView audio = createSlideElementView(Localization.get(AUDIO_VOLUME),
                 DataInputOutput.getInstance().getVolume(), new RunnablePar() {
-            @Override
-            public <T> Object execute(T par) {
-                System.out.println(par);
-                DataInputOutput.getInstance().setVolume((int) par);
-                AudioManager.getInstance().stopBackgroundSong();
-                AudioManager.getInstance().playBackgroundSong();
-                return null;
-            }
-        });
+                    @Override
+                    public <T> Object execute(T par) {
+                        DataInputOutput.getInstance().setVolume((int) par);
+                        AudioManager.getInstance().stopBackgroundSong();
+                        AudioManager.getInstance().playBackgroundSong();
+                        return null;
+                    }
+                });
     }
 }

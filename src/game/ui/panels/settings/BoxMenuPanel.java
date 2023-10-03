@@ -1,8 +1,8 @@
 package game.ui.panels.settings;
 
 import game.Bomberman;
-import game.localization.Localization;
 import game.events.RunnablePar;
+import game.localization.Localization;
 import game.ui.helpers.Padding;
 import game.ui.panels.BombermanFrame;
 import game.ui.panels.PagePanel;
@@ -22,7 +22,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-import static game.localization.Localization.*;
+import static game.localization.Localization.MAIN_MENU;
 import static game.values.Dimensions.DEFAULT_PADDING;
 
 public abstract class BoxMenuPanel extends PagePanel {
@@ -34,10 +34,12 @@ public abstract class BoxMenuPanel extends PagePanel {
     private final String title;
 
     /**
-     Constructs a ProfilePanel object.
-     @param cardLayout the CardLayout of the parent container
-     @param parent the parent container of this panel
-     @param frame the BombermanFrame object */
+     * Constructs a ProfilePanel object.
+     *
+     * @param cardLayout the CardLayout of the parent container
+     * @param parent     the parent container of this panel
+     * @param frame      the BombermanFrame object
+     */
     public BoxMenuPanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame, String title) {
         super(cardLayout, parent, frame, Paths.getBackgroundImage());
         this.title = title;
@@ -45,8 +47,8 @@ public abstract class BoxMenuPanel extends PagePanel {
     }
 
     /**
-
-     Sets up the layout of the panel. */
+     * Sets up the layout of the panel.
+     */
     private void initializeLayout() {
         setupPanels();
         setLayout(new GridBagLayout());
@@ -57,7 +59,7 @@ public abstract class BoxMenuPanel extends PagePanel {
     }
 
     /**
-     Sets up the layouts of the boxPanel and the componentsPanel.
+     * Sets up the layouts of the boxPanel and the componentsPanel.
      */
     private void setupPanels() {
         boxPanel.setLayout(new GridBagLayout());
@@ -66,10 +68,11 @@ public abstract class BoxMenuPanel extends PagePanel {
     }
 
     /**
-
-     Calculates the preferred size of the insidePanel based on its components.
-     @param insidePanel the panel to calculate the preferred size for
-     @return a Dimension object representing the preferred size of the insidePanel */
+     * Calculates the preferred size of the insidePanel based on its components.
+     *
+     * @param insidePanel the panel to calculate the preferred size for
+     * @return a Dimension object representing the preferred size of the insidePanel
+     */
     private Dimension calculateInsidePanelSize(JPanel insidePanel) {
         double panelHeight = Arrays.stream(
                 insidePanel.getComponents()
@@ -79,9 +82,11 @@ public abstract class BoxMenuPanel extends PagePanel {
     }
 
     /**
-     Sets the preferred sizes for the componentsPanel and the parent boxPanel.
-     @param componentsPanel the components panel
-     @param parentPanel the parent panel */
+     * Sets the preferred sizes for the componentsPanel and the parent boxPanel.
+     *
+     * @param componentsPanel the components panel
+     * @param parentPanel     the parent panel
+     */
     private void setPanelSizes(JPanel componentsPanel, JPanel parentPanel) {
         Dimension insidePanelSize = calculateInsidePanelSize(componentsPanel);
         componentsPanel.setPreferredSize(insidePanelSize);
@@ -89,10 +94,10 @@ public abstract class BoxMenuPanel extends PagePanel {
     }
 
     /**
-     Adds the stats settings elements to the componentsPanel.
+     * Adds the stats settings elements to the componentsPanel.
      */
     private void addSettingsElements() {
-        componentsPanel.add(new Padding(getWidth(), DEFAULT_PADDING*2));
+        componentsPanel.add(new Padding(getWidth(), DEFAULT_PADDING * 2));
         componentsPanel.add(new YellowButton(title));
         componentsPanel.add(new Padding(getWidth(), DEFAULT_PADDING));
 
@@ -107,11 +112,11 @@ public abstract class BoxMenuPanel extends PagePanel {
     protected abstract void addCustomElements();
 
     /**
-
-     Adds a single stats settings element to the componentsPanel.
-     @param title the title of the element
-     @param val the value of the element
-     @return the SettingsElementView object that was added to the componentsPanel
+     * Adds a single stats settings element to the componentsPanel.
+     *
+     * @param title the title of the element
+     * @param val   the value of the element
+     * @return the SettingsElementView object that was added to the componentsPanel
      */
     protected SettingsElementView addInfoElement(String title, String val) {
         InfoElementView elementView = new InfoElementView(boxPanel, title, val);
@@ -120,26 +125,27 @@ public abstract class BoxMenuPanel extends PagePanel {
         return elementView;
     }
 
-    protected TextFieldElementView addTextFieldElementView(String title, String startText, RunnablePar callback){
+    protected TextFieldElementView addTextFieldElementView(String title, String startText, RunnablePar callback) {
         return addTextFieldElementView(title, startText, callback, -1);
     }
 
-    protected TextFieldElementView addTextFieldElementView(String title, String startText, RunnablePar callback, int charLimit){
+    protected TextFieldElementView addTextFieldElementView(String title, String startText, RunnablePar callback, int charLimit) {
         TextFieldElementView elementView = new TextFieldElementView(boxPanel, title, startText, callback, charLimit);
         componentsPanel.add(elementView);
 
         return elementView;
     }
 
-    protected SlideElementView addSlideElementView(String title, int currValue, RunnablePar callback){
+    protected SlideElementView addSlideElementView(String title, int currValue, RunnablePar callback) {
         SlideElementView elementView = new SlideElementView(boxPanel, title, currValue, callback);
         componentsPanel.add(elementView);
         return elementView;
     }
-    /**
 
-     Implementation of the onShowCallback() method in the PagePanel superclass.
-     Clears the componentsPanel and adds the stats settings elements again. */
+    /**
+     * Implementation of the onShowCallback() method in the PagePanel superclass.
+     * Clears the componentsPanel and adds the stats settings elements again.
+     */
     @Override
     public void onShowCallback() {
         componentsPanel.removeAll();

@@ -11,20 +11,16 @@ import game.ui.viewelements.misc.ToastHandler;
 import game.utils.Paths;
 import game.utils.Utility;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 
 /**
-
- The BombermanFrame class creates the main frame of the game and handles the creation and switching
-
- between the menu and match panels.
+ * The BombermanFrame class creates the main frame of the game and handles the creation and switching
+ * <p>
+ * between the menu and match panels.
  */
 public class BombermanFrame extends JFrame {
     private final CardLayout cardLayout = new CardLayout();
@@ -51,8 +47,7 @@ public class BombermanFrame extends JFrame {
     private ArenaMenuPanel arenaMenuPanel;
 
     /**
-
-     Creates the main frame and sets its properties.
+     * Creates the main frame and sets its properties.
      */
     public void create() {
         setIconImage(Utility.loadImage(Paths.getIconPath()));
@@ -83,9 +78,9 @@ public class BombermanFrame extends JFrame {
         add(parentPanel);
 
     }
-    /**
 
-     Initializes the menu panel and adds it to the parent panel.
+    /**
+     * Initializes the menu panel and adds it to the parent panel.
      */
     private void initMenuPanel() {
         mainMenuPanel = new MainMenuPanel(cardLayout, parentPanel, this);
@@ -96,9 +91,9 @@ public class BombermanFrame extends JFrame {
         pausePanel = new PausePanel(cardLayout, parentPanel, this);
         parentPanel.add(pausePanel, PausePanel.class.getSimpleName());
     }
-    /**
 
-     Initializes the menu panel and adds it to the parent panel.
+    /**
+     * Initializes the menu panel and adds it to the parent panel.
      */
     private void initLoadingPanel() {
         loadingPanel = new LoadingPanel(cardLayout, parentPanel, this, new World1Level1());
@@ -106,7 +101,7 @@ public class BombermanFrame extends JFrame {
     }
 
     /**
-     Initializes the match panel and adds it to the parent panel.
+     * Initializes the match panel and adds it to the parent panel.
      */
     public void initGamePanel() {
         matchPanel = new MatchPanel(cardLayout, parentPanel, this);
@@ -115,8 +110,7 @@ public class BombermanFrame extends JFrame {
     }
 
     /**
-
-     Initializes the menu panel and adds it to the parent panel.
+     * Initializes the menu panel and adds it to the parent panel.
      */
     private void initGameOverPanel() {
         gameOverPanel = new GameOverPanel(cardLayout, parentPanel, this);
@@ -129,8 +123,7 @@ public class BombermanFrame extends JFrame {
     }
 
     /**
-
-     Initializes the menu panel and adds it to the parent panel.
+     * Initializes the menu panel and adds it to the parent panel.
      */
     private void initSettingsPanel() {
         settingsPanel = new SettingsPanel(cardLayout, parentPanel, this);
@@ -138,8 +131,7 @@ public class BombermanFrame extends JFrame {
     }
 
     /**
-
-     Initializes the arena panel and adds it to the parent panel.
+     * Initializes the arena panel and adds it to the parent panel.
      */
     private void initArenaMenuPanel() {
         arenaMenuPanel = new ArenaMenuPanel(cardLayout, parentPanel, this);
@@ -147,9 +139,8 @@ public class BombermanFrame extends JFrame {
     }
 
     /**
-
-     Finalizes the frame by setting the key listener and focusable, making the frame visible, and
-     showing the menu panel.
+     * Finalizes the frame by setting the key listener and focusable, making the frame visible, and
+     * showing the menu panel.
      */
     private void finalizeFrame() {
         // Set key listener and focusable
@@ -186,8 +177,9 @@ public class BombermanFrame extends JFrame {
 
 
     /**
-     Gets the pitch panel from the match panel.
-     @return the pitch panel
+     * Gets the pitch panel from the match panel.
+     *
+     * @return the pitch panel
      */
     public PitchPanel getPitchPanel() {
         return matchPanel.getPitchPanel();

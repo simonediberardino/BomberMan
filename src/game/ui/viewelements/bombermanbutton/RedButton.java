@@ -4,7 +4,7 @@ import game.values.BomberColors;
 
 import java.awt.*;
 
-public class RedButton extends BombermanButton{
+public class RedButton extends BombermanButton {
     public RedButton(String text) {
         super(text);
     }

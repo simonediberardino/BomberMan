@@ -3,10 +3,9 @@ package game.powerups.portal;
 import game.Bomberman;
 import game.data.DataInputOutput;
 import game.entity.models.BomberEntity;
-import game.entity.models.Entity;
+import game.entity.models.Coordinates;
 import game.level.Level;
 import game.level.WorldSelectorLevel;
-import game.entity.models.Coordinates;
 import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
@@ -42,15 +41,17 @@ public class EndLevelPortal extends Portal {
             Level level = Bomberman.getMatch().getCurrentLevel();
             Class<? extends Level> nextLevelClass =
                     level.isLastLevelOfWorld()
-                    ? WorldSelectorLevel.class
-                    : level.getNextLevel();
+                            ? WorldSelectorLevel.class
+                            : level.getNextLevel();
 
             Bomberman.startLevel(nextLevelClass.getConstructor().newInstance());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    protected void cancel(BomberEntity entity) {}
+    protected void cancel(BomberEntity entity) {
+    }
 }

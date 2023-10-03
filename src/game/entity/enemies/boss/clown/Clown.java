@@ -4,10 +4,9 @@ import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.Bomb;
 import game.entity.bomb.ConfettiExplosion;
-import game.entity.bomb.ExplosiveCaller;
+import game.entity.enemies.boss.Boss;
 import game.entity.enemies.npcs.ClownNose;
 import game.entity.enemies.npcs.Orb;
-import game.entity.enemies.boss.Boss;
 import game.entity.models.*;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
@@ -16,24 +15,20 @@ import game.utils.Paths;
 import game.utils.Utility;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
-
-import static game.utils.Utility.px;
+import java.util.*;
 
 /**
  * The Clown class represents a type of Boss entity that implements the Explosive interface.
  * It has a boolean property hasHat that determines whether the Clown is wearing a hat or not.
  * The Clown entity can spawn orbs, enhanced orbs, explosions and throw its hat in random directions.
  */
-public class Clown extends Boss implements Explosive, ExplosiveCaller {
-    private final ArrayList<ConfettiExplosion> explosions = new ArrayList<>();
+public class Clown extends Boss implements Explosive {
     private static final float RATIO_HEIGHT_WITH_HAT = 0.7517f;
     private static final float RATIO_HEIGHT = 0.87f;
     private static final float RATIO_WIDTH = 0.8739f;
     private static final String SKIN_PATH_TEMPLATE = "%s/clown/clown_%s_%s.png";
-
-
+    private final ArrayList<ConfettiExplosion> explosions = new ArrayList<>();
     /**
      * The hasHat property represents whether the Clown entity is wearing a hat or not.
      */
@@ -123,8 +118,8 @@ public class Clown extends Boss implements Explosive, ExplosiveCaller {
      * @return An empty List object.
      */
     @Override
-    public List<Class<? extends Entity>> getExplosionObstacles() {
-        return Collections.emptyList();
+    public Set<Class<? extends Entity>> getExplosionObstacles() {
+        return Collections.emptySet();
     }
 
     /**
@@ -211,13 +206,29 @@ public class Clown extends Boss implements Explosive, ExplosiveCaller {
      */
     private void spawnExplosion() {
         Direction[] dirs = Direction.values();
+
         LinkedList<Direction> directions = new LinkedList<>(Arrays.asList(dirs));
         directions.remove(Direction.DOWN);
+
         Direction d = directions.get((int) (Math.random() * directions.size()));
 
         int[] offsets = calculateExplosionOffsets(d);
         AudioManager.getInstance().play(SoundModel.EXPLOSION_CONFETTI);
-        new ConfettiExplosion(Coordinates.fromDirectionToCoordinateOnEntity(this, d, offsets[0], offsets[1], ConfettiExplosion.SIZE), d, this);
+
+        Coordinates explosionCoordinates = Coordinates.fromDirectionToCoordinateOnEntity(
+                this,
+                d,
+                offsets[0],
+                offsets[1],
+                ConfettiExplosion.SIZE
+        );
+
+        new ConfettiExplosion(
+                this,
+                explosionCoordinates,
+                d,
+                this
+        );
     }
 
     /**
@@ -225,7 +236,15 @@ public class Clown extends Boss implements Explosive, ExplosiveCaller {
      */
     public void throwHat() {
         EnhancedDirection d = EnhancedDirection.randomDirectionTowardsCenter(this);
-        new Hat(Coordinates.fromDirectionToCoordinateOnEntity(this, d, 0), d).spawn(true, false);
+        Entity hat = new Hat(
+                Coordinates.fromDirectionToCoordinateOnEntity(
+                        this,
+                        d,
+                        0),
+                d
+        );
+
+        hat.spawn(true, false);
         hasHat = false;
     }
 
@@ -330,8 +349,7 @@ public class Clown extends Boss implements Explosive, ExplosiveCaller {
 
     @Override
     protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
-        List<Class<? extends Entity>> list = new ArrayList<>();
-        list.addAll(super.getBasePassiveInteractionEntities());
+        List<Class<? extends Entity>> list = new ArrayList<>(super.getBasePassiveInteractionEntities());
         list.add(Hat.class);
         return new HashSet<>(list);
     }

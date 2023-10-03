@@ -2,18 +2,16 @@ package game.entity.models;
 
 import game.Bomberman;
 import game.entity.Player;
-import game.entity.bomb.AllyBomb;
 import game.entity.bomb.Bomb;
-import game.entity.bomb.ExplosiveCaller;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.powerups.PowerUp;
-import game.sound.SoundModel;
 import game.utils.Utility;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class BomberEntity extends Character implements ExplosiveCaller {
+public abstract class BomberEntity extends Character {
     public static final int MAX_BOMB_CAN_HOLD = 10;
     private final List<Class<? extends Entity>> listInteractWithMouseClick = new ArrayList<>();
     private final List<Class<? extends Entity>> listInteractWithMouseDrag = new ArrayList<>();
@@ -33,7 +31,7 @@ public abstract class BomberEntity extends Character implements ExplosiveCaller 
         listInteractWithMouseClick.add(MysteryBoxPerk.class);
     }
 
-    public int getCurrExplosionLength(){
+    public int getCurrExplosionLength() {
         return currExplosionLength;
     }
 
@@ -45,41 +43,36 @@ public abstract class BomberEntity extends Character implements ExplosiveCaller 
         return Bomberman.getMatch().getCurrentLevel().getMaxBombs();
     }
 
-    @Override
-    protected SoundModel getStepSound() {
-        return null;
-    }
-
     protected void placeBomb() {
-        if(getCurrExplosionLength() == 0) {
+        if (getCurrExplosionLength() == 0) {
             return;
         }
 
-        if(placedBombs >= getMaxBombs()) {
+        if (placedBombs >= getMaxBombs()) {
             return;
         }
 
-        if(getCurrentBombs() <= 0){
+        if (getCurrentBombs() <= 0) {
             return;
         }
 
-        if(Utility.timePassed(lastPlacedBombTime) < Bomb.PLACE_INTERVAL){
+        if (Utility.timePassed(lastPlacedBombTime) < Bomb.PLACE_INTERVAL) {
             return;
         }
 
         lastPlacedBombTime = System.currentTimeMillis();
         placedBombs++;
 
-        Bomb bomb = new AllyBomb(this);
+        Bomb bomb = new Bomb(this);
 
-        if(this instanceof Player){
-            new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs()-1);
+        if (this instanceof Player) {
+            new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs() - 1);
         }
 
         bomb.setOnExplodeListener(() -> {
             placedBombs--;
-            if(this instanceof Player){
-                new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs()+1);
+            if (this instanceof Player) {
+                new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs() + 1);
             }
         });
 
@@ -87,12 +80,12 @@ public abstract class BomberEntity extends Character implements ExplosiveCaller 
         bomb.trigger();
     }
 
-    public void setCurrentBombs(int bomb) {
-        this.currentBombs = bomb;
-    }
-
     public int getCurrentBombs() {
         return this.currentBombs;
+    }
+
+    public void setCurrentBombs(int bomb) {
+        this.currentBombs = bomb;
     }
 
     public void addClassInteractWithMouseClick(Class<? extends Entity> cls) {
@@ -115,17 +108,15 @@ public abstract class BomberEntity extends Character implements ExplosiveCaller 
         return activePowerUp;
     }
 
-    public void removeActivePowerUp(PowerUp p){
-        getActivePowerUps().removeIf(e->e.isInstance(p));
+    public void removeActivePowerUp(PowerUp p) {
+        getActivePowerUps().removeIf(e -> e.isInstance(p));
     }
 
-    public List<Class<? extends Entity>> getListClassInteractWithMouseClick(){
+    public List<Class<? extends Entity>> getListClassInteractWithMouseClick() {
         return listInteractWithMouseClick;
     }
 
-    public List<Class<? extends Entity>> getListClassInteractWithMouseDrag(){
+    public List<Class<? extends Entity>> getListClassInteractWithMouseDrag() {
         return listInteractWithMouseDrag;
     }
-
-
 }

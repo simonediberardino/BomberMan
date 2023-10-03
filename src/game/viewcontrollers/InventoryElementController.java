@@ -1,8 +1,8 @@
 package game.viewcontrollers;
 
 import game.ui.viewelements.inventory.InventoryElementView;
-import game.viewmodels.InventoryElementModel;
 import game.utils.Utility;
+import game.viewmodels.InventoryElementModel;
 
 import javax.swing.*;
 import java.awt.*;

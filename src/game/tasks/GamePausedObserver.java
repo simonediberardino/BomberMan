@@ -1,8 +1,8 @@
 package game.tasks;
 
 import game.Bomberman;
-import game.hardwareinput.Command;
 import game.events.Observer2;
+import game.hardwareinput.Command;
 
 public class GamePausedObserver implements Observer2 {
     @Override
@@ -11,7 +11,7 @@ public class GamePausedObserver implements Observer2 {
             return;
         }
 
-        if(arg == Command.PAUSE){
+        if (arg == Command.PAUSE) {
             Bomberman.getMatch().toggleGameState();
         }
     }

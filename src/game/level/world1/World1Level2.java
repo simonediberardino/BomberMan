@@ -1,12 +1,10 @@
 package game.level.world1;
 
-import game.entity.enemies.boss.Boss;
 import game.entity.enemies.npcs.Helicopter;
-import game.entity.enemies.npcs.YellowBall;
 import game.entity.models.Enemy;
 import game.level.Level;
 
-public class World1Level2 extends World1Level{
+public class World1Level2 extends World1Level {
     @Override
     public int getLevelId() {
         return 2;

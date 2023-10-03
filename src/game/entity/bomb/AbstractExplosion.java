@@ -3,6 +3,7 @@ package game.entity.bomb;
 import game.Bomberman;
 import game.entity.blocks.DestroyableBlock;
 import game.entity.models.*;
+import game.entity.models.Character;
 import game.ui.panels.game.PitchPanel;
 import game.values.DrawPriority;
 
@@ -19,43 +20,48 @@ import static game.utils.Utility.loadImage;
  * An abstract class for in-game explosions;
  */
 public abstract class AbstractExplosion extends MovingEntity {
-    public static int MAX_EXPLOSION_LENGTH = 5;
     public static final int SIZE = PitchPanel.COMMON_DIVISOR * 2;
-    public static final int SPAWN_OFFSET = (PitchPanel.GRID_SIZE-SIZE) / 2;
+    public static final int SPAWN_OFFSET = (PitchPanel.GRID_SIZE - SIZE) / 2;
+    protected static final int BOMB_STATES = 3;
+    public static int MAX_EXPLOSION_LENGTH = 5;
     // The distance from the bomb where the explosion was created.
     protected final int distanceFromExplosive;
-
     // The maximum distance from the bomb that the explosion can travel.
     protected final int maxDistance;
-    protected static final int BOMB_STATES = 3;
-    protected boolean canExpand;
-
     // The direction of the explosion.
     protected final Direction direction;
+    private final Explosive explosive;
+    private final Entity owner;
+    protected boolean canExpand;
     protected boolean appearing = true;
     protected int explosionState = 1;
     protected long lastRefresh = 0;
-    private final Explosive explosive;
-    private ExplosiveCaller caller;
 
-    public AbstractExplosion(Coordinates coordinates, Direction direction, Explosive explosive) {
-        this(coordinates, direction, 0, explosive);
+    public AbstractExplosion(Entity owner,
+                             Coordinates coordinates,
+                             Direction direction,
+                             Explosive explosive) {
+        this(owner, coordinates, direction, 0, explosive);
     }
 
-    public AbstractExplosion(Coordinates coordinates, Direction direction, Integer distanceFromBomb, Explosive explosive){
-        this(coordinates,direction,distanceFromBomb,explosive,true);
+    public AbstractExplosion(Entity owner,
+                             Coordinates coordinates,
+                             Direction direction,
+                             Integer distanceFromBomb,
+                             Explosive explosive) {
+        this(owner, coordinates, direction, distanceFromBomb, explosive, true);
     }
 
-    /**
-     * Constructs a new explosion.
-     *
-     * @param coordinates           The starting coordinates of the explosion.
-     * @param direction             The direction of the explosion.
-     * @param distanceFromExplosive The distance from the bomb where the explosion was created.
-     */
-    public AbstractExplosion(Coordinates coordinates, Direction direction, Integer distanceFromExplosive, Explosive explosive, boolean canExpand) {
+    public AbstractExplosion(Entity owner,
+                             Coordinates coordinates,
+                             Direction direction,
+                             Integer distanceFromExplosive,
+                             Explosive explosive,
+                             boolean canExpand
+    ) {
         super(coordinates);
 
+        this.owner = owner;
         this.direction = direction;
         this.distanceFromExplosive = distanceFromExplosive;
         this.explosive = explosive;
@@ -72,8 +78,11 @@ public abstract class AbstractExplosion extends MovingEntity {
         }
 
         if (getCanExpand())
-            moveOrInteract(direction, getSize(), true);
+            expandBomb(direction, getSize());
     }
+
+
+    protected abstract Class<? extends AbstractExplosion> getExplosionClass();
 
     @Override
     public DrawPriority getDrawPriority() {
@@ -87,11 +96,7 @@ public abstract class AbstractExplosion extends MovingEntity {
      */
     @Override
     protected void doInteract(Entity e) {
-        if (e instanceof BomberEntity || e instanceof Enemy || e instanceof DestroyableBlock) {
-            attack(e);
-        } else if (e instanceof Bomb) {
-            ((Bomb) e).explode();
-        }
+        e.onExplosion(this);
     }
 
     /**
@@ -114,39 +119,30 @@ public abstract class AbstractExplosion extends MovingEntity {
         Coordinates nextTopLeftCoords = nextCoords(direction, getSize());
 
         try {
-            Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(Coordinates.class, Direction.class, int.class, Explosive.class);
+            Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(
+                    Entity.class,
+                    Coordinates.class,
+                    Direction.class,
+                    int.class,
+                    Explosive.class
+            );
 
             constructor.newInstance(
+                    owner,
                     nextTopLeftCoords,
                     direction,
                     distanceFromExplosive + 1,
                     getExplosive()
-            ).spawn(true,false);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            ).spawn(true, false);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
-    public int getState() {
-        if (explosionState == 0 && !appearing) {
-            despawn();
-            appearing = true;
-            return 0;
-        }
-
-        if (explosionState == BOMB_STATES) appearing = false;
-
-        int appearingConstant = !appearing ? -1 : 1;
-
-        int prevState = explosionState;
-        long currentTime = System.currentTimeMillis();
-
-        if (currentTime - lastRefresh >= getImageRefreshRate()) {
-            explosionState += appearingConstant;
-            lastRefresh = currentTime;
-        }
-
-        return prevState;
+    @Override
+    protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
+        return new HashSet<>();
     }
 
     @Override
@@ -165,7 +161,7 @@ public abstract class AbstractExplosion extends MovingEntity {
     }
 
     @Override
-    public Set<Class<? extends Entity>> getInteractionsEntities(){
+    public Set<Class<? extends Entity>> getInteractionsEntities() {
         return new HashSet<>(getExplosive().getExplosionInteractionEntities());
     }
 
@@ -176,7 +172,7 @@ public abstract class AbstractExplosion extends MovingEntity {
         }
 
         String isLast = canExpand ? "" : "_last";
-        String imageFileName = "_" + direction.toString().toLowerCase();
+        String imageFileName = String.format("_%s", direction.toString().toLowerCase());
 
         // Load and set the image of the flame.
         String imagePath = String.format("%s%s%s%s.png", getBasePath(), imageFileName, isLast, getState());
@@ -184,30 +180,33 @@ public abstract class AbstractExplosion extends MovingEntity {
     }
 
     public boolean getCanExpand() {
-        if (distanceFromExplosive >= maxDistance) canExpand = false;
+        if (distanceFromExplosive >= maxDistance)
+            canExpand = false;
+
         return canExpand;
     }
-    public ExplosiveCaller getCaller(){
-        if(explosive instanceof ExplosiveCaller){
-            return (ExplosiveCaller) explosive;
-        }if (explosive instanceof CalledExplosive){
-            return ((CalledExplosive) explosive).getCaller();
-        }
-        return null;
-    }
 
-    public void onObstacle(Coordinates coordinates){
+    public void onObstacle(Coordinates coordinates) {
         try {
-            Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(Coordinates.class, Direction.class, int.class, Explosive.class, boolean.class);
+            Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(
+                    Entity.class,
+                    Coordinates.class,
+                    Direction.class,
+                    int.class,
+                    Explosive.class,
+                    boolean.class
+            );
 
             constructor.newInstance(
+                    owner,
                     coordinates,
                     direction,
                     distanceFromExplosive + 1,
                     explosive,
                     false
-            ).spawn(true,false);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            ).spawn(true, false);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
@@ -216,10 +215,34 @@ public abstract class AbstractExplosion extends MovingEntity {
         return explosive;
     }
 
-    protected abstract Class<? extends AbstractExplosion> getExplosionClass();
+    public Entity getOwner() {
+        return owner;
+    }
 
-    @Override
-    protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
-        return new HashSet<>();
+    public int getState() {
+        if (explosionState == 0 && !appearing) {
+            despawn();
+            appearing = true;
+            return 0;
+        }
+
+        if (explosionState == BOMB_STATES)
+            appearing = false;
+
+        int appearingConstant = !appearing ? -1 : 1;
+
+        int prevState = explosionState;
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - lastRefresh >= getImageRefreshRate()) {
+            explosionState += appearingConstant;
+            lastRefresh = currentTime;
+        }
+
+        return prevState;
+    }
+
+    private void expandBomb(Direction d, int stepSize) {
+        moveOrInteract(d, stepSize, true);
     }
 }

@@ -20,7 +20,7 @@ public class DestroyableBlock extends MovableBlock {
     private static final int POWER_UP_SPAWN_CHANGE = 33;
     private Class<? extends PowerUp> powerUpClass;
 
-    public DestroyableBlock(Coordinates coordinates, Class<PowerUp> powerUpClass){
+    public DestroyableBlock(Coordinates coordinates, Class<PowerUp> powerUpClass) {
         super(coordinates);
         this.powerUpClass = powerUpClass;
 
@@ -40,7 +40,7 @@ public class DestroyableBlock extends MovableBlock {
     }
 
     @Override
-    public BufferedImage getImage(){
+    public BufferedImage getImage() {
         return loadAndSetImage(Bomberman.getMatch().getCurrentLevel().getDestroyableBlockImagePath());
     }
 
@@ -59,11 +59,21 @@ public class DestroyableBlock extends MovableBlock {
             try {
                 powerUp = powerUpClass.getConstructor(Coordinates.class).newInstance(getCoords());
                 powerUp.spawn(true, true);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
         });
+    }
 
+    @Override
+    protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
+        return new HashSet<>(Collections.singletonList(AbstractExplosion.class));
+    }
+
+    @Override
+    public void onExplosion(AbstractExplosion explosion) {
+        explosion.attack(this);
     }
 
     public Class<? extends PowerUp> getPowerUpClass() {
@@ -72,10 +82,5 @@ public class DestroyableBlock extends MovableBlock {
 
     public void setPowerUpClass(Class<? extends PowerUp> powerUpClass) {
         this.powerUpClass = powerUpClass;
-    }
-
-    @Override
-    protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
-        return new HashSet<>(Collections.singletonList(AbstractExplosion.class));
     }
 }

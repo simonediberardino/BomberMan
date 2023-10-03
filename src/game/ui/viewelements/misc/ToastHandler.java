@@ -1,15 +1,11 @@
 package game.ui.viewelements.misc;
 
 import game.events.NewToastGameEvent;
-import game.sound.AudioManager;
 import game.utils.Utility;
 
 import java.awt.*;
 
-import static game.sound.SoundModel.BONUS_ALERT;
-
 public class ToastHandler {
-    private static ToastHandler instance = null;
     private static final int TOAST_DURATION = 3500;
     private static final int TOAST_START_Y = (int) Utility.getScreenSize().getHeight();
     private static final int TOAST_ANIM_STEP_SIZE = Utility.px(35);
@@ -20,10 +16,15 @@ public class ToastHandler {
     private static final Color SHADOW_COLOR = new Color(0, 0, 0, 150);
     private static final Font TOAST_FONT = new Font(Font.MONOSPACED, Font.BOLD, Utility.px(35));
     private static final int BORDER_WIDTH = Utility.px(5);
+    private static ToastHandler instance = null;
     private long animStoppedTime = 0;
     private int toastY = TOAST_START_Y;
     private String text;
     private boolean permanent = false;
+
+    public static ToastHandler getInstance() {
+        return instance = instance == null ? new ToastHandler() : instance;
+    }
 
     public void showToast(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -105,7 +106,7 @@ public class ToastHandler {
         g2d.fillRoundRect(toastX + borderWidth, toastY + borderWidth, toastWidth - borderWidth * 2, toastHeight - borderWidth * 2, CORNER_RADIUS, CORNER_RADIUS);
     }
 
-    private void drawTransparentBorder(Graphics2D g2d, int toastX, int toastY, int toastWidth, int toastHeight){
+    private void drawTransparentBorder(Graphics2D g2d, int toastX, int toastY, int toastWidth, int toastHeight) {
         FontMetrics metrics = g2d.getFontMetrics(TOAST_FONT);
 
         // Draw transparent border/margin
@@ -121,7 +122,7 @@ public class ToastHandler {
         g2d.setColor(TEXT_COLOR);
         int textX = toastX + BORDER_WIDTH * 2;
         int textY = toastY + BORDER_WIDTH + metrics.getAscent();
-        g2d.drawString(text,  textX, textY);
+        g2d.drawString(text, textX, textY);
     }
 
     private void drawToastText(Graphics2D g2d, int toastX, int toastY, FontMetrics metrics) {
@@ -131,10 +132,10 @@ public class ToastHandler {
         g2d.setColor(TEXT_COLOR);
         int textX = toastX + BORDER_WIDTH * 2;
         int textY = toastY + BORDER_WIDTH + metrics.getAscent();
-        g2d.drawString(text,  textX, textY);
+        g2d.drawString(text, textX, textY);
     }
 
-    public void cancel(){
+    public void cancel() {
         animStoppedTime = 0;
         toastY = TOAST_START_Y;
         permanent = false;
@@ -145,19 +146,15 @@ public class ToastHandler {
         show(text, false, playSound);
     }
 
-    public void show(String text){
+    public void show(String text) {
         show(text, false, true);
     }
 
-    public void show(String text, boolean permanent, boolean playSound){
+    public void show(String text, boolean permanent, boolean playSound) {
         cancel();
         this.text = text;
         this.permanent = permanent;
         new NewToastGameEvent().invoke(playSound);
-    }
-
-    public static ToastHandler getInstance(){
-        return instance = instance == null ? new ToastHandler() : instance;
     }
 
     public String getText() {

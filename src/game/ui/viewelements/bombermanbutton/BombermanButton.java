@@ -4,15 +4,11 @@ import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.utils.Utility;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import javax.swing.JButton;
 
 public abstract class BombermanButton extends JButton {
     private final int fontSize = Utility.px(60);
@@ -22,9 +18,6 @@ public abstract class BombermanButton extends JButton {
     private final Color textColor = new Color(255, 255, 255);
     private final Color shadowColor = new Color(0, 0, 0, 150);
     private boolean mouseEntered = false;
-
-    public abstract Color getBorderColor();
-    public abstract Color getMouseHoverBackgroundColor();
 
     public BombermanButton(String text) {
         super(text);
@@ -62,6 +55,10 @@ public abstract class BombermanButton extends JButton {
             }
         });
     }
+
+    public abstract Color getBorderColor();
+
+    public abstract Color getMouseHoverBackgroundColor();
 
     @Override
     protected void paintComponent(Graphics g) {

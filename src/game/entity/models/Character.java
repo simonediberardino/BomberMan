@@ -2,6 +2,7 @@ package game.entity.models;
 
 import game.Bomberman;
 import game.entity.Player;
+import game.entity.bomb.AbstractExplosion;
 import game.hardwareinput.Command;
 import game.hardwareinput.ControllerManager;
 import game.entity.enemies.npcs.Zombie;
@@ -26,9 +27,8 @@ import static game.entity.models.Direction.DOWN;
  */
 public abstract class Character extends MovingEntity {
     public static final int SIZE = PitchPanel.PIXEL_UNIT * 4 * 2;
-
-    protected long lastDirectionUpdate = 0;
     protected final List<Direction> imagePossibleDirections = getImageDirections();
+    protected long lastDirectionUpdate = 0;
     protected Direction currDirection = DOWN;
     /**
      * The last direction this character was moving in.
@@ -46,13 +46,6 @@ public abstract class Character extends MovingEntity {
     private int maxHp = 100;
     private int healthPoints = maxHp;
 
-    public abstract String[] getCharacterOrientedImages();
-
-    private void setImageDirection(){
-        if (imagePossibleDirections.contains(currDirection)) imageDirection = currDirection;
-        else if(imageDirection == null) imageDirection = imagePossibleDirections.get(0);
-    }
-
     /**
      * Returns an array of file names for the left-facing icons for this character.
      *
@@ -63,6 +56,13 @@ public abstract class Character extends MovingEntity {
         super(coordinates);
     }
 
+    public abstract String[] getCharacterOrientedImages();
+
+    private void setImageDirection() {
+        if (imagePossibleDirections.contains(currDirection)) imageDirection = currDirection;
+        else if (imageDirection == null) imageDirection = imagePossibleDirections.get(0);
+    }
+
     /**
      * Returns whether this character is alive or not.
      *
@@ -71,7 +71,8 @@ public abstract class Character extends MovingEntity {
     public boolean getAliveState() {
         return isAlive;
     }
-    public void setAliveState(boolean s){
+
+    public void setAliveState(boolean s) {
         isAlive = s;
     }
 
@@ -130,18 +131,19 @@ public abstract class Character extends MovingEntity {
     }
 
     protected void playStepSound() {
-        if(this instanceof Player){
-            int a =0;
+        if (this instanceof Player) {
+            int a = 0;
         }
         SoundModel stepSound = getStepSound();
-        if (stepSound != null) AudioManager.getInstance().play(stepSound,false);
+        if (stepSound != null) AudioManager.getInstance().play(stepSound, false);
     }
 
 
-    private String[] refreshDirectionAndGetCharsImages(){
+    private String[] refreshDirectionAndGetCharsImages() {
         setImageDirection();
         return getCharacterOrientedImages();
     }
+
     protected void updateLastDirection(Direction d) {
         // If the character doesn't have custom images for each direction, do not check if the direction has changed;
         if (useOnlyBaseIcons()) {
@@ -233,7 +235,6 @@ public abstract class Character extends MovingEntity {
     }
 
 
-
     @Override
     public Set<Class<? extends Entity>> getObstacles() {
         return super.getObstacles();
@@ -280,7 +281,8 @@ public abstract class Character extends MovingEntity {
                     // Make the entity visible again and wait for the specified duration
                     setInvisible(false);
                     Thread.sleep(durationMs);
-                } catch (InterruptedException ignored) {}
+                } catch (InterruptedException ignored) {
+                }
 
                 // Increment the counter to keep track of the number of iterations
                 count++;
@@ -366,7 +368,8 @@ public abstract class Character extends MovingEntity {
     }
 
 
-    protected void onEndedDeathAnimation() { }
+    protected void onEndedDeathAnimation() {
+    }
 
     protected void onEliminated() {
         canMove = false;
@@ -387,6 +390,11 @@ public abstract class Character extends MovingEntity {
         return SoundModel.ENTITY_DEATH;
     }
 
-    protected void onHit(int damage) { }
+    protected void onHit(int damage) {
+    }
 
+    @Override
+    public void onExplosion(AbstractExplosion explosion) {
+        explosion.attack(this);
+    }
 }

@@ -4,21 +4,19 @@ import game.Bomberman;
 import game.data.DataInputOutput;
 import game.entity.models.Enemy;
 import game.events.RoundPassedGameEvent;
-import game.events.ScoreGameEvent;
 import game.localization.Localization;
 import game.ui.viewelements.misc.ToastHandler;
 
 import javax.swing.*;
 
-import java.lang.reflect.InvocationTargetException;
-
-import static game.localization.Localization.*;
+import static game.localization.Localization.ARENA_DIED;
+import static game.localization.Localization.STARTING_ROUND;
 
 public abstract class ArenaLevel extends Level {
-    private static int CURR_ROUND = 0;
     private final static int MIN_ENEMIES_COUNT = 3;
     private final static int MAX_ENEMIES_COUNT = 20;
     private final static int ARENA_ROUND_LOADING_TIMER = 5000;
+    private static int CURR_ROUND = 0;
     private int currentRound = 0;
 
     public abstract Class<? extends Enemy>[] getSpecialRoundEnemies();
@@ -53,7 +51,7 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     protected void spawnBoss() {
-        if(shouldSpawnBoss())
+        if (shouldSpawnBoss())
             super.spawnBoss();
     }
 
@@ -84,7 +82,7 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     public void onRoundPassedGameEvent() {
-        if(currentRound > 1) {
+        if (currentRound > 1) {
             super.onRoundPassedGameEvent();
         }
 
@@ -94,7 +92,7 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     protected void spawnEnemies() {
-        if(isSpecialRound())
+        if (isSpecialRound())
             spawnEnemies(getSpecialRoundEnemies());
         else super.spawnEnemies();
     }
@@ -106,7 +104,8 @@ public abstract class ArenaLevel extends Level {
     }
 
     @Override
-    public void endLevel() {}
+    public void endLevel() {
+    }
 
     @Override
     public String toString() {

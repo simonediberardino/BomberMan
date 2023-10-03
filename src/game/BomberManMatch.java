@@ -1,39 +1,38 @@
 package game;
 
+import game.data.DataInputOutput;
 import game.data.SortedLinkedList;
+import game.entity.Player;
+import game.entity.models.Entity;
 import game.hardwareinput.ControllerManager;
 import game.hardwareinput.MouseControllerManager;
-import game.data.DataInputOutput;
-import game.level.ArenaLevel;
+import game.level.Level;
 import game.tasks.GamePausedObserver;
 import game.tasks.GameTickerObservable;
-import game.entity.*;
-import game.entity.models.*;
-import game.level.Level;
 import game.ui.panels.game.MatchPanel;
 import game.ui.panels.menus.PausePanel;
-import game.viewcontrollers.*;
-import game.utils.Paths;
 import game.utils.Utility;
+import game.viewcontrollers.*;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BomberManMatch {
+    private final SortedLinkedList<Entity> entities;
+    private final MouseControllerManager mouseControllerManager;
     private InventoryElementController inventoryElementControllerPoints;
     private InventoryElementController inventoryElementControllerBombs;
     private InventoryElementController inventoryElementControllerLives;
     private InventoryElementController inventoryElementControllerRounds;
     private GameTickerObservable gameTickerObservable;
     private long lastGamePauseStateTime = System.currentTimeMillis();
-    private final SortedLinkedList<Entity> entities;
     private ControllerManager controllerManager;
-    private final MouseControllerManager mouseControllerManager;
     private Level currentLevel;
     private Player player;
     private boolean gameState = false;
     private int enemiesAlive = 0;
 
-    private BomberManMatch(){
+    private BomberManMatch() {
         this(null);
     }
 
@@ -53,9 +52,9 @@ public class BomberManMatch {
         inventoryElementControllerPoints = new InventoryElementControllerPoints();
         inventoryElementControllerBombs = new InventoryElementControllerBombs();
 
-        if(currentLevel.isArenaLevel()) {
+        if (currentLevel.isArenaLevel()) {
             inventoryElementControllerRounds = new InventoryElementControllerRounds();
-        }else{
+        } else {
             inventoryElementControllerLives = new InventoryElementControllerLives();
             inventoryElementControllerLives.setNumItems(DataInputOutput.getInstance().getLives());
         }
@@ -67,15 +66,15 @@ public class BomberManMatch {
         return currentLevel;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Player getPlayer() {
         return player;
     }
 
-    public List<? extends Entity> getEntities(){
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public List<? extends Entity> getEntities() {
         synchronized (entities) {
             return new LinkedList<>(entities);
         }
@@ -83,13 +82,13 @@ public class BomberManMatch {
 
 
     public void addEntity(Entity entity) {
-        synchronized (entities){
+        synchronized (entities) {
             entities.add(entity);
         }
     }
 
     public void removeEntity(Entity e) {
-        synchronized (entities){
+        synchronized (entities) {
             entities.removeIf(e1 -> e.getId() == e1.getId());
         }
     }
@@ -98,7 +97,7 @@ public class BomberManMatch {
         return controllerManager;
     }
 
-    public MouseControllerManager getMouseControllerManager(){
+    public MouseControllerManager getMouseControllerManager() {
         return mouseControllerManager;
     }
 
@@ -106,12 +105,13 @@ public class BomberManMatch {
         return gameTickerObservable;
     }
 
-    public void toggleGameState(){
-        if(Utility.timePassed(lastGamePauseStateTime) < 500) return;
+    public void toggleGameState() {
+        if (Utility.timePassed(lastGamePauseStateTime) < 500) return;
 
         lastGamePauseStateTime = System.currentTimeMillis();
 
-        if(gameState) pauseGame(); else resumeGame();
+        if (gameState) pauseGame();
+        else resumeGame();
     }
 
     private void pauseGame() {
@@ -120,7 +120,7 @@ public class BomberManMatch {
         Bomberman.showActivity(PausePanel.class);
     }
 
-    private void resumeGame(){
+    private void resumeGame() {
         gameTickerObservable.resume();
         gameState = true;
         Bomberman.showActivity(MatchPanel.class);
@@ -131,11 +131,11 @@ public class BomberManMatch {
         return enemiesAlive;
     }
 
-    public void decreaseEnemiesAlive(){
+    public void decreaseEnemiesAlive() {
         enemiesAlive--;
     }
 
-    public void increaseEnemiesAlive(){
+    public void increaseEnemiesAlive() {
         enemiesAlive++;
     }
 
@@ -167,13 +167,13 @@ public class BomberManMatch {
         pauseGame();
 
         List<? extends Entity> list = getEntities();
-        for (Entity e: list) {
+        for (Entity e : list) {
             e.despawn();
         }
 
         Bomberman.getBombermanFrame().getPitchPanel().clearGraphicsCallback();
 
-        if(this.currentLevel != null) {
+        if (this.currentLevel != null) {
             this.currentLevel.stopLevelSound();
         }
 

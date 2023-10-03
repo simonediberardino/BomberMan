@@ -1,7 +1,5 @@
 package game.events;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +7,7 @@ public class Observable2 {
     protected Set<Observer2> observers = new HashSet<>();
 
     public void notifyObservers(Object arg) {
-        for(Observer2 o : observers)
+        for (Observer2 o : observers)
             o.update(arg);
     }
 
@@ -25,7 +23,7 @@ public class Observable2 {
         observers.clear();
     }
 
-    public void notify(Observer2 o, Object arg){
+    public void notify(Observer2 o, Object arg) {
         o.update(arg);
     }
 }

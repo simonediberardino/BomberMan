@@ -1,7 +1,7 @@
 package game.powerups;
 
 import game.data.DataInputOutput;
-import game.entity.models.*;
+import game.entity.models.BomberEntity;
 import game.entity.models.Coordinates;
 import game.events.ExplosionLengthPowerUpEvent;
 import game.utils.Paths;

@@ -2,21 +2,18 @@ package game.level;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
-import game.entity.*;
+import game.entity.Player;
 import game.entity.blocks.DestroyableBlock;
 import game.entity.blocks.StoneBlock;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.entity.enemies.boss.Boss;
-import game.entity.models.BomberEntity;
+import game.entity.models.Coordinates;
 import game.entity.models.Enemy;
 import game.entity.models.Entity;
 import game.events.AllEnemiesEliminatedGameEvent;
-import game.events.RoundPassedGameEvent;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.level.world1.*;
 import game.level.world2.*;
-import game.entity.models.Coordinates;
-import game.localization.Localization;
 import game.powerups.PowerUp;
 import game.powerups.portal.EndLevelPortal;
 import game.sound.AudioManager;
@@ -25,13 +22,13 @@ import game.utils.Utility;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-
 import java.awt.*;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
-import static game.localization.Localization.YOU_DIED;
 import static game.sound.SoundModel.BONUS_ALERT;
 import static game.ui.panels.game.PitchPanel.GRID_SIZE;
 
@@ -43,14 +40,10 @@ import static game.ui.panels.game.PitchPanel.GRID_SIZE;
  * when bombs are detonated, and the background image of the level.
  */
 public abstract class Level {
-    private static Level currLevel;
-    private Clip currentLevelSound;
-
     public static final Map<Integer, Class<? extends Level>> ID_TO_FIRST_LEVEL_MAP = new HashMap<>() {{
         put(1, World1Level1.class);
         put(2, World2Level1.class);
     }};
-
     public static final Map<Integer[], Class<? extends Level>> ID_TO_LEVEL = new HashMap<>() {{
         put(new Integer[]{1, 1}, World1Level1.class);
         put(new Integer[]{1, 2}, World1Level2.class);
@@ -63,33 +56,50 @@ public abstract class Level {
         put(new Integer[]{2, 4}, World2Level4.class);
         put(new Integer[]{2, 5}, World2Level5.class);
     }};
+    private static Level currLevel;
+    private Clip currentLevelSound;
+
+    public static Level getCurrLevel() {
+        return currLevel;
+    }
 
     public abstract Boss getBoss();
+
     public int getBossMaxHealth() {
         return 1000;
     }
 
     public abstract int startEnemiesCount();
+
     public abstract int getMaxDestroyableBlocks();
+
     public abstract boolean isArenaLevel();
+
     public abstract String getDiedMessage();
+
     public abstract Class<? extends Level> getNextLevel();
+
     public abstract Class<? extends Enemy>[] availableEnemies();
-    public void onAllEnemiesEliminated() {}
+
+    public void onAllEnemiesEliminated() {
+    }
+
     public final String getLevelSoundtrack() {
         return getSoundForCurrentLevel("soundtrack.wav");
     }
-    public final String getLevelBackgroundSound(){
+
+    public final String getLevelBackgroundSound() {
         return getSoundForCurrentLevel("background_sound.wav");
     }
 
-    public final int getExplosionLength(){
+    public final int getExplosionLength() {
         return DataInputOutput.getInstance().getExplosionLength();
-    };
+    }
+
     /**
+     * Returns the path to the image file for the stone block.
      *
-     Returns the path to the image file for the stone block.
-     @return a string representing the path to the image file.
+     * @return a string representing the path to the image file.
      */
     public String getStoneBlockImagePath() {
         return getImageForCurrentLevel("stone.png");
@@ -98,19 +108,20 @@ public abstract class Level {
     public String getPitchImagePath() {
         return getImageForCurrentLevel("pitch.png");
     }
-    /**
 
-     Returns the path to the image file for the destroyable block.
-     @return the path to the image file for the destroyable block.
+    /**
+     * Returns the path to the image file for the destroyable block.
+     *
+     * @return the path to the image file for the destroyable block.
      */
     public String getDestroyableBlockImagePath() {
         return getImageForCurrentLevel("destroyable_block.png");
     }
 
-    public Image[] getBorderImages(){
+    public Image[] getBorderImages() {
         final int SIDES = 4;
         Image[] pitch = new Image[SIDES];
-        for(int i = 0; i < SIDES; i++) {
+        for (int i = 0; i < SIDES; i++) {
             String path = getImageForCurrentLevel(String.format("border_%d.png", i));
             pitch[i] = Utility.loadImage(path);
         }
@@ -119,12 +130,8 @@ public abstract class Level {
     }
 
     private void updateLastLevel() {
-        if(!(this instanceof WorldSelectorLevel))
+        if (!(this instanceof WorldSelectorLevel))
             currLevel = this;
-    }
-
-    public static Level getCurrLevel() {
-        return currLevel;
     }
 
     /**
@@ -158,21 +165,21 @@ public abstract class Level {
         spawnEnemies();
     }
 
-    protected Coordinates getPlayerSpawnCoordinates(){
+    protected Coordinates getPlayerSpawnCoordinates() {
         return Coordinates.generateRandomCoordinates(Player.SPAWN_OFFSET, GRID_SIZE);
     }
 
-    protected void generatePlayer(){
+    protected void generatePlayer() {
         Coordinates coords = getPlayerSpawnCoordinates();
         Bomberman.getMatch().setPlayer(new Player(coords));
-        Bomberman.getMatch().getPlayer().spawn(false,false);
+        Bomberman.getMatch().getPlayer().spawn(false, false);
     }
 
     abstract public void endLevel();
 
     protected void spawnBoss() {
         Boss boss = getBoss();
-        if(boss != null) boss.spawn(true, false);
+        if (boss != null) boss.spawn(true, false);
     }
 
     // This method spawns enemies in the game.
@@ -195,7 +202,8 @@ public abstract class Level {
 
                 // Spawn the enemy on the game board.
                 enemy.spawn(false, false);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -206,6 +214,7 @@ public abstract class Level {
 
     // This method returns the ID of the level.
     public abstract int getLevelId();
+
     public abstract void onDeathGameEvent();
 
     // This method returns the maximum number of bombs that a player can have at one time.
@@ -247,7 +256,7 @@ public abstract class Level {
         String soundPath = getLevelBackgroundSound();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        if(soundPath == null) return;
+        if (soundPath == null) return;
 
         // Attempt to load the resource as an InputStream
         InputStream soundStream = classLoader.getResourceAsStream(soundPath);
@@ -275,7 +284,7 @@ public abstract class Level {
     }
 
     public void spawnMisteryBox() {
-        Coordinates c = Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE*2);
+        Coordinates c = Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE * 2);
         Entity mysteryBox = new MysteryBoxPerk(Bomberman.getMatch().getPlayer());
         mysteryBox.setCoords(c);
         mysteryBox.spawn();
@@ -286,7 +295,7 @@ public abstract class Level {
         // Despawn all the previous destroyable blocks;
         despawnDestroyableBlocks();
 
-        DestroyableBlock block = new DestroyableBlock(new Coordinates(0,0));
+        DestroyableBlock block = new DestroyableBlock(new Coordinates(0, 0));
 
         // Initialize a counter for the number of destroyable blocks spawned.
         int i = 0;
@@ -294,8 +303,8 @@ public abstract class Level {
         // Loop until the maximum number of destroyable blocks has been spawned.
         while (i < getMaxDestroyableBlocks()) {
             // If the current destroyable block has not been spawned, generate new coordinates for it and spawn it on the game board.
-            if (!block.isSpawned()){
-                block.setCoords(Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE*2));
+            if (!block.isSpawned()) {
+                block.setCoords(Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE * 2));
                 block.spawn();
 
                 // Force the first spawned block to have the End level portal
@@ -308,17 +317,17 @@ public abstract class Level {
 
             // If the current destroyable block has been spawned, create a new one and increment the spawn counter.
             else {
-                block = new DestroyableBlock(new Coordinates(0,0));
+                block = new DestroyableBlock(new Coordinates(0, 0));
                 i++;
             }
         }
     }
 
-    protected String getImageForCurrentLevel(String path){
+    protected String getImageForCurrentLevel(String path) {
         return getFileForCurrentLevel(String.format("images/%s", path));
     }
 
-    protected String getSoundForCurrentLevel(String path){
+    protected String getSoundForCurrentLevel(String path) {
         return getFileForCurrentLevel(String.format("sound/%s", path));
     }
 
@@ -350,7 +359,7 @@ public abstract class Level {
         return Paths.getWorldsFolder() + "/common/" + path;
     }
 
-    public boolean isLastLevelOfWorld(){
+    public boolean isLastLevelOfWorld() {
         return false;
     }
 
@@ -359,7 +368,7 @@ public abstract class Level {
     }
 
     public void onEnemyDespawned() {
-        if(Bomberman.getMatch().getEnemiesAlive() == 0) {
+        if (Bomberman.getMatch().getEnemiesAlive() == 0) {
             new AllEnemiesEliminatedGameEvent().invoke(null);
         }
     }
@@ -388,8 +397,8 @@ public abstract class Level {
     }
 
     public void onUpdateCurrentAvailableBombsEvent(int arg) {
-        Bomberman.getMatch().getPlayer().setCurrentBombs((int) arg);
-        Bomberman.getMatch().getInventoryElementControllerBombs().setNumItems((int) arg);
+        Bomberman.getMatch().getPlayer().setCurrentBombs(arg);
+        Bomberman.getMatch().getInventoryElementControllerBombs().setNumItems(arg);
     }
 
     public void onUpdateMaxBombsGameEvent(int arg) {

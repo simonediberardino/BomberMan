@@ -1,4 +1,4 @@
-package game.entity.enemies;
+package game.entity.enemies.npcs;
 
 import game.entity.enemies.npcs.IntelligentEnemy;
 import game.entity.models.Entity;
@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 public class GhostEnemy extends IntelligentEnemy {
-    public GhostEnemy(){
+    public GhostEnemy() {
         hitboxSizetoWidthRatio = 0.837f;
-        hitboxSizeToHeightRatio= 1;
+        hitboxSizeToHeightRatio = 1;
     }
-
     @Override
     public String[] getCharacterOrientedImages() {
         return new String[]{String.format("%s/mini_ghost/ghost_%s.png", Paths.getEnemiesFolder(), imageDirection.toString().toLowerCase())};

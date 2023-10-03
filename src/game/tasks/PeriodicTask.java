@@ -17,19 +17,21 @@ public class PeriodicTask {
         timer.start();
     }
 
-    public void setDelay(int delay){
+    public void setDelay(int delay) {
         timer.setDelay(delay);
     }
 
     public void resume() {
-        try{
-            if(timer != null) timer.start();
-        }catch (Exception ignored){}
+        try {
+            if (timer != null) timer.start();
+        } catch (Exception ignored) {
+        }
     }
 
     public void stop() {
-        try{
-            if(timer != null) timer.stop();
-        }catch (Exception ignored){}
+        try {
+            if (timer != null) timer.stop();
+        } catch (Exception ignored) {
+        }
     }
 }

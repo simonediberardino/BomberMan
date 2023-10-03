@@ -15,7 +15,7 @@ public abstract class GameTickerObserver implements Observer2 {
         return lastUpdate;
     }
 
-    protected float getDelayObserverUpdate(){
+    protected float getDelayObserverUpdate() {
         return DEFAULT_DELAY_OBSERVER;
     }
 }

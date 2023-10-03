@@ -1,18 +1,18 @@
 package game;
 
 import game.data.DataInputOutput;
-import game.tasks.GarbageCollectorTask;
 import game.level.Level;
 import game.level.WorldSelectorLevel;
 import game.localization.Localization;
 import game.sound.AudioManager;
-import game.ui.panels.game.CustomSoundMode;
-import game.ui.viewelements.misc.ToastHandler;
+import game.tasks.GarbageCollectorTask;
 import game.ui.panels.BombermanFrame;
 import game.ui.panels.PagePanel;
+import game.ui.panels.game.CustomSoundMode;
 import game.ui.panels.game.MatchPanel;
 import game.ui.panels.menus.LoadingPanel;
 import game.ui.panels.menus.MainMenuPanel;
+import game.ui.viewelements.misc.ToastHandler;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class Bomberman {
     /**
      * Starts the Java Application;
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         retrievePlayerData();
         startGarbageCollectorTask();
         start();
@@ -62,13 +62,14 @@ public class Bomberman {
     }
 
     public static void destroyLevel() {
-        if(bomberManMatch != null) bomberManMatch.destroy();
+        if (bomberManMatch != null) bomberManMatch.destroy();
         bomberManMatch = new BomberManMatch(new WorldSelectorLevel()); // Temporary sets the current level to WorldSelectorLevel to avoid null pointer exception if some threads aren't killed yet
         System.gc();
     }
 
     /**
      * Starts a new level and destroys the previous one;
+     *
      * @param level
      */
     private static void doStartLevel(Level level) {
@@ -92,6 +93,7 @@ public class Bomberman {
 
     /**
      * Shows a new page and starts its background sound;
+     *
      * @param page
      */
     public static void showActivity(Class<? extends PagePanel> page) {
@@ -103,10 +105,10 @@ public class Bomberman {
         ).filter(c -> c.getClass() == page).findFirst();
 
         Component shownComponent = shownComponentOpt.orElse(null);
-        if(shownComponent instanceof PagePanel)
-            ((PagePanel)(shownComponent)).onShowCallback();
+        if (shownComponent instanceof PagePanel)
+            ((PagePanel) (shownComponent)).onShowCallback();
 
-        if(!(shownComponent instanceof CustomSoundMode)){
+        if (!(shownComponent instanceof CustomSoundMode)) {
             AudioManager.getInstance().playBackgroundSong();
         }
     }

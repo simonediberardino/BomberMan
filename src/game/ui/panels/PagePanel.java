@@ -13,7 +13,7 @@ public abstract class PagePanel extends JPanel {
     protected final BombermanFrame frame;
     private final String imagePath;
 
-    public PagePanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame, String imagePath){
+    public PagePanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame, String imagePath) {
         this.parent = parent;
         this.cardLayout = cardLayout;
         this.frame = frame;
@@ -40,7 +40,7 @@ public abstract class PagePanel extends JPanel {
         }
     }
 
-    public ToastHandler getToastHandler(){
+    public ToastHandler getToastHandler() {
         return toastHandler;
     }
 

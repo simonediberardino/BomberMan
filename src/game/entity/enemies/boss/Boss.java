@@ -26,10 +26,10 @@ public abstract class Boss extends IntelligentEnemy {
     public Boss() {
         this(null);
 
-        setCoords(Coordinates.randomCoordinatesFromPlayer(getSize(), getSize()*2));
+        setCoords(Coordinates.randomCoordinatesFromPlayer(getSize(), getSize() * 2));
     }
 
-    public Boss(Coordinates coordinates){
+    public Boss(Coordinates coordinates) {
         super(coordinates);
         super.setMaxHp(Bomberman.getMatch().getCurrentLevel().getBossMaxHealth());
         super.setHp(getMaxHp());
@@ -67,7 +67,7 @@ public abstract class Boss extends IntelligentEnemy {
     protected void onDespawn() {
         super.onDespawn();
         PowerUp endLevelPortal = new EndLevelPortal(Coordinates.generateCoordinatesAwayFromPlayer());
-        endLevelPortal.spawn(true,true);
+        endLevelPortal.spawn(true, true);
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class Boss extends IntelligentEnemy {
      */
     protected void updateRageStatus(int status) {
         // If the new rage status is the same as the current one, nothing to update.
-        if(status == currRageStatus) return;
+        if (status == currRageStatus) return;
 
         currRageStatus = status;
         // Get the corresponding image path from the current rage status.

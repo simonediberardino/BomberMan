@@ -1,9 +1,7 @@
 package game.ui.panels.menus;
 
 import game.Bomberman;
-import game.level.WorldSelectorLevel;
 import game.ui.panels.BombermanFrame;
-import game.ui.panels.settings.ProfilePanel;
 import game.ui.viewelements.bombermanbutton.YellowButton;
 
 import javax.swing.*;

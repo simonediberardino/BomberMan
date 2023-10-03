@@ -1,6 +1,5 @@
 package game.utils;
 
-import game.BomberManMatch;
 import game.Bomberman;
 import game.level.Level;
 
@@ -9,27 +8,27 @@ public class Paths {
         return String.format("%s/data", Paths.getDataFolder());
     }
 
-    public static String getDataFolder(){
+    public static String getDataFolder() {
         return "data";
     }
 
-    public static String getAssetsFolder(){
+    public static String getAssetsFolder() {
         return "assets";
     }
 
-    public static String getEntitiesFolder(){
+    public static String getEntitiesFolder() {
         return String.format("%s/entities", getAssetsFolder());
     }
 
-    public static String getEnemiesFolder(){
+    public static String getEnemiesFolder() {
         return String.format("%s/enemies", getEntitiesFolder());
     }
 
-    public static String getWorldsFolder(){
+    public static String getWorldsFolder() {
         return String.format("%s/worlds", getAssetsFolder());
     }
 
-    public static String getCurrentLevelFolder(){
+    public static String getCurrentLevelFolder() {
         Level level = Bomberman.getMatch().getCurrentLevel();
         return String.format("%s/%d/level/%d", getWorldsFolder(), level.getWorldId(), level.getLevelId());
     }
@@ -38,11 +37,11 @@ public class Paths {
         return String.format("%s/%d/common", getWorldsFolder(), Bomberman.getMatch().getCurrentLevel().getWorldId());
     }
 
-    public static String getPowerUpsFolder(){
+    public static String getPowerUpsFolder() {
         return String.format("%s/powerups", getAssetsFolder());
     }
 
-    public static String getPowerUpsBorderPath(){
+    public static String getPowerUpsBorderPath() {
         return String.format("%s/powerups_border.png", getMenuImagesPath());
     }
 
@@ -50,7 +49,7 @@ public class Paths {
         return String.format("%s/menu/images", getAssetsFolder());
     }
 
-    public static String getBackgroundImage(){
+    public static String getBackgroundImage() {
         return String.format("%s/background.jpg", getMenuImagesPath());
     }
 
@@ -85,7 +84,6 @@ public class Paths {
     public static String getUiFolder() {
         return String.format("%s/ui", getAssetsFolder());
     }
-
 
 
     public static String getCursorPath() {

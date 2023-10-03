@@ -15,11 +15,13 @@ public abstract class Block extends Entity {
     public int getSize() {
         return SIZE;
     }
+
     @Override
-    public void eliminated(){
+    public void eliminated() {
         destroy();
     }
-    public void destroy(){
+
+    public void destroy() {
         despawn();
     }
 

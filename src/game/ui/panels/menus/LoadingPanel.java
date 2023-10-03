@@ -10,8 +10,6 @@ import game.utils.Utility;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static game.localization.Localization.LOADING;
 
@@ -34,15 +32,15 @@ public class LoadingPanel extends PagePanel {
         repaint();
     }
 
-    public void updateText(Level level){
-        this.text = String.format("%s %s", Localization.get(LOADING), level.toString()).toUpperCase();
-    }
-
     public LoadingPanel(CardLayout cardLayout, JPanel parent, BombermanFrame frame, String text) {
         super(cardLayout, parent, frame, Paths.getMainMenuWallpaper());
         this.initialize();
         setFont(new Font(Font.MONOSPACED, Font.BOLD, FONT_SIZE));
         this.text = text;
+    }
+
+    public void updateText(Level level) {
+        this.text = String.format("%s %s", Localization.get(LOADING), level.toString()).toUpperCase();
     }
 
     public void initialize() {
@@ -84,9 +82,9 @@ public class LoadingPanel extends PagePanel {
         int textHeight = fontMetrics.getHeight();
         int textEndX = rectangleX + (rectangleWidth - textWidth) / 2;
 
-        if(textCurrX > textEndX + TEXT_ANIM_STEP_SIZE) {
+        if (textCurrX > textEndX + TEXT_ANIM_STEP_SIZE) {
             textCurrX = textCurrX - TEXT_ANIM_STEP_SIZE;
-        }else {
+        } else {
             textCurrX = textEndX;
         }
 
@@ -101,10 +99,10 @@ public class LoadingPanel extends PagePanel {
             return;
         }
 
-        if(!finished) {
+        if (!finished) {
             finished = true;
             Timer t = new Timer(LOADING_TIMER, e -> {
-                if(onLoadingCallback != null) onLoadingCallback.run();
+                if (onLoadingCallback != null) onLoadingCallback.run();
             });
             t.setRepeats(false);
             t.start();
@@ -120,7 +118,8 @@ public class LoadingPanel extends PagePanel {
         animationTimer = new javax.swing.Timer(REPAINT_DELAY_MS, e -> repaint());
         animationTimer.start();
     }
-    public SoundModel getBossDeathSoundPath(){
+
+    public SoundModel getBossDeathSoundPath() {
         return SoundModel.BOSS_DEATH;
     }
 }

@@ -19,7 +19,6 @@ public abstract class FlyingEnemy extends IntelligentEnemy {
         super(coordinates);
     }
 
-
     @Override
     public Set<Class<? extends Entity>> getObstacles() {
         Set<Class<? extends Entity>> baseObstacles = new HashSet<>(super.getObstacles());

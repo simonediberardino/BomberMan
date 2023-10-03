@@ -7,8 +7,8 @@ import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
 
-public class BlockMoverPowerUp extends PowerUp{
-    public BlockMoverPowerUp(Coordinates coordinates){
+public class BlockMoverPowerUp extends PowerUp {
+    public BlockMoverPowerUp(Coordinates coordinates) {
         super(coordinates);
         getIncompatiblePowerUps().add(Hammer.class);
     }

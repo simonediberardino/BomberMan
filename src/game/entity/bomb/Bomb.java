@@ -17,13 +17,12 @@ import game.utils.Utility;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public abstract class Bomb extends MovableBlock implements Explosive, CalledExplosive {
+public class Bomb extends MovableBlock implements Explosive {
     public static final int BOMB_SIZE = PitchPanel.COMMON_DIVISOR * 2;
     public static final long PLACE_INTERVAL = 1000;
-    private final List<AbstractExplosion> explosions = new ArrayList<>();
     private static final int EXPLODE_TIMER = 5000;
+    private final Entity caller;
     private Runnable onExplodeCallback;
-    private final ExplosiveCaller caller;
 
     public Bomb(BomberEntity entity) {
         super(Coordinates.getCenterCoordinatesOfEntity(entity));
@@ -83,10 +82,10 @@ public abstract class Bomb extends MovableBlock implements Explosive, CalledExpl
 
         AudioManager.getInstance().play(SoundModel.EXPLOSION);
 
-        new FireExplosion(getCoords(), Direction.UP, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.RIGHT, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.DOWN, this).spawn(true,false);
-        new FireExplosion(getCoords(), Direction.LEFT, this).spawn(true,false);
+        new FireExplosion(caller, getCoords(), Direction.UP, this).spawn(true, false);
+        new FireExplosion(caller, getCoords(), Direction.RIGHT, this).spawn(true, false);
+        new FireExplosion(caller, getCoords(), Direction.DOWN, this).spawn(true, false);
+        new FireExplosion(caller, getCoords(), Direction.LEFT, this).spawn(true, false);
 
         if (onExplodeCallback != null) onExplodeCallback.run();
     }
@@ -109,8 +108,11 @@ public abstract class Bomb extends MovableBlock implements Explosive, CalledExpl
     }
 
     @Override
-    public List<Class<? extends Entity>> getExplosionObstacles() {
-        return Arrays.asList(HardBlock.class, DestroyableBlock.class);
+    public Set<Class<? extends Entity>> getExplosionObstacles() {
+        return new HashSet<>() {{
+            add(HardBlock.class);
+            add(DestroyableBlock.class);
+        }};
     }
 
     @Override
@@ -124,17 +126,17 @@ public abstract class Bomb extends MovableBlock implements Explosive, CalledExpl
     }
 
     @Override
-    public int getMaxExplosionDistance(){
+    public int getMaxExplosionDistance() {
         return Bomberman.getMatch().getCurrentLevel().getExplosionLength();
     }
 
     @Override
-    public void onMouseClickInteraction(){
+    public void onMouseClickInteraction() {
         eliminated();
     }
 
     @Override
-    public void destroy(){
+    public void destroy() {
         explode();
     }
 
@@ -142,8 +144,10 @@ public abstract class Bomb extends MovableBlock implements Explosive, CalledExpl
     protected Set<Class<? extends Entity>> getBasePassiveInteractionEntities() {
         return new HashSet<>(Arrays.asList(FireExplosion.class, AbstractExplosion.class));
     }
-    public ExplosiveCaller getCaller(){
-        return caller;
+
+    @Override
+    public void onExplosion(AbstractExplosion explosion) {
+        explode();
     }
 }
 

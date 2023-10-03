@@ -4,7 +4,7 @@ import game.values.BomberColors;
 
 import java.awt.*;
 
-public class BombermanPanelYellow extends BombermanPanel{
+public class BombermanPanelYellow extends BombermanPanel {
 
     @Override
     public Color getBorderColor() {

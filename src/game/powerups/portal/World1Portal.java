@@ -5,13 +5,13 @@ import game.ui.panels.game.PitchPanel;
 
 import java.awt.*;
 
-public class World1Portal extends WorldPortal{
+public class World1Portal extends WorldPortal {
     public World1Portal() {
         super(null, 1);
     }
 
     @Override
     Coordinates getDefaultCoords() {
-        return (Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3,4),0,-PitchPanel.GRID_SIZE/2));
+        return (Coordinates.fromRowAndColumnsToCoordinates(new Dimension(3, 4), 0, -PitchPanel.GRID_SIZE / 2));
     }
 }

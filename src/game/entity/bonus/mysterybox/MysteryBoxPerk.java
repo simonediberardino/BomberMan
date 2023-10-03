@@ -7,7 +7,7 @@ import game.powerups.PowerUp;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class MysteryBoxPerk extends MysteryBox{
+public class MysteryBoxPerk extends MysteryBox {
     public MysteryBoxPerk(Entity entity) {
         super(entity);
     }
@@ -23,7 +23,8 @@ public class MysteryBoxPerk extends MysteryBox{
         PowerUp powerUpInstance;
         try {
             powerUpInstance = powerUpClass.getConstructor(Coordinates.class).newInstance(new Coordinates(0, 0));
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
 

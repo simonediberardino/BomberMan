@@ -1,7 +1,6 @@
 package game.ui.panels.menus;
 
 import game.Bomberman;
-import game.level.WorldSelectorLevel;
 import game.level.world1.World1Arena;
 import game.level.world2.World2Arena;
 import game.ui.panels.BombermanFrame;
@@ -47,6 +46,7 @@ public class ArenaMenuPanel extends BaseMenu {
         b.addActionListener(l -> Bomberman.showActivity(MainMenuPanel.class));
         return b;
     }
+
     @Override
     public void onShowCallback() {
 

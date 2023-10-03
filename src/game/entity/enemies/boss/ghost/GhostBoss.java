@@ -1,8 +1,7 @@
 package game.entity.enemies.boss.ghost;
 
-import game.BomberManMatch;
 import game.Bomberman;
-import game.entity.enemies.GhostEnemy;
+import game.entity.enemies.npcs.GhostEnemy;
 import game.entity.enemies.boss.Boss;
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
@@ -16,15 +15,9 @@ import game.utils.Paths;
 import game.utils.Utility;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static game.sound.SoundModel.LIGHT_GLITCH;
 
 public class GhostBoss extends Boss {
     private static final String SKIN_PATH_TEMPLATE = "%s/ghost_boss/ghost_with_axe_%s_%s.png";
@@ -202,8 +195,8 @@ public class GhostBoss extends Boss {
     }
 
     private void attack() {
-        ArrayList<Coordinates> coordsOfUnderneathEntityBlocks = Coordinates.getAllBlocksInAreaFromDirection(this,Direction.DOWN,BOSS_ATTACK_VERTICAL_RANGE);
-        ArrayList<Coordinates>  coordsOfEntitysImageDirectionBlocks = Coordinates.getAllBlocksInAreaFromDirection(this,imageDirection, BOSS_ATTACK_HORIZONTAL_RANGE);
+        java.util.List<Coordinates> coordsOfUnderneathEntityBlocks = Coordinates.getAllBlocksInAreaFromDirection(this,Direction.DOWN,BOSS_ATTACK_VERTICAL_RANGE);
+        java.util.List<Coordinates>  coordsOfEntitysImageDirectionBlocks = Coordinates.getAllBlocksInAreaFromDirection(this,imageDirection, BOSS_ATTACK_HORIZONTAL_RANGE);
         coordsOfUnderneathEntityBlocks.addAll(coordsOfEntitysImageDirectionBlocks);
 
         //merge the 2 lists into one another

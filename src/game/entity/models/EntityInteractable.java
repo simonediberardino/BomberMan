@@ -126,17 +126,33 @@ public abstract class EntityInteractable extends Entity {
      * @param stepSize the step size to use
      */
     protected final boolean moveOrInteract(Direction d, int stepSize, boolean ignoreMapBorders) {
-        if(d == null) return false;
+        if(d == null)
+            return false;
+
         Coordinates nextTopLeftCoords = nextCoords(d, stepSize);
-        //optimization, not necessary for the method to work
-        if(nextTopLeftCoords.validate(this)){
-            if(Coordinates.getAllBlocksInAreaFromDirection(this,d,stepSize).stream().allMatch(c-> Coordinates.getEntitiesOnBlock(c).stream().noneMatch(e->canBeInteractedBy(e)|| canInteractWith(e)||isObstacle(e)&&e!=this))) {
+
+        if (!nextTopLeftCoords.validate(this)) {
+            if(!ignoreMapBorders){
+                this.interact(null);
+                return false;
+            }
+        } else {
+            List<Coordinates> coordinatesInArea = Coordinates.getAllBlocksInAreaFromDirection(
+                    this,
+                    d,
+                    stepSize
+            );
+
+            boolean allEntitiesCanBeInteractedWith = coordinatesInArea.stream().allMatch(c ->
+                    Coordinates.getEntitiesOnBlock(c).stream().noneMatch(e ->
+                            canBeInteractedBy(e) || canInteractWith(e) || (isObstacle(e) && e != this)
+                    )
+            );
+
+            if (allEntitiesCanBeInteractedWith) {
                 move(nextTopLeftCoords);
                 return true;
             }
-        }else if(!ignoreMapBorders){
-            this.interact(null);
-            return false;
         }
 
 
@@ -144,13 +160,8 @@ public abstract class EntityInteractable extends Entity {
         // with a given step size
         List<Coordinates> nextOccupiedCoords = getNewCoordinatesOnDirection(d, stepSize, GRID_SIZE/3 / 2);
 
-        // Calculate the coordinates of the top-left corner of the next position
-
         // Get a list of entities that are present in the next occupied coordinates
         List<Entity> interactedEntities = getEntitiesOnCoordinates(nextOccupiedCoords);
-
-
-
 
         // If there are no entities present in the next occupied coordinates, update the entity's position
         if (interactedEntities.isEmpty()) {
@@ -161,18 +172,22 @@ public abstract class EntityInteractable extends Entity {
         // Initialize a flag to indicate whether the entity can move
         boolean canMove = true;
 
-        // Loop through the list of entities present in the next occupied coordinates
-        if (interactedEntities.stream().anyMatch(this::isObstacle)){
-            List<Entity> temp = interactedEntities.stream().filter(this::isObstacle).collect(Collectors.toList());
-            for (Entity e: temp) {
+        // Check if any of the entities in the 'interactedEntities' list is an obstacle
+        if (interactedEntities.stream().anyMatch(this::isObstacle)) {
+            // Filter and collect the obstacle entities into a temporary list
+            List<Entity> obstacleEntities = interactedEntities.stream().filter(this::isObstacle).collect(Collectors.toList());
+
+            // Interact with each obstacle entity in the temporary list
+            for (Entity e : obstacleEntities) {
                 interact(e);
             }
+
             canMove = false;
-        }else{
-            if(interactedEntities != null){
-                interactedEntities.stream().filter(Objects::nonNull).forEach(this::interact);
-            }
+        } else {
+            // Interact with non-null entities in the 'interactedEntities' list
+            interactedEntities.stream().filter(Objects::nonNull).forEach(this::interact);
         }
+
 
         // If the entity can move or it is immune to bombs, update the entity's position
         //if the entity is instance of explosion, it'll be able to move further anyway but no more explosions will be generated in constructor

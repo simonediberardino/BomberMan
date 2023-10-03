@@ -7,7 +7,7 @@ import game.utils.Paths;
 
 import java.awt.image.BufferedImage;
 
-public class Hammer extends PowerUp{
+public class Hammer extends PowerUp {
     /**
      * Constructs a PowerUp entity with the specified coordinates.
      *

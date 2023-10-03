@@ -5,20 +5,10 @@ import game.entity.enemies.boss.Boss;
 import game.entity.enemies.boss.clown.Clown;
 import game.entity.enemies.npcs.Eagle;
 import game.entity.enemies.npcs.FastEnemy;
-import game.entity.enemies.npcs.FlyingEnemy;
-import game.entity.enemies.npcs.YellowBall;
-import game.entity.models.Character;
 import game.entity.models.Coordinates;
 import game.entity.models.Enemy;
 import game.level.Level;
 import game.level.WorldSelectorLevel;
-import game.level.world1.World1Level;
-import game.ui.panels.game.PitchPanel;
-import game.utils.Paths;
-
-import java.awt.*;
-
-import static game.ui.panels.game.PitchPanel.GRID_SIZE;
 
 public class World2Level5 extends World2Level {
     @Override
@@ -45,7 +35,7 @@ public class World2Level5 extends World2Level {
     }
 
     @Override
-    public boolean isLastLevelOfWorld(){
+    public boolean isLastLevelOfWorld() {
         return true;
     }
 
@@ -53,8 +43,9 @@ public class World2Level5 extends World2Level {
     public Class<? extends Level> getNextLevel() {
         return WorldSelectorLevel.class;
     }
+
     @Override
     public Coordinates getPlayerSpawnCoordinates() {
-        return Coordinates.roundCoordinates(new Coordinates(0,0), Player.SPAWN_OFFSET);
+        return Coordinates.roundCoordinates(new Coordinates(0, 0), Player.SPAWN_OFFSET);
     }
 }

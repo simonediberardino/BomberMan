@@ -1,17 +1,13 @@
 package game.cache;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Cache {
     private final HashMap<String, Object> cache = new HashMap<>();
+
     // Private constructor to prevent direct instantiation
     private Cache() {
         // Initialize any necessary resources or setup here
-    }
-
-    private static final class InstanceHolder {
-        private static final Cache instance = new Cache();
     }
 
     // Method to provide access to the singleton instance
@@ -30,6 +26,10 @@ public class Cache {
 
     public void saveInCache(String key, Object o) {
         cache.put(key, o);
+    }
+
+    private static final class InstanceHolder {
+        private static final Cache instance = new Cache();
     }
 }
 
