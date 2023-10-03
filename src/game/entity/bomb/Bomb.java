@@ -6,6 +6,7 @@ import game.entity.blocks.DestroyableBlock;
 import game.entity.blocks.HardBlock;
 import game.entity.blocks.MovableBlock;
 import game.entity.models.*;
+import game.entity.models.Character;
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
 import game.sound.AudioManager;
@@ -121,8 +122,12 @@ public class Bomb extends MovableBlock implements Explosive {
     }
 
     @Override
-    public List<Class<? extends Entity>> getExplosionInteractionEntities() {
-        return Arrays.asList(DestroyableBlock.class, Enemy.class, Player.class, Bomb.class);
+    public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
+        return new HashSet<>() {{
+            add(DestroyableBlock.class);
+            add(Character.class);
+            add(Bomb.class);
+        }};
     }
 
     @Override

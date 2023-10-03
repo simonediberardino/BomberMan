@@ -1,10 +1,12 @@
 package game.entity.enemies.npcs;
 
 import game.entity.Player;
+import game.entity.blocks.DestroyableBlock;
 import game.entity.bomb.AbstractExplosion;
 import game.entity.bomb.Bomb;
 import game.entity.bomb.FireExplosion;
 import game.entity.models.*;
+import game.entity.models.Character;
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
 import game.sound.AudioManager;
@@ -85,8 +87,11 @@ public class TankEnemy extends IntelligentEnemy implements Explosive {
     }
 
     @Override
-    public List<Class<? extends Entity>> getExplosionInteractionEntities() {
-        return Arrays.asList(Player.class, Bomb.class);
+    public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
+        return new HashSet<>() {{
+            add(Player.class);
+            add(Bomb.class);
+        }};
     }
 
     @Override

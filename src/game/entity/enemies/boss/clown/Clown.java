@@ -2,12 +2,14 @@ package game.entity.enemies.boss.clown;
 
 import game.Bomberman;
 import game.entity.Player;
+import game.entity.blocks.DestroyableBlock;
 import game.entity.bomb.Bomb;
 import game.entity.bomb.ConfettiExplosion;
 import game.entity.enemies.boss.Boss;
 import game.entity.enemies.npcs.ClownNose;
 import game.entity.enemies.npcs.Orb;
 import game.entity.models.*;
+import game.entity.models.Character;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
@@ -128,8 +130,11 @@ public class Clown extends Boss implements Explosive {
      * @return a list of entity classes that can interact with explosions.
      */
     @Override
-    public List<Class<? extends Entity>> getExplosionInteractionEntities() {
-        return Arrays.asList(Player.class, Bomb.class);
+    public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
+        return new HashSet<>() {{
+            add(Player.class);
+            add(Bomb.class);
+        }};
     }
 
     /**
