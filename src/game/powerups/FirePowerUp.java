@@ -33,8 +33,7 @@ public class FirePowerUp extends PowerUp {
 
     @Override
     protected void doApply(BomberEntity entity) {
-        entity.increaseExplosionLength();
-        new ExplosionLengthPowerUpEvent().invoke(this);
+        new ExplosionLengthPowerUpEvent().invoke(entity);
     }
 
     @Override
@@ -43,6 +42,6 @@ public class FirePowerUp extends PowerUp {
 
     @Override
     public boolean canPickUp(BomberEntity entity) {
-        return !(DataInputOutput.getInstance().getExplosionLength() > MAX_EXPLOSION_LENGTH);
+        return !(entity.getCurrExplosionLength() > MAX_EXPLOSION_LENGTH);
     }
 }

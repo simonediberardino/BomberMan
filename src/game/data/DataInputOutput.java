@@ -89,10 +89,6 @@ public class DataInputOutput {
         updateStoredPlayerData();
     }
 
-    public void increaseExplosionLength(){
-        setExplosionLength(playerDataObject.getExplosionLength()+1);
-    }
-
     public void resetExplosionLength(){
         setExplosionLength(1);
     }

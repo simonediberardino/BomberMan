@@ -37,6 +37,7 @@ public class EndLevelPortal extends Portal {
 
         Bomberman.getMatch().getCurrentLevel().endLevel();
         DataInputOutput.getInstance().increaseLives();
+
         try {
             Level level = Bomberman.getMatch().getCurrentLevel();
             Class<? extends Level> nextLevelClass =

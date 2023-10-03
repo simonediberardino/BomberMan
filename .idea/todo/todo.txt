@@ -4,3 +4,4 @@ high priorities:
 - Images;
 - Fixed regenerating destroyable blocks and resetting round;
 - Explode method;
+- Lives power up remove;

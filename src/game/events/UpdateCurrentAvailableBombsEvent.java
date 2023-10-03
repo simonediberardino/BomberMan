@@ -8,7 +8,9 @@ import game.Bomberman;
 public class UpdateCurrentAvailableBombsEvent implements GameEvent {
     @Override
     public void invoke(Object arg) {
-        if (Bomberman.getMatch().getPlayer() == null) return;
+        if (Bomberman.getMatch().getPlayer() == null)
+            return;
+
         Bomberman.getMatch().getCurrentLevel().onUpdateCurrentAvailableBombsEvent((int) arg);
     }
 }

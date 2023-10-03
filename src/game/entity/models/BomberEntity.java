@@ -35,8 +35,8 @@ public abstract class BomberEntity extends Character {
         return currExplosionLength;
     }
 
-    public void increaseExplosionLength() {
-        currExplosionLength++;
+    public void setCurrExplosionLength(int value) {
+        currExplosionLength = value;
     }
 
     public int getMaxBombs() {

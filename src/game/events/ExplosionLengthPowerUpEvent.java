@@ -1,6 +1,8 @@
 package game.events;
 
 import game.Bomberman;
+import game.entity.models.BomberEntity;
+import game.entity.models.Entity;
 
 
 /**
@@ -9,6 +11,6 @@ import game.Bomberman;
 public class ExplosionLengthPowerUpEvent implements GameEvent {
     @Override
     public void invoke(Object arg) {
-        Bomberman.getMatch().getCurrentLevel().explosionLengthPowerUpEvent();
+        Bomberman.getMatch().getCurrentLevel().onUpdateBombsLengthEvent((BomberEntity) arg, ((BomberEntity) arg).getCurrExplosionLength() + 1);
     }
 }

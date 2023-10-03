@@ -132,7 +132,7 @@ public class Bomb extends MovableBlock implements Explosive {
 
     @Override
     public int getMaxExplosionDistance() {
-        return Bomberman.getMatch().getCurrentLevel().getExplosionLength();
+        return Bomberman.getMatch().getPlayer().getCurrExplosionLength();
     }
 
     @Override

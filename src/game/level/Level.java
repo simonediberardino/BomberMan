@@ -7,6 +7,7 @@ import game.entity.blocks.DestroyableBlock;
 import game.entity.blocks.StoneBlock;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.entity.enemies.boss.Boss;
+import game.entity.models.BomberEntity;
 import game.entity.models.Coordinates;
 import game.entity.models.Enemy;
 import game.entity.models.Entity;
@@ -373,10 +374,6 @@ public abstract class Level {
         }
     }
 
-    public void explosionLengthPowerUpEvent() {
-        DataInputOutput.getInstance().increaseExplosionLength();
-    }
-
     public void onKilledEnemy() {
         DataInputOutput.getInstance().increaseKills();
     }
@@ -404,6 +401,11 @@ public abstract class Level {
     public void onUpdateMaxBombsGameEvent(int arg) {
         DataInputOutput.getInstance().increaseObtainedBombs();
         new UpdateCurrentAvailableBombsEvent().invoke(arg);
+    }
+
+    public void onUpdateBombsLengthEvent(BomberEntity entity, int arg) {
+        entity.setCurrExplosionLength(arg);
+        DataInputOutput.getInstance().setExplosionLength(arg);
     }
 
     @Override
