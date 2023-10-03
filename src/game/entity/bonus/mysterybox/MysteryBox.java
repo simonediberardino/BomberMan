@@ -2,7 +2,6 @@ package game.entity.bonus.mysterybox;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
-import game.data.PlayerDataObject;
 import game.entity.blocks.HardBlock;
 import game.entity.models.Coordinates;
 import game.entity.models.Entity;
@@ -53,7 +52,7 @@ abstract class MysteryBox extends HardBlock {
             return;
         }
 
-        long currentPoints = DataInputOutput.getPlayerDataObject().getPoints();
+        long currentPoints = DataInputOutput.getInstance().getScore();
 
         if (currentPoints < getPrice()) {
             showErrorMessage();
@@ -84,7 +83,7 @@ abstract class MysteryBox extends HardBlock {
     }
 
     private void buy() {
-        long currentPoints = DataInputOutput.getPlayerDataObject().getPoints();
+        long currentPoints = DataInputOutput.getInstance().getScore();
 
         if (currentPoints < getPrice()) {
             return;

@@ -132,7 +132,7 @@ public class WorldSelectorLevel extends StoryLevel{
     }
 
     private void generatePortals() {
-        int lastWorldId = Math.max(1, DataInputOutput.getPlayerDataObject().getLastWorldId());
+        int lastWorldId = Math.max(1, DataInputOutput.getInstance().getLastWorldId());
 
         List<Class<? extends WorldPortal>> worldPortals = WORLDS_ID_TO_PORTAL.entrySet()
                 .stream().filter(x->x.getKey() <= lastWorldId)

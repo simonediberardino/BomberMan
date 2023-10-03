@@ -2,34 +2,45 @@ package game.data;
 
 import game.Bomberman;
 import game.level.Level;
-import game.level.world1.World1Level1;
 import game.utils.Paths;
 
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
-import java.util.Map;
-import java.util.Optional;
-
-import static game.level.Level.ID_TO_FIRST_LEVEL_MAP;
 
 /**
  * Class that stores and retrieves player data from a file using Serialization;
  */
 public class DataInputOutput {
     public static int START_LIVES = 3;
-    private static PlayerDataObject playerDataObject;
+    private PlayerDataObject playerDataObject;
 
-    public static void retrieveData() {
+    // Private instance of the class
+    private static DataInputOutput instance;
+
+    // Private constructor to prevent instantiation from other classes
+    private DataInputOutput() {
         playerDataObject = getStoredPlayerData();
     }
 
-    public static void updateStoredPlayerData() {
+    // public method to get the instance of the singleton class
+    public static DataInputOutput getInstance() {
+        // Lazy initialization: create the instance only if it doesn't exist
+        if (instance == null) {
+            instance = new DataInputOutput();
+        }
+        return instance;
+    }
+
+    public void retrieveData() {
+        playerDataObject = getStoredPlayerData();
+    }
+
+    public void updateStoredPlayerData() {
         updateStoredPlayerData(playerDataObject);
     }
 
-    public static void updateStoredPlayerData(PlayerDataObject serObj) {
+    public void updateStoredPlayerData(PlayerDataObject serObj) {
         try {
             // Creates a data file if still does not exist;
             Files.createDirectories(java.nio.file.Paths.get(Paths.getDataFolder()));
@@ -46,7 +57,7 @@ public class DataInputOutput {
         }
     }
 
-    public static PlayerDataObject getStoredPlayerData() {
+    public PlayerDataObject getStoredPlayerData() {
         try {
             FileInputStream fileIn = new FileInputStream(Paths.getPlayerDataPath());
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
@@ -60,85 +71,87 @@ public class DataInputOutput {
         }
     }
 
-    public static PlayerDataObject getPlayerDataObject() {
+    public PlayerDataObject getPlayerDataObject() {
         return playerDataObject;
     }
 
-    public static void setUsername(String name){
+    public void setUsername(String name){
         playerDataObject.setName(name.trim());
         updateStoredPlayerData();
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         return playerDataObject.getName();
     }
 
-    public static void increaseKills(){
+    public void increaseKills(){
         playerDataObject.setKills(playerDataObject.getKills()+1);
         updateStoredPlayerData();
     }
 
-    public static void increaseExplosionLength(){
+    public void increaseExplosionLength(){
         setExplosionLength(playerDataObject.getExplosionLength()+1);
     }
 
-    public static void resetExplosionLength(){
+    public void resetExplosionLength(){
         setExplosionLength(1);
     }
 
-    public static void resetMaxBombs(){
+    public void resetMaxBombs(){
         setObtainedBombs(1);
     }
 
-    public static void setExplosionLength(int newExplosionLength){
+    public void setExplosionLength(int newExplosionLength){
         playerDataObject.setExplosionLength(newExplosionLength);
         updateStoredPlayerData();
     }
 
-    public static int getExplosionLength(){
+    public int getExplosionLength(){
         return playerDataObject.getExplosionLength();
     }
 
-    public static int getObtainedBombs(){
+    public int getObtainedBombs(){
         return playerDataObject.getObtainedBombs();
     }
 
-    public static void setObtainedBombs(int newMaxBombs){
+    public void setObtainedBombs(int newMaxBombs){
         newMaxBombs = Math.max(0, newMaxBombs);
         playerDataObject.setObtainedBombs(newMaxBombs);
         updateStoredPlayerData();
     }
 
-    public static void increaseObtainedBombs(){
+    public void increaseObtainedBombs(){
         setObtainedBombs(getObtainedBombs()+1);
     }
 
-    public static void increaseDeaths(){
+    public void increaseDeaths(){
         playerDataObject.setDeaths(playerDataObject.getDeaths()+1);
         updateStoredPlayerData();
     }
 
-    public static int getLives(){
+    public int getLives(){
         return playerDataObject.getLives();
     }
 
-    public static void resetLives(){
+    public void resetLives(){
         setLives(START_LIVES);
     }
 
-    public static void increaseLives(){
+    public void increaseLives(){
         int nextLives = playerDataObject.getLives()+1;
         setLives(nextLives);
     }
 
-    private static void setLives(int nextLives) {
-        Bomberman.getMatch().getInventoryElementControllerLives().setNumItems(nextLives);
-        DataInputOutput.getPlayerDataObject().setLives(nextLives);
+    private void setLives(int nextLives) {
+        var controllerLives = Bomberman.getMatch().getInventoryElementControllerLives();
+        if(controllerLives != null)
+            Bomberman.getMatch().getInventoryElementControllerLives().setNumItems(nextLives);
+        playerDataObject.setLives(nextLives);
         playerDataObject.setLives(nextLives);
         updateStoredPlayerData();
     }
 
-    public static void decreaseLives() {
+    public void decreaseLives() {
         int newLives = Math.max(playerDataObject.getLives() - 1, 0);
         if(newLives <= 0) {
             increaseLost();
@@ -149,12 +162,12 @@ public class DataInputOutput {
         setLives(newLives);
     }
 
-    public static void resetLivesIfNecessary() {
+    public void resetLivesIfNecessary() {
         if(getLives() <= 0)
             setLives(START_LIVES);
     }
 
-    public static void resetLevel() {
+    public void resetLevel() {
         playerDataObject.setLastWorldId(1);
         playerDataObject.setLastLevelId(1);
         resetExplosionLength();
@@ -162,93 +175,151 @@ public class DataInputOutput {
         updateStoredPlayerData();
     }
 
-    public static long getScore() {
+    public long getScore() {
         return playerDataObject.getPoints();
     }
 
-    public static void resetScore() {
+    public void resetScore() {
         setScore(0);
     }
 
-    public static void decreaseScore(int score){
+    public void decreaseScore(int score){
         setScore((int) (playerDataObject.getPoints() - score));
     }
 
-    public static void increaseScore(int score){
+    public void increaseScore(int score){
         setScore((int) (playerDataObject.getPoints() + score));
     }
 
-    private static void setScore(int score) {
+    private void setScore(int score) {
         score = Math.max(0, score);
         playerDataObject.setPoints(score);
         updateStoredPlayerData();
     }
 
-    public static void setName(String name) {
+    public void setName(String name) {
         playerDataObject.setName(name);
         updateStoredPlayerData();
     }
 
-    public static void setLastLevel(Level level) {
+    public void setLastLevel(Level level) {
         if(playerDataObject.getLastWorldId() > level.getWorldId()) return;
         if(playerDataObject.getLastWorldId() == level.getWorldId() && playerDataObject.getLastLevelId() >= level.getLevelId()) return;
         playerDataObject.setLastLevel(level);
         updateStoredPlayerData();
     }
 
-    public static void increaseLost(){
+    public void increaseLost(){
         playerDataObject.setLostGames(playerDataObject.getLostGames() + 1);
         updateStoredPlayerData();
     }
 
-    public static void increaseRounds(){
+    public void increaseRounds(){
         playerDataObject.setRounds(playerDataObject.getRounds() + 1);
         updateStoredPlayerData();
     }
 
-    public static String getLeftKeyChar() {
+    public String getLeftKeyChar() {
         return KeyEvent.getKeyText(playerDataObject.getLeftKey());
     }
 
-    public static String getForwardKeyChar() {
+    public String getForwardKeyChar() {
         return KeyEvent.getKeyText(playerDataObject.getForwardKey());
     }
 
-    public static String getBackKeyChar() {
+    public String getBackKeyChar() {
         return KeyEvent.getKeyText(playerDataObject.getBackKey());
     }
 
-    public static String getRightKeyChar() {
+    public String getRightKeyChar() {
         return KeyEvent.getKeyText(playerDataObject.getRightKey());
     }
 
-    public static String getBombKeyChar() {
+    public String getBombKeyChar() {
         return KeyEvent.getKeyText(playerDataObject.getBombKey());
     }
 
 
-    public static void setForwardKey(int forwardKey) {
+
+    public int getLeftKey() {
+        return playerDataObject.getLeftKey();
+    }
+
+    public int getForwardKey() {
+        return playerDataObject.getForwardKey();
+    }
+
+    public int getBackKey() {
+        return playerDataObject.getBackKey();
+    }
+
+    public int getRightKey() {
+        return playerDataObject.getRightKey();
+    }
+
+    public int getBombKey() {
+        return playerDataObject.getBombKey();
+    }
+
+    public void resetKeys() {
+        playerDataObject.resetKeys();
+    }
+
+    public void setForwardKey(int forwardKey) {
         playerDataObject.setForwardKey(forwardKey);
         updateStoredPlayerData();
     }
 
-    public static void setBackKey(int backKey) {
+    public void setBackKey(int backKey) {
         playerDataObject.setBackKey(backKey);
         updateStoredPlayerData();
     }
 
-    public static void setLeftKey(int leftKey) {
+    public void setLeftKey(int leftKey) {
         playerDataObject.setLeftKey(leftKey);
         updateStoredPlayerData();
     }
 
-    public static void setRightKey(int rightKey) {
+    public void setRightKey(int rightKey) {
         playerDataObject.setRightKey(rightKey);
         updateStoredPlayerData();
     }
 
-    public static void setBombKey(int bombKey) {
+    public void setBombKey(int bombKey) {
         playerDataObject.setBombKey(bombKey);
         updateStoredPlayerData();
+    }
+
+    public void setVolume(int volume){
+        playerDataObject.setVolume(volume);
+        updateStoredPlayerData();
+    }
+
+    public int getVolume(){
+        return playerDataObject.getVolume();
+    }
+
+    public int getLastLevelId() {
+        return playerDataObject.getLastLevelId();
+    }
+
+    public int getLastWorldId() {
+        return playerDataObject.getLastWorldId();
+    }
+
+    public int getDeaths() {
+        return playerDataObject.getDeaths();
+    }
+
+    public int getKills() {
+        return playerDataObject.getKills();
+    }
+
+    public int getRounds() {
+        return playerDataObject.getRounds();
+    }
+
+    public int getLostGames() {
+        return playerDataObject.getLostGames();
     }
 }

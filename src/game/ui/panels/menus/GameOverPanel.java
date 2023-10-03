@@ -44,7 +44,7 @@ public class GameOverPanel extends BaseMenu {
     private JButton createStartLevelButton() {
         retryButton = new RedButton("");
         retryButton.addActionListener((v) -> {
-            boolean hasLives = DataInputOutput.getLives() > 0;
+            boolean hasLives = DataInputOutput.getInstance().getLives() > 0;
 
             ToastHandler.getInstance().cancel();
 
@@ -67,7 +67,7 @@ public class GameOverPanel extends BaseMenu {
     }
 
     private void updatePlayAgainButtonText(){
-        boolean hasLives = DataInputOutput.getLives() > 0;
+        boolean hasLives = DataInputOutput.getInstance().getLives() > 0;
         String text = hasLives ? Localization.get(PLAY_AGAIN) : Localization.get(RESET_WORLD);
         retryButton.setText(text);
     }
@@ -75,7 +75,7 @@ public class GameOverPanel extends BaseMenu {
     private void showToastMessage() {
         Level lastLevel = Level.getCurrLevel();
         String diedMessage = lastLevel.getDiedMessage();
-        ToastHandler.getInstance().show(diedMessage, true);
+        ToastHandler.getInstance().show(diedMessage, true, true);
     }
 
     @Override

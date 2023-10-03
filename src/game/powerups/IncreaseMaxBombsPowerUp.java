@@ -41,7 +41,7 @@ public class IncreaseMaxBombsPowerUp extends PowerUp{
 
     @Override
     public boolean canPickUp(BomberEntity entity) {
-        return !(DataInputOutput.getObtainedBombs() >= Bomberman.getMatch().getCurrentLevel().getMaxBombs());
+        return !(DataInputOutput.getInstance().getObtainedBombs() >= Bomberman.getMatch().getCurrentLevel().getMaxBombs());
     }
 
 

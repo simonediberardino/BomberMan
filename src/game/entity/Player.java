@@ -33,7 +33,7 @@ public class Player extends BomberEntity {
     }
 
     private void updateBombs() {
-         int maxBombs = DataInputOutput.getObtainedBombs();
+         int maxBombs = DataInputOutput.getInstance().getObtainedBombs();
          new UpdateCurrentAvailableBombsEvent().invoke(maxBombs);
     }
 

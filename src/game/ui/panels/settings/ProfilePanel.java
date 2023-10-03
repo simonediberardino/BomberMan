@@ -23,20 +23,20 @@ public class ProfilePanel extends BoxMenuPanel {
 
     @Override
     protected void addCustomElements() {
-        SettingsElementView userName = addTextFieldElementView(Localization.get(USERNAME), DataInputOutput.getUsername(), new RunnablePar() {
+        SettingsElementView userName = addTextFieldElementView(Localization.get(USERNAME), DataInputOutput.getInstance().getUsername(), new RunnablePar() {
             @Override
             public <T> Object execute(T par) {
                 if(par.toString().isBlank()) return null;
-                DataInputOutput.setUsername(par.toString().trim());
+                DataInputOutput.getInstance().setUsername(par.toString().trim());
                 return null;
             }
         });
 
-        SettingsElementView killsElement = addInfoElement(Localization.get(Localization.KILLS), String.valueOf(DataInputOutput.getPlayerDataObject().getKills()));
-        SettingsElementView deathsElement = addInfoElement(Localization.get(Localization.DEATHS), String.valueOf(DataInputOutput.getPlayerDataObject().getDeaths()));
-        SettingsElementView roundsElement = addInfoElement(Localization.get(Localization.ROUNDS), String.valueOf(DataInputOutput.getPlayerDataObject().getRounds()));
-        SettingsElementView lostGamesElement = addInfoElement(Localization.get(Localization.LOST_GAMES), String.valueOf(DataInputOutput.getPlayerDataObject().getLostGames()));
-        SettingsElementView pointsElement = addInfoElement(Localization.get(Localization.POINTS), String.valueOf(DataInputOutput.getPlayerDataObject().getPoints()));
-        SettingsElementView livesElement = addInfoElement(Localization.get(Localization.LIVES), String.valueOf(DataInputOutput.getPlayerDataObject().getLives()));
+        SettingsElementView killsElement = addInfoElement(Localization.get(Localization.KILLS), String.valueOf(DataInputOutput.getInstance().getKills()));
+        SettingsElementView deathsElement = addInfoElement(Localization.get(Localization.DEATHS), String.valueOf(DataInputOutput.getInstance().getDeaths()));
+        SettingsElementView roundsElement = addInfoElement(Localization.get(Localization.ROUNDS), String.valueOf(DataInputOutput.getInstance().getRounds()));
+        SettingsElementView lostGamesElement = addInfoElement(Localization.get(Localization.LOST_GAMES), String.valueOf(DataInputOutput.getInstance().getLostGames()));
+        SettingsElementView pointsElement = addInfoElement(Localization.get(Localization.POINTS), String.valueOf(DataInputOutput.getInstance().getScore()));
+        SettingsElementView livesElement = addInfoElement(Localization.get(Localization.LIVES), String.valueOf(DataInputOutput.getInstance().getLives()));
     }
 }

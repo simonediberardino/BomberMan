@@ -37,8 +37,8 @@ public class ControllerManager extends Observable2 implements KeyListener {
         try{
             setKeyMap();
         }catch (IllegalArgumentException e){
-            DataInputOutput.getPlayerDataObject().resetKeys();
-            DataInputOutput.updateStoredPlayerData();
+            DataInputOutput.getInstance().resetKeys();
+            DataInputOutput.getInstance().updateStoredPlayerData();
             setKeyMap();
             e.printStackTrace();
         }
@@ -46,11 +46,11 @@ public class ControllerManager extends Observable2 implements KeyListener {
 
     private void setKeyMap(){
         keyAssignment = Map.ofEntries(
-                entry(DataInputOutput.getPlayerDataObject().getForwardKey(), Command.MOVE_UP),
-                entry(DataInputOutput.getPlayerDataObject().getLeftKey(), Command.MOVE_LEFT),
-                entry(DataInputOutput.getPlayerDataObject().getBackKey(), Command.MOVE_DOWN),
-                entry(DataInputOutput.getPlayerDataObject().getRightKey(), Command.MOVE_RIGHT),
-                entry(DataInputOutput.getPlayerDataObject().getBombKey(), Command.PLACE_BOMB),
+                entry(DataInputOutput.getInstance().getForwardKey(), Command.MOVE_UP),
+                entry(DataInputOutput.getInstance().getLeftKey(), Command.MOVE_LEFT),
+                entry(DataInputOutput.getInstance().getBackKey(), Command.MOVE_DOWN),
+                entry(DataInputOutput.getInstance().getRightKey(), Command.MOVE_RIGHT),
+                entry(DataInputOutput.getInstance().getBombKey(), Command.PLACE_BOMB),
                 entry(KEY_ESC, Command.PAUSE)
         );
     }

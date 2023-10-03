@@ -29,7 +29,7 @@ public class LivesPowerUp extends PowerUp{
 
     @Override
     protected void doApply(BomberEntity entity) {
-        DataInputOutput.increaseLives();
+        DataInputOutput.getInstance().increaseLives();
     }
 
     @Override

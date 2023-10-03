@@ -48,6 +48,7 @@ public class BombermanFrame extends JFrame {
     private PausePanel pausePanel;
     private ProfilePanel profilePanel;
     private SettingsPanel settingsPanel;
+    private ArenaMenuPanel arenaMenuPanel;
 
     /**
 
@@ -63,6 +64,7 @@ public class BombermanFrame extends JFrame {
         initPausePanel();
         initProfilePanel();
         initSettingsPanel();
+        initArenaMenuPanel();
         finalizeFrame();
         pack();
         setFrameCursor();
@@ -133,6 +135,15 @@ public class BombermanFrame extends JFrame {
     private void initSettingsPanel() {
         settingsPanel = new SettingsPanel(cardLayout, parentPanel, this);
         parentPanel.add(settingsPanel, SettingsPanel.class.getSimpleName());
+    }
+
+    /**
+
+     Initializes the arena panel and adds it to the parent panel.
+     */
+    private void initArenaMenuPanel() {
+        arenaMenuPanel = new ArenaMenuPanel(cardLayout, parentPanel, this);
+        parentPanel.add(arenaMenuPanel, ArenaMenuPanel.class.getSimpleName());
     }
 
     /**

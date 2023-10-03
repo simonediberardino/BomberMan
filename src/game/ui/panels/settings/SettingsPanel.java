@@ -3,8 +3,11 @@ package game.ui.panels.settings;
 import game.data.DataInputOutput;
 import game.localization.Localization;
 import game.events.RunnablePar;
+import game.sound.AudioManager;
 import game.ui.panels.BombermanFrame;
 import game.ui.viewelements.settings.SettingsElementView;
+import game.ui.viewelements.settings.SlideElementView;
+import game.ui.viewelements.settings.TextFieldElementView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +31,10 @@ public class SettingsPanel extends BoxMenuPanel{
         return addTextFieldElementView(label, keyChar, runnablePar, 1);
     }
 
+    private SlideElementView createSlideElementView(String title, int currValue, RunnablePar callback){
+        return addSlideElementView(title, currValue, callback);
+    }
+
     private RunnablePar createKeyRunnable(final Consumer<Integer> keySetter) {
         return new RunnablePar() {
             @Override
@@ -43,13 +50,43 @@ public class SettingsPanel extends BoxMenuPanel{
     protected void addCustomElements() {
         SettingsElementView forwardKey = createTextFieldElementView(
                 Localization.get(KEY_FORWARD),
-                DataInputOutput.getForwardKeyChar(),
-                createKeyRunnable(DataInputOutput::setForwardKey)
+                DataInputOutput.getInstance().getForwardKeyChar(),
+                createKeyRunnable(integer -> DataInputOutput.getInstance().setForwardKey(integer))
         );
-        SettingsElementView leftKey = createTextFieldElementView(Localization.get(KEY_LEFT), DataInputOutput.getLeftKeyChar(), createKeyRunnable(DataInputOutput::setLeftKey));
-        SettingsElementView backKey = createTextFieldElementView(Localization.get(KEY_BACK), DataInputOutput.getBackKeyChar(), createKeyRunnable(DataInputOutput::setBackKey));
-        SettingsElementView rightKey = createTextFieldElementView(Localization.get(KEY_RIGHT), DataInputOutput.getRightKeyChar(), createKeyRunnable(DataInputOutput::setRightKey));
-        SettingsElementView bombKey = createTextFieldElementView(Localization.get(KEY_BOMB), DataInputOutput.getBombKeyChar(), createKeyRunnable(DataInputOutput::setBombKey));
 
+        SettingsElementView leftKey = createTextFieldElementView(
+                Localization.get(KEY_LEFT),
+                DataInputOutput.getInstance().getLeftKeyChar(),
+                createKeyRunnable(integer -> DataInputOutput.getInstance().setLeftKey(integer))
+        );
+
+        SettingsElementView backKey = createTextFieldElementView(
+                Localization.get(KEY_BACK),
+                DataInputOutput.getInstance().getBackKeyChar(),
+                createKeyRunnable(integer -> DataInputOutput.getInstance().setBackKey(integer))
+        );
+
+        SettingsElementView rightKey = createTextFieldElementView(
+                Localization.get(KEY_RIGHT),
+                DataInputOutput.getInstance().getRightKeyChar(),
+                createKeyRunnable(integer -> DataInputOutput.getInstance().setRightKey(integer))
+        );
+
+        SettingsElementView bombKey = createTextFieldElementView(
+                Localization.get(KEY_BOMB),
+                DataInputOutput.getInstance().getBombKeyChar(),
+                createKeyRunnable(integer -> DataInputOutput.getInstance().setBombKey(integer))
+        );
+        SettingsElementView audio = createSlideElementView(Localization.get(AUDIO_VOLUME),
+                DataInputOutput.getInstance().getVolume(), new RunnablePar() {
+            @Override
+            public <T> Object execute(T par) {
+                System.out.println(par);
+                DataInputOutput.getInstance().setVolume((int) par);
+                AudioManager.getInstance().stopBackgroundSong();
+                AudioManager.getInstance().playBackgroundSong();
+                return null;
+            }
+        });
     }
 }

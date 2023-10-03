@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import static game.data.DataInputOutput.START_LIVES;
 
-public class PlayerDataObject implements Serializable {
+class PlayerDataObject implements Serializable {
     private String name;
     private int lostGames;
     private int kills;
@@ -25,8 +25,9 @@ public class PlayerDataObject implements Serializable {
     private int leftKey;
     private int rightKey;
     private int bombKey;
-
-    public PlayerDataObject() {
+    private int volume;
+    
+    PlayerDataObject() {
         this(
                 Localization.get(Localization.PLAYER),
                 0,
@@ -43,13 +44,14 @@ public class PlayerDataObject implements Serializable {
                 0,
                 0,
                 0,
+                0,
                 0
         );
 
         resetKeys();
     }
 
-    public PlayerDataObject(String name, int lostGames, int kills, int deaths, int rounds, long points, int lastLevelId, int lastWorldId, int explosionLength,int maxBombs, int lives, int forwardKey, int backKey, int leftKey, int rightKey, int bombKey) {
+    PlayerDataObject(String name, int lostGames, int kills, int deaths, int rounds, long points, int lastLevelId, int lastWorldId, int explosionLength,int maxBombs, int lives, int forwardKey, int backKey, int leftKey, int rightKey, int bombKey, int volume) {
         this.name = name;
         this.lostGames = lostGames;
         this.kills = kills;
@@ -66,9 +68,10 @@ public class PlayerDataObject implements Serializable {
         this.leftKey = leftKey;
         this.rightKey = rightKey;
         this.bombKey = bombKey;
+        this.volume = volume;
     }
 
-    public void resetKeys() {
+    void resetKeys() {
         this.forwardKey = KeyEvent.VK_W;
         this.backKey = KeyEvent.VK_S;
         this.leftKey = KeyEvent.VK_A;
@@ -76,129 +79,137 @@ public class PlayerDataObject implements Serializable {
         this.bombKey = KeyEvent.VK_SPACE;
     }
 
-    public int getForwardKey() {
+    void setVolume(int volume){
+        this.volume = volume;
+    }
+    
+    int getVolume() {
+        return volume;
+    }
+    
+    int getForwardKey() {
         return forwardKey;
     }
 
-    public void setForwardKey(int forwardKey) {
+    void setForwardKey(int forwardKey) {
         this.forwardKey = forwardKey;
     }
 
-    public int getBackKey() {
+    int getBackKey() {
         return backKey;
     }
 
-    public void setBackKey(int backKey) {
+    void setBackKey(int backKey) {
         this.backKey = backKey;
     }
 
-    public int getLeftKey() {
+    int getLeftKey() {
         return leftKey;
     }
 
-    public void setLeftKey(int leftKey) {
+    void setLeftKey(int leftKey) {
         this.leftKey = leftKey;
     }
 
-    public int getRightKey() {
+    int getRightKey() {
         return rightKey;
     }
 
-    public void setRightKey(int rightKey) {
+    void setRightKey(int rightKey) {
         this.rightKey = rightKey;
     }
 
-    public int getBombKey() {
+    int getBombKey() {
         return bombKey;
     }
 
-    public void setBombKey(int bombKey) {
+    void setBombKey(int bombKey) {
         this.bombKey = bombKey;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public int getLives() {
+    int getLives() {
         return lives;
     }
 
-    public void setLives(int lives) {
+    void setLives(int lives) {
         this.lives = lives;
     }
 
-    public void setExplosionLength(int explosionLength){
+    void setExplosionLength(int explosionLength){
         this.explosionLength = explosionLength;
     }
 
-    public int getExplosionLength() {
+    int getExplosionLength() {
         return explosionLength;
     }
 
-    public void setObtainedBombs(int obtainedBombs
+    void setObtainedBombs(int obtainedBombs
     ){
         this.obtainedBombs = obtainedBombs;
     }
 
-    public int getObtainedBombs(){
+    int getObtainedBombs(){
         return obtainedBombs;
     }
 
-    public int getLostGames() {
+    int getLostGames() {
         return lostGames;
     }
 
-    public int getKills() {
+    int getKills() {
         return kills;
     }
 
-    public int getDeaths() {
+    int getDeaths() {
         return deaths;
     }
 
-    public long getPoints() {
+    long getPoints() {
         return points;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setLostGames(int lostGames) {
+    void setLostGames(int lostGames) {
         this.lostGames = lostGames;
     }
 
-    public void setLastLevel(Level lastLevel) {
+    void setLastLevel(Level lastLevel) {
         this.lastLevelId = lastLevel.getLevelId();
         this.lastWorldId = lastLevel.getWorldId();
     }
 
-    public int getLastLevelId() {
+    int getLastLevelId() {
         return lastLevelId;
     }
 
-    public int getLastWorldId() {
+    int getLastWorldId() {
         return lastWorldId;
     }
 
-    public void setKills(int kills) {
+    void setKills(int kills) {
         this.kills = kills;
     }
 
-    public void setDeaths(int deaths) {
+    void setDeaths(int deaths) {
         this.deaths = deaths;
     }
 
-    public void setPoints(long points) {
+    void setPoints(long points) {
         this.points = points;
     }
 
-    public int getRounds() {
+    int getRounds() {
         return rounds;
     }
 
-    public void setRounds(int rounds) {
+    void setRounds(int rounds) {
         this.rounds = rounds;
     }
 
@@ -214,20 +225,22 @@ public class PlayerDataObject implements Serializable {
                 ", lastLevelId=" + lastLevelId +
                 ", lastWorldId=" + lastWorldId +
                 ", explosionLength=" + explosionLength +
+                ", obtainedBombs=" + obtainedBombs +
                 ", lives=" + lives +
-                ", forwardKey=" + KeyEvent.getKeyText(forwardKey) +
-                ", backKey=" + KeyEvent.getKeyText(backKey) +
-                ", leftKey=" + KeyEvent.getKeyText(leftKey) +
-                ", rightKey=" + KeyEvent.getKeyText(rightKey) +
-                ", bombKey=" + KeyEvent.getKeyText(bombKey) +
+                ", forwardKey=" + forwardKey +
+                ", backKey=" + backKey +
+                ", leftKey=" + leftKey +
+                ", rightKey=" + rightKey +
+                ", bombKey=" + bombKey +
+                ", volume=" + volume +
                 '}';
     }
 
-    public void setLastWorldId(int lastWorldId) {
+    void setLastWorldId(int lastWorldId) {
         this.lastWorldId = lastWorldId;
     }
 
-    public void setLastLevelId(int i) {
+    void setLastLevelId(int i) {
         this.lastLevelId = i;
     }
 }

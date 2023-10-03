@@ -134,8 +134,13 @@ public class Localization {
     }};
 
     public static final HashMap<Locale, String> PLAY = new HashMap<>() {{
-        put(Locale.ENGLISH, "SELECT LEVEL");
-        put(Locale.ITALY, "SELEZIONA LIVELLO");
+        put(Locale.ENGLISH, "PLAY STORYMODE");
+        put(Locale.ITALY, "GIOCA CAMPAGNA");
+    }};
+
+    public static final HashMap<Locale, String> START_ARENA = new HashMap<>() {{
+        put(Locale.ENGLISH, "SELECT ARENA");
+        put(Locale.ITALY, "GIOCA ARENA");
     }};
 
     public static final HashMap<Locale, String> PROFILE = new HashMap<>() {{
@@ -177,6 +182,26 @@ public class Localization {
     public static final HashMap<Locale, String> APP_NAME = new HashMap<>() {{
         put(Locale.ENGLISH, "JBOMBERMAN");
         put(Locale.ITALY, "JBOMBERMAN");
+    }};
+
+    public static final HashMap<Locale, String> STARTING_ROUND = new HashMap<>() {{
+        put(Locale.ENGLISH, "STARTING ROUND %round%");
+        put(Locale.ITALY, "INIZIA IL ROUND %round%");
+    }};
+
+    public static final HashMap<Locale, String> AUDIO_VOLUME = new HashMap<>() {{
+        put(Locale.ENGLISH, "AUDIO");
+        put(Locale.ITALY, "AUDIO");
+    }};
+
+    public static final HashMap<Locale, String> ARENA_WORLD_1 = new HashMap<>() {{
+        put(Locale.ENGLISH, "ARENA WORLD 1");
+        put(Locale.ITALY, "ARENA MONDO 1");
+    }};
+
+    public static final HashMap<Locale, String> ARENA_WORLD_2 = new HashMap<>() {{
+        put(Locale.ENGLISH, "ARENA WORLD 2");
+        put(Locale.ITALY, "ARENA MONDO 2");
     }};
 
     public static Locale[] getSupportedLanguages() {

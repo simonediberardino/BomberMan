@@ -31,7 +31,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static game.data.DataInputOutput.increaseExplosionLength;
 import static game.localization.Localization.YOU_DIED;
 import static game.sound.SoundModel.BONUS_ALERT;
 import static game.ui.panels.game.PitchPanel.GRID_SIZE;
@@ -85,7 +84,7 @@ public abstract class Level {
     }
 
     public final int getExplosionLength(){
-        return DataInputOutput.getExplosionLength();
+        return DataInputOutput.getInstance().getExplosionLength();
     };
     /**
      *
@@ -135,12 +134,16 @@ public abstract class Level {
      */
     public void start(JPanel jPanel) {
         updateLastLevel();
-        AudioManager.getInstance().stopBackgroundSong();
-        AudioManager.getInstance().playBackgroundSong(getLevelSoundtrack());
+        playSoundTrack();
         Bomberman.getMatch().setGameState(true);
-        DataInputOutput.resetLivesIfNecessary();
+        DataInputOutput.getInstance().resetLivesIfNecessary();
         generateEntities(jPanel);
         playLevelSound();
+    }
+
+    public void playSoundTrack() {
+        AudioManager.getInstance().stopBackgroundSong();
+        AudioManager.getInstance().playBackgroundSong(getLevelSoundtrack());
     }
 
     public void generateEntities(JPanel jPanel) {
@@ -165,17 +168,7 @@ public abstract class Level {
         Bomberman.getMatch().getPlayer().spawn(false,false);
     }
 
-    public void endLevel() {
-        try {
-            DataInputOutput.setLastLevel(getNextLevel().getConstructor().newInstance());
-            DataInputOutput.increaseRounds();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        new RoundPassedGameEvent().invoke(null);
-        DataInputOutput.updateStoredPlayerData();
-    }
+    abstract public void endLevel();
 
     protected void spawnBoss() {
         Boss boss = getBoss();
@@ -213,6 +206,7 @@ public abstract class Level {
 
     // This method returns the ID of the level.
     public abstract int getLevelId();
+    public abstract void onDeathGameEvent();
 
     // This method returns the maximum number of bombs that a player can have at one time.
     public int getMaxBombs() {
@@ -360,19 +354,8 @@ public abstract class Level {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Level %d, World %d", getLevelId(), getWorldId());
-    }
-
-    public void onDeathGameEvent() {
-        DataInputOutput.increaseDeaths();
-        DataInputOutput.decreaseLives();
-        DataInputOutput.decreaseScore(1000);
-    }
-
     public void onDefeatGameEvent() {
-        DataInputOutput.increaseLost();
+        DataInputOutput.getInstance().increaseLost();
     }
 
     public void onEnemyDespawned() {
@@ -382,26 +365,26 @@ public abstract class Level {
     }
 
     public void explosionLengthPowerUpEvent() {
-        increaseExplosionLength();
+        DataInputOutput.getInstance().increaseExplosionLength();
     }
 
     public void onKilledEnemy() {
-        DataInputOutput.increaseKills();
+        DataInputOutput.getInstance().increaseKills();
     }
 
     public void onRoundPassedGameEvent() {
-        DataInputOutput.increaseRounds();
+        DataInputOutput.getInstance().increaseRounds();
     }
 
     public void onScoreGameEvent(int arg) {
-        DataInputOutput.increaseScore(arg);
-        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getScore());
+        DataInputOutput.getInstance().increaseScore(arg);
+        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getInstance().getScore());
     }
 
     public void onPurchaseItem(int price) {
         AudioManager.getInstance().play(BONUS_ALERT);
-        DataInputOutput.decreaseScore(price);
-        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getScore());
+        DataInputOutput.getInstance().decreaseScore(price);
+        Bomberman.getMatch().getInventoryElementControllerPoints().setNumItems((int) DataInputOutput.getInstance().getScore());
     }
 
     public void onUpdateCurrentAvailableBombsEvent(int arg) {
@@ -410,7 +393,12 @@ public abstract class Level {
     }
 
     public void onUpdateMaxBombsGameEvent(int arg) {
-        DataInputOutput.increaseObtainedBombs();
+        DataInputOutput.getInstance().increaseObtainedBombs();
         new UpdateCurrentAvailableBombsEvent().invoke(arg);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Level %d, World %d", getLevelId(), getWorldId());
     }
 }

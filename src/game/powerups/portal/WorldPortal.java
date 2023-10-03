@@ -2,7 +2,6 @@ package game.powerups.portal;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
-import game.data.PlayerDataObject;
 import game.entity.models.BomberEntity;
 import game.level.Level;
 import game.level.world1.World1Level1;
@@ -51,12 +50,9 @@ public abstract class WorldPortal extends Portal{
         super.doApply(entity);
 
         try {
-            // Retrieve the player data object from data input/output
-            PlayerDataObject playerDataObject = DataInputOutput.getPlayerDataObject();
-
             // Get the ID of the last level and last world from the player data object
-            int savedLastLevelId = playerDataObject.getLastLevelId();
-            int savedLastWorldId = playerDataObject.getLastWorldId();
+            int savedLastLevelId = DataInputOutput.getInstance().getLastLevelId();
+            int savedLastWorldId = DataInputOutput.getInstance().getLastWorldId();
 
             // Get the class of the first level for the current world from the ID_TO_FIRST_LEVEL_MAP
             Class<? extends Level> firstLevelOfCurrWorld = ID_TO_FIRST_LEVEL_MAP.getOrDefault(worldId, World1Level1.class);

@@ -37,7 +37,7 @@ public class Bomberman {
         bombermanFrame = new BombermanFrame();
         bombermanFrame.create();
         showActivity(MainMenuPanel.class);
-        ToastHandler.getInstance().show(Localization.get(WELCOME_TEXT).replace("%user%", DataInputOutput.getUsername()));
+        ToastHandler.getInstance().show(Localization.get(WELCOME_TEXT).replace("%user%", DataInputOutput.getInstance().getUsername()));
     }
 
     public static void startGarbageCollectorTask() {
@@ -45,7 +45,7 @@ public class Bomberman {
     }
 
     public static void retrievePlayerData() {
-        DataInputOutput.retrieveData();
+        DataInputOutput.getInstance().retrieveData();
     }
 
     public static BombermanFrame getBombermanFrame() {

@@ -46,11 +46,6 @@ public class World1Arena extends ArenaLevel {
     }
 
     @Override
-    public String toString() {
-        return String.format("Arena World %d", getWorldId());
-    }
-
-    @Override
     public Class<? extends Enemy>[] getSpecialRoundEnemies() {
         return new Class[] {
                 TankEnemy.class,

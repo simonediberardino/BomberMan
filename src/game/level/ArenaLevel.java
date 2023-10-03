@@ -2,7 +2,6 @@ package game.level;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
-import game.data.PlayerDataObject;
 import game.entity.models.Enemy;
 import game.events.RoundPassedGameEvent;
 import game.events.ScoreGameEvent;
@@ -11,8 +10,9 @@ import game.ui.viewelements.misc.ToastHandler;
 
 import javax.swing.*;
 
-import static game.localization.Localization.ARENA_DIED;
-import static game.localization.Localization.YOU_DIED;
+import java.lang.reflect.InvocationTargetException;
+
+import static game.localization.Localization.*;
 
 public abstract class ArenaLevel extends Level {
     private static int CURR_ROUND = 0;
@@ -44,10 +44,11 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     public void generateDestroyableBlock() {
-        if(currentRound == 0) {
-            spawnMisteryBox();
-            super.generateDestroyableBlock();
+        if (currentRound != 0) {
+            return;
         }
+        spawnMisteryBox();
+        super.generateDestroyableBlock();
     }
 
     @Override
@@ -83,9 +84,11 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     public void onRoundPassedGameEvent() {
-        if(currentRound > 1)
+        if(currentRound > 1) {
             super.onRoundPassedGameEvent();
+        }
 
+        ToastHandler.getInstance().show(Localization.get(STARTING_ROUND).replace("%round%", String.valueOf(currentRound)));
         Bomberman.getMatch().getInventoryElementControllerRounds().setNumItems(currentRound);
     }
 
@@ -98,8 +101,16 @@ public abstract class ArenaLevel extends Level {
 
     @Override
     public void onDeathGameEvent() {
-        DataInputOutput.increaseDeaths();
-        DataInputOutput.decreaseScore(1000);
+        DataInputOutput.getInstance().increaseDeaths();
+        DataInputOutput.getInstance().decreaseScore(1000);
+    }
+
+    @Override
+    public void endLevel() {}
+
+    @Override
+    public String toString() {
+        return String.format("Arena World %d", getWorldId());
     }
 
     protected boolean isSpecialRound() {

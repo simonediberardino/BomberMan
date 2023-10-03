@@ -57,10 +57,10 @@ public class BomberManMatch {
             inventoryElementControllerRounds = new InventoryElementControllerRounds();
         }else{
             inventoryElementControllerLives = new InventoryElementControllerLives();
-            inventoryElementControllerLives.setNumItems(DataInputOutput.getLives());
+            inventoryElementControllerLives.setNumItems(DataInputOutput.getInstance().getLives());
         }
 
-        inventoryElementControllerPoints.setNumItems((int) DataInputOutput.getScore());
+        inventoryElementControllerPoints.setNumItems((int) DataInputOutput.getInstance().getScore());
     }
 
     public Level getCurrentLevel() {
@@ -124,6 +124,7 @@ public class BomberManMatch {
         gameTickerObservable.resume();
         gameState = true;
         Bomberman.showActivity(MatchPanel.class);
+        currentLevel.playSoundTrack();
     }
 
     public int getEnemiesAlive() {

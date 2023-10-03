@@ -14,7 +14,7 @@ public class MysteryBoxPerk extends MysteryBox{
 
     @Override
     int getPrice() {
-        return 500;
+        return 200;
     }
 
     @Override

@@ -12,6 +12,7 @@ import game.ui.viewelements.bombermanbutton.YellowButton;
 import game.ui.viewelements.bombermanpanel.BombermanPanelYellow;
 import game.ui.viewelements.settings.InfoElementView;
 import game.ui.viewelements.settings.SettingsElementView;
+import game.ui.viewelements.settings.SlideElementView;
 import game.ui.viewelements.settings.TextFieldElementView;
 import game.utils.Paths;
 import game.utils.Utility;
@@ -130,6 +131,11 @@ public abstract class BoxMenuPanel extends PagePanel {
         return elementView;
     }
 
+    protected SlideElementView addSlideElementView(String title, int currValue, RunnablePar callback){
+        SlideElementView elementView = new SlideElementView(boxPanel, title, currValue, callback);
+        componentsPanel.add(elementView);
+        return elementView;
+    }
     /**
 
      Implementation of the onShowCallback() method in the PagePanel superclass.

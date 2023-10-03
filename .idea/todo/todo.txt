@@ -1,6 +1,5 @@
 
 high priorities:
 - remote not working;
-- music on pause off;
-- Points spawn boss;
-- respawn enemies;
+- Images;
+- Fixed regenerating destroyable blocks and resetting round;

@@ -4,12 +4,10 @@ import game.Bomberman;
 import game.level.WorldSelectorLevel;
 import game.level.world1.World1Arena;
 import game.level.world1.World1Level5;
-import game.level.world2.World2Level1;
-import game.level.world2.World2Level2;
-import game.level.world2.World2Level3;
-import game.level.world2.World2Level5;
+import game.level.world2.*;
 import game.ui.panels.settings.ProfilePanel;
 import game.ui.panels.settings.SettingsPanel;
+import game.ui.viewelements.bombermanbutton.RedButton;
 import game.ui.viewelements.bombermanbutton.YellowButton;
 import game.ui.panels.BombermanFrame;
 
@@ -37,12 +35,12 @@ public class MainMenuPanel extends BaseMenu {
 
     @Override
     protected int getButtonsPadding() {
-        return 2;
+        return 3;
     }
 
     @Override
     protected List<JButton> getButtons() {
-        return Arrays.asList(createStartLevelButton(), createProfileButton(), createSettingsButton(), createQuitButton());
+        return Arrays.asList(createStartLevelButton(), createStartArenaButton(), createProfileButton(), createSettingsButton(), createQuitButton());
     }
 
     /**
@@ -50,7 +48,13 @@ public class MainMenuPanel extends BaseMenu {
      */
     private JButton createStartLevelButton() {
         JButton startLevelButton = new YellowButton(get(PLAY));
-        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new WorldSelectorLevel()));
+        startLevelButton.addActionListener((v) -> Bomberman.startLevel(new World2Arena()));
+        return startLevelButton;
+    }
+
+    private JButton createStartArenaButton() {
+        JButton startLevelButton = new YellowButton(get(START_ARENA));
+        startLevelButton.addActionListener((v) -> Bomberman.showActivity(ArenaMenuPanel.class));
         return startLevelButton;
     }
 
@@ -73,7 +77,7 @@ public class MainMenuPanel extends BaseMenu {
      * Creates the exitButton and adds it to the listButtonsPanel.
      */
     private JButton createQuitButton() {
-        JButton exitButton = new YellowButton(get(QUIT));
+        JButton exitButton = new RedButton(get(QUIT));
         exitButton.addActionListener(v -> System.exit(0));
         return exitButton;
     }
