@@ -6,8 +6,8 @@ import game.entity.bomb.Bomb;
 import game.entity.bomb.FireExplosion;
 import game.entity.bomb.PistolExplosion;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
-import game.entity.items.BombItem;
-import game.entity.items.UsableItem;
+import game.items.BombItem;
+import game.items.UsableItem;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.powerups.PowerUp;
 import game.utils.Utility;
@@ -39,7 +39,7 @@ public abstract class BomberEntity extends Character implements Explosive{
     @Override
     protected void onSpawn() {
         super.onSpawn();
-        give(new BombItem());
+        Bomberman.getMatch().give(this, new BombItem());
     }
 
     public int getCurrExplosionLength() {
@@ -70,18 +70,12 @@ public abstract class BomberEntity extends Character implements Explosive{
         this.lastPlacedBombTime = lastPlacedBombTime;
     }
 
-    public void give(UsableItem usableItem) {
-        weapon = usableItem;
-        weapon.setOwner(this);
-    }
-
-    public void removeItem() {
-        weapon = new BombItem();
-        weapon.setOwner(this);
-    }
-
     public UsableItem getWeapon() {
         return weapon;
+    }
+
+    public void setWeapon(UsableItem weapon) {
+        this.weapon = weapon;
     }
 
     public int getCurrentBombs() {

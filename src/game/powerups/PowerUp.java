@@ -18,7 +18,8 @@ import java.util.*;
 public abstract class PowerUp extends EntityInteractable {
     // A static array of power-up classes
     public static final Class<? extends PowerUp>[] POWER_UPS = new Class[]{
-            ArmorPowerUp.class,
+            PistolPowerUp.class,
+            /*ArmorPowerUp.class,
             FirePowerUp.class,
             SpeedPowerUp.class,
             TransparentDestroyableBlocksPowerUp.class,
@@ -27,7 +28,7 @@ public abstract class PowerUp extends EntityInteractable {
             Hammer.class,
             BlockMoverPowerUp.class,
             IncreaseMaxBombsPowerUp.class,
-            TransparentBombsPowerUp.class
+            TransparentBombsPowerUp.class*/
     };
     // The default duration for a power-up, in seconds
     public static final int DEFAULT_DURATION_SEC = 15;

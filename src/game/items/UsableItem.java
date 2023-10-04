@@ -1,22 +1,26 @@
-package game.entity.items;
+package game.items;
 
+import game.Bomberman;
 import game.entity.models.BomberEntity;
 
 public abstract class UsableItem {
     protected BomberEntity owner;
 
     public abstract void use();
+    public abstract String getImagePath();
+
+    public abstract int getCount();
 
     public void setOwner(BomberEntity owner) {
         this.owner = owner;
     }
 
     public void give() {
-        owner.give(this);
+        Bomberman.getMatch().give(owner, this);
     }
 
     public void remove() {
-        owner.removeItem();
+        Bomberman.getMatch().removeItem(owner);
     }
 
     public BomberEntity getOwner() {

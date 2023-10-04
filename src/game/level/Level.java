@@ -395,7 +395,6 @@ public abstract class Level {
 
     public void onUpdateCurrentAvailableBombsEvent(int arg) {
         Bomberman.getMatch().getPlayer().setCurrentBombs(arg);
-        Bomberman.getMatch().getInventoryElementControllerBombs().setNumItems(arg);
     }
 
     public void onUpdateMaxBombsGameEvent(int arg) {

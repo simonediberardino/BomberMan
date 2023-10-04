@@ -1,8 +1,6 @@
 
 high priorities:
 - Images;
-- Explode method;
 - Lives power up remove;
-- pistol power up;
 - Test tank & Clown;
-- Add delay pistol;
+- Immune texture not working;

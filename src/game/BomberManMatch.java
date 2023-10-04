@@ -3,9 +3,12 @@ package game;
 import game.data.DataInputOutput;
 import game.data.SortedLinkedList;
 import game.entity.Player;
+import game.entity.models.BomberEntity;
 import game.entity.models.Entity;
 import game.hardwareinput.ControllerManager;
 import game.hardwareinput.MouseControllerManager;
+import game.items.BombItem;
+import game.items.UsableItem;
 import game.level.Level;
 import game.tasks.GamePausedObserver;
 import game.tasks.GameTickerObservable;
@@ -60,6 +63,27 @@ public class BomberManMatch {
         }
 
         inventoryElementControllerPoints.setNumItems((int) DataInputOutput.getInstance().getScore());
+        updateInventoryWeaponController();
+    }
+
+    public void give(BomberEntity owner, UsableItem item) {
+        owner.setWeapon(item);
+        owner.getWeapon().setOwner(owner);
+        updateInventoryWeaponController();
+    }
+
+    public void removeItem(BomberEntity owner) {
+        owner.setWeapon(new BombItem());
+        owner.getWeapon().setOwner(owner);
+        updateInventoryWeaponController();
+    }
+
+    public void updateInventoryWeaponController() {
+        if(player == null)
+            return;
+
+        inventoryElementControllerBombs.setImagePath(player.getWeapon().getImagePath());
+        inventoryElementControllerBombs.setNumItems(player.getWeapon().getCount());
     }
 
     public Level getCurrentLevel() {

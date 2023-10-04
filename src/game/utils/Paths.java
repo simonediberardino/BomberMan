@@ -77,6 +77,10 @@ public class Paths {
         return String.format("%s/sounds", getAssetsFolder());
     }
 
+    public static String getItemsPath() {
+        return String.format("%s/items", getAssetsFolder());
+    }
+
     public static String getDefaultSoundTrack() {
         return String.format("%s/menu/sound/soundtrack.wav", getAssetsFolder());
     }

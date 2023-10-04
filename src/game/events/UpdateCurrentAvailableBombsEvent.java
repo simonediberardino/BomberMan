@@ -12,5 +12,6 @@ public class UpdateCurrentAvailableBombsEvent implements GameEvent {
             return;
 
         Bomberman.getMatch().getCurrentLevel().onUpdateCurrentAvailableBombsEvent((int) arg);
+        Bomberman.getMatch().updateInventoryWeaponController();
     }
 }

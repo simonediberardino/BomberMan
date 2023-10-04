@@ -8,7 +8,7 @@ import java.awt.*;
 public class ToastHandler {
     private static final int TOAST_DURATION = 3500;
     private static final int TOAST_START_Y = (int) Utility.getScreenSize().getHeight();
-    private static final int TOAST_ANIM_STEP_SIZE = Utility.px(35);
+    private static final int TOAST_ANIM_STEP_SIZE = Utility.px(50);
     private static final int CORNER_RADIUS = 15;
     private static final Color BACKGROUND_COLOR = new Color(0, 0, 0, 0);
     private static final Color TEXT_COLOR = new Color(255, 255, 255);
@@ -28,7 +28,6 @@ public class ToastHandler {
 
     public void showToast(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Calculate the dimensions based on text length
         Font toastFont = new Font(Font.MONOSPACED, Font.BOLD, Utility.px(35));

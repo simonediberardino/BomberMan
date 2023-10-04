@@ -33,6 +33,7 @@ public class BombermanFrame extends JFrame {
                 return;
             }
             toastHandler.showToast((Graphics2D) g);
+
             repaint();
         }
     };

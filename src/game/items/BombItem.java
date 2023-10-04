@@ -1,10 +1,8 @@
-package game.entity.items;
+package game.items;
 
-import game.entity.Player;
 import game.entity.bomb.Bomb;
-import game.entity.models.BomberEntity;
-import game.entity.models.Character;
 import game.events.UpdateCurrentAvailableBombsEvent;
+import game.utils.Paths;
 import game.utils.Utility;
 
 
@@ -43,5 +41,15 @@ public class BombItem extends UsableItem {
 
         bombEntity.spawn(true);
         bombEntity.trigger();
+    }
+
+    @Override
+    public String getImagePath() {
+        return String.format("%s/bomb/bomb_0.png", Paths.getEntitiesFolder());
+    }
+
+    @Override
+    public int getCount() {
+        return owner.getCurrentBombs();
     }
 }

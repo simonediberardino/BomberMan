@@ -6,7 +6,7 @@ import game.entity.blocks.DestroyableBlock;
 import game.entity.blocks.HardBlock;
 import game.entity.bomb.AbstractExplosion;
 import game.entity.bomb.Bomb;
-import game.entity.items.Pistol;
+import game.items.PistolItem;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.hardwareinput.Command;
 import game.entity.models.*;
@@ -136,6 +136,7 @@ public class Player extends BomberEntity {
         if (!Bomberman.getMatch().getGameState()) {
             return;
         }
+
         if (canMove) {
             switch (command) {
                 // For move up and move down, use left and right as opposite directions respectively.
@@ -151,10 +152,9 @@ public class Player extends BomberEntity {
             }
         }
 
-        give(new Pistol());
         switch (command) {
             case ATTACK:
-                getWeapon().use();
+                doAttack();
                 break;
         }
     }
@@ -207,5 +207,10 @@ public class Player extends BomberEntity {
     @Override
     public int getMaxExplosionDistance() {
         return Bomberman.getMatch().getPlayer().getCurrExplosionLength();
+    }
+
+    private void doAttack() {
+        getWeapon().use();
+        Bomberman.getMatch().updateInventoryWeaponController();
     }
 }
