@@ -5,3 +5,4 @@ high priorities:
 - Lives power up remove;
 - pistol power up;
 - Test tank & Clown;
+- Add delay pistol;

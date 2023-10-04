@@ -24,14 +24,8 @@ public class Pistol extends UsableItem implements Explosive {
     }
 
     @Override
-    public boolean isObstacleOfExplosion(Entity e) {
-        return Explosive.super.isObstacleOfExplosion(e);
-    }
-
-    @Override
     public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
         return new HashSet<>() {{
-            add(DestroyableBlock.class);
             add(Enemy.class);
             add(Bomb.class);
         }};
