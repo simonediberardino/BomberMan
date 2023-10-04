@@ -54,7 +54,7 @@ public abstract class Boss extends IntelligentEnemy {
 
     @Override
     public Set<Class<? extends Entity>> getObstacles() {
-        return new HashSet<>();
+        return getInteractionsEntities();
     }
 
     protected String getImageFromRageStatus() {

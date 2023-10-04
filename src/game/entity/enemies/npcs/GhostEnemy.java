@@ -28,7 +28,7 @@ public class GhostEnemy extends IntelligentEnemy {
 
     @Override
     public Set<Class<? extends Entity>> getObstacles() {
-        return new HashSet<>();
+        return getInteractionsEntities();
     }
 
     @Override
