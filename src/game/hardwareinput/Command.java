@@ -7,7 +7,7 @@ public enum Command {
     MOVE_DOWN,
     MOVE_RIGHT,
     MOVE_LEFT,
-    PLACE_BOMB,
+    ATTACK,
     PAUSE,
     INTERACT;
 

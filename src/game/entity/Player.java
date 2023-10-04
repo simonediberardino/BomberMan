@@ -2,7 +2,11 @@ package game.entity;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
+import game.entity.blocks.DestroyableBlock;
+import game.entity.blocks.HardBlock;
 import game.entity.bomb.AbstractExplosion;
+import game.entity.bomb.Bomb;
+import game.entity.items.Pistol;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.hardwareinput.Command;
 import game.entity.models.*;
@@ -147,9 +151,10 @@ public class Player extends BomberEntity {
             }
         }
 
+        give(new Pistol());
         switch (command) {
-            case PLACE_BOMB:
-                placeBomb();
+            case ATTACK:
+                getWeapon().use();
                 break;
         }
     }
@@ -179,5 +184,28 @@ public class Player extends BomberEntity {
     @Override
     protected SoundModel getStepSound() {
         return SoundModel.STEP_SOUND;
+    }
+
+    //4 methods for pistolPowerUp only
+    @Override
+    public Set<Class<? extends Entity>> getExplosionObstacles() {
+        return new HashSet<>() {{
+            add(HardBlock.class);
+            add(DestroyableBlock.class);
+        }};
+    }
+
+    @Override
+    public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
+        return new HashSet<>() {{
+            add(DestroyableBlock.class);
+            add(Enemy.class);
+            add(Bomb.class);
+        }};
+    }
+
+    @Override
+    public int getMaxExplosionDistance() {
+        return Bomberman.getMatch().getPlayer().getCurrExplosionLength();
     }
 }

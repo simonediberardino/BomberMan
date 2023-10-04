@@ -83,10 +83,10 @@ public class Bomb extends MovableBlock implements Explosive {
 
         AudioManager.getInstance().play(SoundModel.EXPLOSION);
 
-        new FireExplosion(caller, getCoords(), Direction.UP, this).spawn(true, false);
-        new FireExplosion(caller, getCoords(), Direction.RIGHT, this).spawn(true, false);
-        new FireExplosion(caller, getCoords(), Direction.DOWN, this).spawn(true, false);
-        new FireExplosion(caller, getCoords(), Direction.LEFT, this).spawn(true, false);
+        new FireExplosion(caller, getCoords(), Direction.UP, this).explode();
+        new FireExplosion(caller, getCoords(), Direction.RIGHT, this).explode();
+        new FireExplosion(caller, getCoords(), Direction.DOWN, this).explode();
+        new FireExplosion(caller, getCoords(), Direction.LEFT, this).explode();
 
         if (onExplodeCallback != null) onExplodeCallback.run();
     }
@@ -114,11 +114,6 @@ public class Bomb extends MovableBlock implements Explosive {
             add(HardBlock.class);
             add(DestroyableBlock.class);
         }};
-    }
-
-    @Override
-    public boolean isObstacleOfExplosion(Entity e) {
-        return (e == null) || (getExplosionObstacles().stream().anyMatch(c -> c.isInstance(e)));
     }
 
     @Override

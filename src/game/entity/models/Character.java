@@ -3,6 +3,7 @@ package game.entity.models;
 import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
+import game.entity.items.UsableItem;
 import game.hardwareinput.Command;
 import game.hardwareinput.ControllerManager;
 import game.entity.enemies.npcs.Zombie;
@@ -318,6 +319,10 @@ public abstract class Character extends MovingEntity {
      */
     protected void setHp(int newHp) {
         healthPoints = newHp;
+    }
+
+    public Direction getCurrDirection() {
+        return currDirection;
     }
 
     protected int getHpPercentage() {

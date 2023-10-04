@@ -65,7 +65,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
                 entry(DataInputOutput.getInstance().getLeftKey(), Command.MOVE_LEFT),
                 entry(DataInputOutput.getInstance().getBackKey(), Command.MOVE_DOWN),
                 entry(DataInputOutput.getInstance().getRightKey(), Command.MOVE_RIGHT),
-                entry(DataInputOutput.getInstance().getBombKey(), Command.PLACE_BOMB),
+                entry(DataInputOutput.getInstance().getBombKey(), Command.ATTACK),
                 entry(KEY_ESC, Command.PAUSE)
         );
     }

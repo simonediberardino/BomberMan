@@ -123,6 +123,28 @@ public class Coordinates implements Comparable<Coordinates> {
         return Math.sqrt(Math.pow(Math.abs(this.x - other.x), 2) + Math.pow(Math.abs(this.y - other.y), 2));
     }
 
+    /**
+     Gets the next coordinates in the given direction and with the given step size.
+     @param d the direction to get the next coordinates in
+     @param stepSize the step size to use
+     @return the next coordinates in the given direction and with the given step size
+     */
+    public static Coordinates nextCoords(Coordinates coordinates, Direction d, int stepSize) {
+        int x = 0;
+        int y = 0;
+
+        // Determine the direction to move in
+        switch (d) {
+            case RIGHT: x = stepSize;break;
+            case LEFT: x = -stepSize;break;
+            case UP: y = -stepSize; break;
+            case DOWN: y = stepSize; break;
+        }
+
+        // Calculate the next coordinates based on the current direction and step size
+        return new Coordinates(x + coordinates.getX(), y + coordinates.getY());
+    }
+
     @Override
     public String toString() {
         return "Coordinates{" +

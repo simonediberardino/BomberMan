@@ -3,7 +3,11 @@ package game.entity.models;
 import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.Bomb;
+import game.entity.bomb.FireExplosion;
+import game.entity.bomb.PistolExplosion;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
+import game.entity.items.BombItem;
+import game.entity.items.UsableItem;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.powerups.PowerUp;
 import game.utils.Utility;
@@ -11,7 +15,7 @@ import game.utils.Utility;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BomberEntity extends Character {
+public abstract class BomberEntity extends Character implements Explosive{
     public static final int MAX_BOMB_CAN_HOLD = 10;
     private final List<Class<? extends Entity>> listInteractWithMouseClick = new ArrayList<>();
     private final List<Class<? extends Entity>> listInteractWithMouseDrag = new ArrayList<>();
@@ -20,6 +24,7 @@ public abstract class BomberEntity extends Character {
     private int placedBombs = 0;
     private long lastPlacedBombTime = 0;
     private int currentBombs;
+    private UsableItem weapon;
 
     /**
      * Constructs a new Character with the specified Coordinates.
@@ -29,6 +34,12 @@ public abstract class BomberEntity extends Character {
     public BomberEntity(Coordinates coordinates) {
         super(coordinates);
         listInteractWithMouseClick.add(MysteryBoxPerk.class);
+    }
+
+    @Override
+    protected void onSpawn() {
+        super.onSpawn();
+        give(new BombItem());
     }
 
     public int getCurrExplosionLength() {
@@ -43,41 +54,34 @@ public abstract class BomberEntity extends Character {
         return Bomberman.getMatch().getCurrentLevel().getMaxBombs();
     }
 
-    protected void placeBomb() {
-        if (getCurrExplosionLength() == 0) {
-            return;
-        }
+    public int getPlacedBombs() {
+        return placedBombs;
+    }
 
-        if (placedBombs >= getMaxBombs()) {
-            return;
-        }
+    public void setPlacedBombs(int placedBombs) {
+        this.placedBombs = placedBombs;
+    }
 
-        if (getCurrentBombs() <= 0) {
-            return;
-        }
+    public long getLastPlacedBombTime() {
+        return lastPlacedBombTime;
+    }
 
-        if (Utility.timePassed(lastPlacedBombTime) < Bomb.PLACE_INTERVAL) {
-            return;
-        }
+    public void setLastPlacedBombTime(long lastPlacedBombTime) {
+        this.lastPlacedBombTime = lastPlacedBombTime;
+    }
 
-        lastPlacedBombTime = System.currentTimeMillis();
-        placedBombs++;
+    public void give(UsableItem usableItem) {
+        weapon = usableItem;
+        weapon.setOwner(this);
+    }
 
-        Bomb bomb = new Bomb(this);
+    public void removeItem() {
+        weapon = new BombItem();
+        weapon.setOwner(this);
+    }
 
-        if (this instanceof Player) {
-            new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs() - 1);
-        }
-
-        bomb.setOnExplodeListener(() -> {
-            placedBombs--;
-            if (this instanceof Player) {
-                new UpdateCurrentAvailableBombsEvent().invoke(getCurrentBombs() + 1);
-            }
-        });
-
-        bomb.spawn(true);
-        bomb.trigger();
+    public UsableItem getWeapon() {
+        return weapon;
     }
 
     public int getCurrentBombs() {

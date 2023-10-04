@@ -80,28 +80,6 @@ public abstract class EntityInteractable extends Entity {
     protected abstract void doInteract(Entity e);
 
     /**
-     Gets the next coordinates in the given direction and with the given step size.
-     @param d the direction to get the next coordinates in
-     @param stepSize the step size to use
-     @return the next coordinates in the given direction and with the given step size
-     */
-    public Coordinates nextCoords(Direction d, int stepSize) {
-        int x = 0;
-        int y = 0;
-
-        // Determine the direction to move in
-        switch (d) {
-            case RIGHT: x = stepSize;break;
-            case LEFT: x = -stepSize;break;
-            case UP: y = -stepSize; break;
-            case DOWN: y = stepSize; break;
-        }
-
-        // Calculate the next coordinates based on the current direction and step size
-        return new Coordinates(x + getCoords().getX(), y + getCoords().getY());
-    }
-
-    /**
 
      Moves or interacts with other entities in the given direction and with the default step size and offset.
      @param d the direction to move or interact in
@@ -129,7 +107,7 @@ public abstract class EntityInteractable extends Entity {
         if(d == null)
             return false;
 
-        Coordinates nextTopLeftCoords = nextCoords(d, stepSize);
+        Coordinates nextTopLeftCoords = Coordinates.nextCoords(getCoords(), d, stepSize);
 
         if (!nextTopLeftCoords.validate(this)) {
             if(!ignoreMapBorders){

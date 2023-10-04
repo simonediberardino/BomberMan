@@ -104,17 +104,6 @@ public class Clown extends Boss implements Explosive {
     }
 
     /**
-     * Overrides the isObstacleOfExplosion method from the Explosive interface to check if the input entity is null or if it is an obstacle for the Clown entity's explosion.
-     *
-     * @param e The entity to check if it is an obstacle for the Clown entity's explosion.
-     * @return A boolean value representing whether the input entity is an obstacle for the Clown entity's explosion or not.
-     */
-    @Override
-    public boolean isObstacleOfExplosion(Entity e) {
-        return (e == null) || (getExplosionObstacles().stream().anyMatch(c -> c.isInstance(e)));
-    }
-
-    /**
      * Overrides the getExplosionObstacles method from the Explosive interface to return an empty list.
      *
      * @return An empty List object.

@@ -82,11 +82,6 @@ public class TankEnemy extends IntelligentEnemy implements Explosive {
     }
 
     @Override
-    public boolean isObstacleOfExplosion(Entity e) {
-        return (e == null) || (getExplosionObstacles().stream().anyMatch(c -> c.isInstance(e)));
-    }
-
-    @Override
     public Set<Class<? extends Entity>> getExplosionInteractionEntities() {
         return new HashSet<>() {{
             add(Player.class);

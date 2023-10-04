@@ -1,9 +1,7 @@
 package game.entity.bomb;
 
 import game.Bomberman;
-import game.entity.blocks.DestroyableBlock;
 import game.entity.models.*;
-import game.entity.models.Character;
 import game.ui.panels.game.PitchPanel;
 import game.values.DrawPriority;
 
@@ -116,7 +114,7 @@ public abstract class AbstractExplosion extends MovingEntity {
      */
     @Override
     public void move(Coordinates coordinates) {
-        Coordinates nextTopLeftCoords = nextCoords(direction, getSize());
+        Coordinates nextTopLeftCoords = Coordinates.nextCoords(getCoords(), direction, getSize());
 
         try {
             Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(
@@ -133,7 +131,7 @@ public abstract class AbstractExplosion extends MovingEntity {
                     direction,
                     distanceFromExplosive + 1,
                     getExplosive()
-            ).spawn(true, false);
+            ).explode();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
             e.printStackTrace();
@@ -186,6 +184,10 @@ public abstract class AbstractExplosion extends MovingEntity {
         return canExpand;
     }
 
+    protected boolean shouldHideCenter() {
+        return false;
+    }
+
     public void onObstacle(Coordinates coordinates) {
         try {
             Constructor<? extends AbstractExplosion> constructor = getExplosionClass().getConstructor(
@@ -204,7 +206,7 @@ public abstract class AbstractExplosion extends MovingEntity {
                     distanceFromExplosive + 1,
                     explosive,
                     false
-            ).spawn(true, false);
+            ).explode();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
             e.printStackTrace();
@@ -244,5 +246,9 @@ public abstract class AbstractExplosion extends MovingEntity {
 
     private void expandBomb(Direction d, int stepSize) {
         moveOrInteract(d, stepSize, true);
+    }
+
+    public void explode() {
+        spawn(true, false);
     }
 }

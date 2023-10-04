@@ -4,6 +4,7 @@ import game.Bomberman;
 import game.data.DataInputOutput;
 import game.entity.models.BomberEntity;
 import game.entity.models.Enemy;
+import game.entity.models.Entity;
 import game.events.RoundPassedGameEvent;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.events.UpdateCurrentBombsLengthEvent;
@@ -81,7 +82,8 @@ public abstract class ArenaLevel extends Level {
     @Override
     public void onAllEnemiesEliminated() {
         Timer t = new Timer(ARENA_ROUND_LOADING_TIMER, e -> {
-            if(Bomberman.getMatch().getPlayer().isSpawned())
+            Entity player = Bomberman.getMatch().getPlayer();
+            if(player != null && player.isSpawned())
                 startLevel();
         });
 
