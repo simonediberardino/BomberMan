@@ -39,7 +39,7 @@ public class FastEnemy extends IntelligentEnemy {
 
     @Override
     public float getSpeed() {
-        return 2f;
+        return 1f;
     }
 
     @Override

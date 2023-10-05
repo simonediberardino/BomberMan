@@ -30,6 +30,15 @@ public abstract class MovingEntity extends EntityInteractable {
 
         // Iterate over each direction
         for (Direction d : Direction.values()) {
+            boolean areCoordinatesValid =
+                    Coordinates.getEntitiesOnBlock(Coordinates.nextCoords(getCoords(),d,getSize())).stream().anyMatch(e->canInteractWith(e));
+            if(areCoordinatesValid){
+                result.add(d);
+                return result;
+            }
+
+        }
+        for (Direction d : Direction.values()) {
             List<Coordinates> newCoordinates = getNewCoordinatesOnDirection(d, PIXEL_UNIT, getSize() / 2);
             // Check if any entities on the next coordinates are blocks or have invalid coordinates
             boolean areCoordinatesValid = Coordinates.getEntitiesOnCoordinates(
@@ -42,9 +51,7 @@ public abstract class MovingEntity extends EntityInteractable {
             if (areCoordinatesValid) {
                 result.add(d);
             }
-        }
-
-        return result;
+        }return result;
     }
 
     protected SoundModel getStepSound() {

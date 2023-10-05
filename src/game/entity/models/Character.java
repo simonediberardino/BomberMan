@@ -3,10 +3,8 @@ package game.entity.models;
 import game.Bomberman;
 import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
-import game.items.UsableItem;
 import game.hardwareinput.Command;
 import game.hardwareinput.ControllerManager;
-import game.entity.enemies.npcs.Zombie;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
@@ -29,6 +27,7 @@ import static game.entity.models.Direction.DOWN;
 public abstract class Character extends MovingEntity {
     public static final int SIZE = PitchPanel.PIXEL_UNIT * 4 * 2;
     protected final List<Direction> imagePossibleDirections = getImageDirections();
+    public Set<Command> commandQueue = new HashSet<>();
     protected long lastDirectionUpdate = 0;
     protected Direction currDirection = DOWN;
     /**
@@ -402,4 +401,80 @@ public abstract class Character extends MovingEntity {
     public void onExplosion(AbstractExplosion explosion) {
         explosion.attack(this);
     }
+
+    public void handleAction(Command command) {
+        if (!Bomberman.getMatch().getGameState()) {
+            return;
+        }
+
+        if (canMove) {
+            switch (command) {
+                // For move up and move down, use left and right as opposite directions respectively.
+                case MOVE_UP:
+                case MOVE_DOWN:
+                    handleMoveCommand(command, LEFT, RIGHT);
+                    break;
+                // For move left and move right, use up and down as opposite directions respectively.
+                case MOVE_LEFT:
+                case MOVE_RIGHT:
+                    handleMoveCommand(command, UP, DOWN);
+                    break;
+            }
+        }
+
+        switch (command) {
+            case ATTACK:
+                doAttack();
+                break;
+        }
+    }
+
+    public void doAttack() {
+        return;
+    }
+
+    public void handleMoveCommand(Command command, Direction oppositeDirection1, Direction oppositeDirection2) {
+        boolean moveSuccessful = move(command.commandToDirection());
+
+        if (moveSuccessful) {
+            return;
+        }
+
+        List<Coordinates> oppositeBlocksCoordinates = getNewCoordinatesOnDirection(command.commandToDirection(), PitchPanel.PIXEL_UNIT, getSize());
+        List<Entity> entitiesOpposite1 = Coordinates.getEntitiesOnBlock(oppositeBlocksCoordinates.get(0));
+        List<Entity> entitiesOpposite2 = Coordinates.getEntitiesOnBlock(oppositeBlocksCoordinates.get(1));
+        overpassBlock(entitiesOpposite1, entitiesOpposite2, oppositeDirection1, oppositeDirection2);
+    }
+
+    public void overpassBlock(List<Entity> entitiesOpposite1, List<Entity> entitiesOpposite2, Direction direction1, Direction direction2) {
+        Command oppositeCommand1 = direction2.toCommand();
+        Command oppositeCommand2 = direction1.toCommand();
+        ControllerManager controllerManager = Bomberman.getMatch().getControllerManager();
+        boolean doubleClick1 = controllerManager.isCommandPressed(oppositeCommand1);
+        boolean doubleClick2 = controllerManager.isCommandPressed(oppositeCommand2);
+
+        if (doubleClick2 || doubleClick1)
+            return;
+
+        // If the first direction has no obstacles and the second does, and the second direction is not double-clicked, move in the second direction.
+        if (!entitiesOpposite1.isEmpty()
+                && (entitiesOpposite2.isEmpty()
+                || entitiesOpposite2.stream().allMatch(this::canInteractWith))
+        ) {
+            move(direction2);
+        }
+        // If the second direction has no obstacles and the first does, and the first direction is not double-clicked, move in the first direction.
+        else if (!entitiesOpposite2.isEmpty() && (entitiesOpposite1.isEmpty() || entitiesOpposite1.stream().allMatch(this::canInteractWith))) {
+
+            move(direction1);
+        }
+    }
+
+    public void executeQueue() {
+        for (Command c : commandQueue) {
+            handleAction(c);
+        }
+        commandQueue.clear();
+    }
+
 }

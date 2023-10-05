@@ -2,6 +2,8 @@ package game.hardwareinput;
 
 import game.Bomberman;
 import game.data.DataInputOutput;
+import game.entity.Player;
+import game.entity.models.Entity;
 import game.events.Observable2;
 import game.tasks.PeriodicTask;
 import game.utils.Utility;
@@ -23,12 +25,11 @@ public class ControllerManager extends Observable2 implements KeyListener {
     private static final int KEY_ESC = KeyEvent.VK_ESCAPE;
     private static ControllerManager instance;
     // Stores the time of the last key event for each command
-    private final Map<Command, Long> commandEventsTime = new HashMap<>();    private static int KEY_DELAY_MS = setDefaultCommandDelay();
-    public Set<Command> commandQueue = new HashSet<>();
-
+    private final Map<Command, Long> commandEventsTime = new HashMap<>();
+    private Player player;
     // Key-Command mapping
     private Map<Integer, Command> keyAssignment;
-    private PeriodicTask task;
+    private PeriodicTask task;    private static int KEY_DELAY_MS = setDefaultCommandDelay();
     public ControllerManager() {
         instance = this;
         setupTask();
@@ -59,6 +60,10 @@ public class ControllerManager extends Observable2 implements KeyListener {
         return KEY_DELAY_MS;
     }
 
+    public void setPlayer(Player entity) {
+        this.player = entity;
+    }
+
     private void setKeyMap() {
         keyAssignment = Map.ofEntries(
                 entry(DataInputOutput.getInstance().getForwardKey(), Command.MOVE_UP),
@@ -73,9 +78,10 @@ public class ControllerManager extends Observable2 implements KeyListener {
     public void onKeyPressed(Command action) {
         // Ignore the event if the time elapsed since the last event is less than KEY_DELAY_MS
 
-        if (action != null) {
+        System.out.println("Key");
+        if (action != null && player != null) {
             commandEventsTime.put(action, System.currentTimeMillis());
-            commandQueue.add(action);
+            player.commandQueue.add(action);
         }
 
         resume();
@@ -89,8 +95,8 @@ public class ControllerManager extends Observable2 implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         Command action = keyAssignment.get(e.getKeyCode());
-        if (Utility.timePassed(commandEventsTime.getOrDefault(action, 0L)) < KEY_DELAY_MS) return;
-
+        if (Utility.timePassed(commandEventsTime.getOrDefault(action, 0L)) < KEY_DELAY_MS)
+            return;
 
         onKeyPressed(action);
         // if a button is pressed, mouse movement gets interrupted
@@ -104,13 +110,14 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     public void onKeyReleased(Command action) {
-        commandQueue.remove(action);
-        if (commandQueue.isEmpty()) stop();
+        player.commandQueue.remove(action);
+        if (player.commandQueue.isEmpty()) stop();
     }
 
     private void setupTask() {
         task = new PeriodicTask(() -> {
-            for (Command command : new HashSet<>(commandQueue)) {
+            if (player == null) return;
+            for (Command command : new HashSet<>(player.commandQueue)) {
                 notifyObservers(command);
             }
         }, KEY_DELAY_MS);
@@ -135,7 +142,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     public boolean isCommandPressed(Command c) {
-        return commandQueue.contains(c);
+        return player.commandQueue.contains(c);
     }
 
     private void updateDelay() {

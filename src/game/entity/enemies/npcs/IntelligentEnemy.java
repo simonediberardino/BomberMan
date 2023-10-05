@@ -1,13 +1,11 @@
 package game.entity.enemies.npcs;
 
-import game.entity.Player;
 import game.entity.models.*;
 import game.entity.models.Coordinates;
 import game.entity.models.Direction;
 import game.events.KilledEnemyEvent;
 import game.events.ScoreGameEvent;
 
-import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +43,10 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
     public Direction chooseDirection(boolean forceChange) {
         // Get the current time in milliseconds
         long currentTime = System.currentTimeMillis();
+        // If it hasn't been long enough since the last direction update, keep moving in the same direction, unless last move was blocked
+        if (currentTime - lastDirectionUpdate < DIRECTION_REFRESH_RATE && !forceChange) {
+            return currDirection;
+        }
 
         // Get a list of all the available directions the agent can move in
         List<Direction> availableDirections = getAvailableDirections()
@@ -53,19 +55,12 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
                 .collect(Collectors.toList());
 
         // If forceChange is true, remove the current direction from the list of available directions
-
-        // If it hasn't been long enough since the last direction update, keep moving in the same direction, unless last move was blocked
-        if (currentTime - lastDirectionUpdate < DIRECTION_REFRESH_RATE && !forceChange) {
-            return currDirection;
-        }
-
         if (availableDirections.isEmpty()) {
             return currDirection;
         }
-
         // Choose a new direction randomly, or keep the current direction with a certain probability
         Direction newDirection = null;
-        if (Math.random() * 100 > CHANGE_DIRECTION_RATE) {
+        if (Math.random() * 100 > CHANGE_DIRECTION_RATE&&availableDirections.size()!=1) {
             newDirection = currDirection;
         }
 
@@ -83,17 +78,12 @@ public abstract class IntelligentEnemy extends Enemy implements ICPU {
         updateLastDirection(chooseDirection(true));
     }
 
-    @Override
-    public Set<Class<? extends Entity>> getInteractionsEntities() {
-        return new HashSet<>(Collections.singletonList(Player.class));
-    }
-
     public void doUpdate(boolean gameState) {
         if (!canMove || !gameState) {
             return;
         }
-
-        move(chooseDirection(false));
+        commandQueue.add(chooseDirection(false).toCommand());
+        executeQueue();
     }
 
     @Override

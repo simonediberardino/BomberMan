@@ -51,6 +51,10 @@ public class BomberManMatch {
         ControllerManager.setDefaultCommandDelay();
     }
 
+    public void assignPlayerToControllerManager() {
+        this.controllerManager.setPlayer(getPlayer());
+    }
+
     private void setupViewControllers() {
         inventoryElementControllerPoints = new InventoryElementControllerPoints();
         inventoryElementControllerBombs = new InventoryElementControllerBombs();

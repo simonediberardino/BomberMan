@@ -3,7 +3,7 @@ package game.tasks;
 import game.events.Observer2;
 
 public abstract class GameTickerObserver implements Observer2 {
-    private static final float DEFAULT_DELAY_OBSERVER = 40;
+    private static final float DEFAULT_DELAY_OBSERVER = 30;
     protected long lastUpdate = 0L;
 
     @Override

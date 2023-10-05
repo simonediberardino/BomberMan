@@ -62,7 +62,10 @@ public class Bomberman {
     }
 
     public static void destroyLevel() {
-        if (bomberManMatch != null) bomberManMatch.destroy();
+        if (bomberManMatch != null) {
+            Bomberman.getBombermanFrame().removeKeyListener(bomberManMatch.getControllerManager());
+            bomberManMatch.destroy();
+        }
         bomberManMatch = new BomberManMatch(new WorldSelectorLevel()); // Temporary sets the current level to WorldSelectorLevel to avoid null pointer exception if some threads aren't killed yet
         System.gc();
     }
@@ -77,6 +80,8 @@ public class Bomberman {
         bomberManMatch = new BomberManMatch(level);
         bombermanFrame.initGamePanel();
         bomberManMatch.getCurrentLevel().start(bombermanFrame.getPitchPanel());
+        bomberManMatch.assignPlayerToControllerManager();
+
         Bomberman.getBombermanFrame().addKeyListener(Bomberman.getMatch().getControllerManager());
         Bomberman.getBombermanFrame().getPitchPanel().addMouseListener(Bomberman.getMatch().getMouseControllerManager());
         Bomberman.getBombermanFrame().getPitchPanel().addMouseMotionListener(Bomberman.getMatch().getMouseControllerManager());

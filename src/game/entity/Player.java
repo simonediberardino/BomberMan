@@ -65,45 +65,10 @@ public class Player extends BomberEntity {
         };
     }
 
-    public void handleMoveCommand(Command command, Direction oppositeDirection1, Direction oppositeDirection2) {
-        boolean moveSuccessful = move(command.commandToDirection());
 
-        if (moveSuccessful) {
-            return;
-        }
 
-        List<Coordinates> oppositeBlocksCoordinates = getNewCoordinatesOnDirection(command.commandToDirection(), PitchPanel.PIXEL_UNIT, getSize());
-        List<Entity> entitiesOpposite1 = Coordinates.getEntitiesOnBlock(oppositeBlocksCoordinates.get(0));
-        List<Entity> entitiesOpposite2 = Coordinates.getEntitiesOnBlock(oppositeBlocksCoordinates.get(1));
-        overpassBlock(entitiesOpposite1, entitiesOpposite2, oppositeDirection1, oppositeDirection2);
-    }
 
-    /**
-     * Attempts to overpass a block in the opposite direction of the player's movement.
-     * The method checks for the existence of obstacles and the player input to determine the appropriate direction to move.
-     *
-     * @param entitiesOpposite1 A list of entities on the first opposite coordinate of the player's movement.
-     * @param entitiesOpposite2 A list of entities on the second opposite coordinate of the player's movement.
-     * @param direction1        The first opposite direction to the player's movement.
-     * @param direction2        The second opposite direction to the player's movement.
-     */
-    public void overpassBlock(List<Entity> entitiesOpposite1, List<Entity> entitiesOpposite2, Direction direction1, Direction direction2) {
-        Command oppositeCommand1 = direction2.toCommand();
-        Command oppositeCommand2 = direction1.toCommand();
 
-        ControllerManager controllerManager = Bomberman.getMatch().getControllerManager();
-        boolean doubleClick1 = controllerManager.isCommandPressed(oppositeCommand1);
-        boolean doubleClick2 = controllerManager.isCommandPressed(oppositeCommand2);
-        if (doubleClick2 || doubleClick1) return;
-        // If the first direction has no obstacles and the second does, and the second direction is not double-clicked, move in the second direction.
-        if (!entitiesOpposite1.isEmpty() && entitiesOpposite2.isEmpty()) {
-            move(direction2);
-        }
-        // If the second direction has no obstacles and the first does, and the first direction is not double-clicked, move in the first direction.
-        else if (!entitiesOpposite2.isEmpty() && entitiesOpposite1.isEmpty()) {
-            move(direction1);
-        }
-    }
 
 
     @Override
@@ -132,32 +97,7 @@ public class Player extends BomberEntity {
         new DeathGameEvent().invoke(null);
     }
 
-    public void handleAction(Command command) {
-        if (!Bomberman.getMatch().getGameState()) {
-            return;
-        }
 
-        if (canMove) {
-            switch (command) {
-                // For move up and move down, use left and right as opposite directions respectively.
-                case MOVE_UP:
-                case MOVE_DOWN:
-                    handleMoveCommand(command, LEFT, RIGHT);
-                    break;
-                // For move left and move right, use up and down as opposite directions respectively.
-                case MOVE_LEFT:
-                case MOVE_RIGHT:
-                    handleMoveCommand(command, UP, DOWN);
-                    break;
-            }
-        }
-
-        switch (command) {
-            case ATTACK:
-                doAttack();
-                break;
-        }
-    }
 
     @Override
     public Coordinates getSpawnOffset() {
@@ -209,7 +149,8 @@ public class Player extends BomberEntity {
         return Bomberman.getMatch().getPlayer().getCurrExplosionLength();
     }
 
-    private void doAttack() {
+    @Override
+    public void doAttack() {
         getWeapon().use();
         Bomberman.getMatch().updateInventoryWeaponController();
     }
