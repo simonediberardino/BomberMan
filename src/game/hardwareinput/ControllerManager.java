@@ -29,7 +29,9 @@ public class ControllerManager extends Observable2 implements KeyListener {
     private Player player;
     // Key-Command mapping
     private Map<Integer, Command> keyAssignment;
-    private PeriodicTask task;    private static int KEY_DELAY_MS = setDefaultCommandDelay();
+    private PeriodicTask task;
+    private static int KEY_DELAY_MS = setDefaultCommandDelay();
+
     public ControllerManager() {
         instance = this;
         setupTask();
@@ -76,12 +78,13 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     public void onKeyPressed(Command action) {
-        // Ignore the event if the time elapsed since the last event is less than KEY_DELAY_MS
+        // if a button is pressed, mouse movement gets interrupted
+        Bomberman.getMatch().getMouseControllerManager().stopPeriodicTask();
 
-        System.out.println("Key");
+        // Ignore the event if the time elapsed since the last event is less than KEY_DELAY_MS
         if (action != null && player != null) {
             commandEventsTime.put(action, System.currentTimeMillis());
-            player.commandQueue.add(action);
+            player.getCommandQueue().add(action);
         }
 
         resume();
@@ -99,8 +102,6 @@ public class ControllerManager extends Observable2 implements KeyListener {
             return;
 
         onKeyPressed(action);
-        // if a button is pressed, mouse movement gets interrupted
-        Bomberman.getMatch().getMouseControllerManager().stopPeriodicTask();
     }
 
     @Override
@@ -110,14 +111,16 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     public void onKeyReleased(Command action) {
-        player.commandQueue.remove(action);
-        if (player.commandQueue.isEmpty()) stop();
+        player.getCommandQueue().remove(action);
+
+        if (player.getCommandQueue().isEmpty())
+            stop();
     }
 
     private void setupTask() {
         task = new PeriodicTask(() -> {
             if (player == null) return;
-            for (Command command : new HashSet<>(player.commandQueue)) {
+            for (Command command : new HashSet<>(player.getCommandQueue())) {
                 notifyObservers(command);
             }
         }, KEY_DELAY_MS);
@@ -142,7 +145,7 @@ public class ControllerManager extends Observable2 implements KeyListener {
     }
 
     public boolean isCommandPressed(Command c) {
-        return player.commandQueue.contains(c);
+        return player.getCommandQueue().contains(c);
     }
 
     private void updateDelay() {

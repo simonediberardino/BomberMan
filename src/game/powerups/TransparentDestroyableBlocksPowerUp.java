@@ -24,11 +24,11 @@ public class TransparentDestroyableBlocksPowerUp extends PowerUp {
 
     @Override
     protected void doApply(BomberEntity entity) {
-        entity.getWhiteListObstacles().add(DestroyableBlock.class);
+        entity.addWhiteListObstacle(DestroyableBlock.class);
     }
 
     @Override
     protected void cancel(BomberEntity entity) {
-        entity.getWhiteListObstacles().remove(DestroyableBlock.class);
+        entity.removeWhiteListObstacle(DestroyableBlock.class);
     }
 }

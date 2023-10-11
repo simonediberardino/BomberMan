@@ -27,7 +27,7 @@ import static game.entity.models.Direction.DOWN;
 public abstract class Character extends MovingEntity {
     public static final int SIZE = PitchPanel.PIXEL_UNIT * 4 * 2;
     protected final List<Direction> imagePossibleDirections = getImageDirections();
-    public Set<Command> commandQueue = new HashSet<>();
+    protected Set<Command> commandQueue = new HashSet<>();
     protected long lastDirectionUpdate = 0;
     protected Direction currDirection = DOWN;
     /**
@@ -112,6 +112,10 @@ public abstract class Character extends MovingEntity {
 
         isImmune = immune;
         state.set(immune ? State.IMMUNE : State.ALIVE);
+    }
+
+    public Set<Command> getCommandQueue() {
+        return commandQueue;
     }
 
     protected boolean useOnlyBaseIcons() {

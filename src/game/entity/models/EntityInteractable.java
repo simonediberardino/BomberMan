@@ -22,17 +22,19 @@ public abstract class EntityInteractable extends Entity {
     public final static long INTERACTION_DELAY_MS = 500;
     private final Set<Class<? extends Entity>> whitelistObstacles = new HashSet<>();
     protected long lastInteractionTime = 0;
-    protected long  lastDamageTime = 0;
+    protected long lastDamageTime = 0;
     private int attackDamage = 100;
 
     /**
      * Gets the size of the entity in pixels.
+     *
      * @return the size of the entity
      */
     public abstract int getSize();
 
     /**
      * Constructs an interactive entity with the given coordinates.
+     *
      * @param coordinates the coordinates of the entity
      */
     public EntityInteractable(Coordinates coordinates) {
@@ -48,15 +50,13 @@ public abstract class EntityInteractable extends Entity {
 
         if (canInteractWith(e) && e.canBeInteractedBy(this)) {
             interactAndUpdateLastInteract(e);
-        }
-
-        else if (e instanceof EntityInteractable && ((EntityInteractable) e).canInteractWith(this) && this.canBeInteractedBy(e)) {
+        } else if (e instanceof EntityInteractable && ((EntityInteractable) e).canInteractWith(this) && this.canBeInteractedBy(e)) {
             ((EntityInteractable) e).interactAndUpdateLastInteract(this);
         }
     }
 
-    private synchronized void interactAndUpdateLastInteract(Entity e){
-        if(Utility.timePassed(getLastInteraction(e)) < INTERACTION_DELAY_MS) {
+    private synchronized void interactAndUpdateLastInteract(Entity e) {
+        if (Utility.timePassed(getLastInteraction(e)) < INTERACTION_DELAY_MS) {
             return;
         }
         this.doInteract(e); // Interact with the entity.
@@ -64,53 +64,55 @@ public abstract class EntityInteractable extends Entity {
     }
 
     public void updateLastInteract(Entity e) {
-        if(e == null)return;
+        if (e == null) return;
         lastInteractionTime = System.currentTimeMillis();
     }
 
-    public long getLastInteraction(Entity e){
+    public long getLastInteraction(Entity e) {
         return lastInteractionTime;
     }
 
     /**
      * Interacts with the given entity.
+     *
      * @param e the entity to interact with
      */
     @Override
     protected abstract void doInteract(Entity e);
 
     /**
-
-     Moves or interacts with other entities in the given direction and with the default step size and offset.
-     @param d the direction to move or interact in
-     @return true if the entity can move in the given direction, false otherwise
+     * Moves or interacts with other entities in the given direction and with the default step size and offset.
+     *
+     * @param d the direction to move or interact in
+     * @return true if the entity can move in the given direction, false otherwise
      */
     public final boolean moveOrInteract(Direction d) {
         // Call the moveOrInteract method with the default step size
         return moveOrInteract(d, PIXEL_UNIT);
     }
 
-    public final boolean moveOrInteract(Direction d, int stepSize){
+    public final boolean moveOrInteract(Direction d, int stepSize) {
         return moveOrInteract(d, stepSize, false);
     }
 
-    public void move(Coordinates coordinates){
+    public void move(Coordinates coordinates) {
         setCoords(coordinates);
     }
 
     /**
      * Moves or interacts with other entities in the given direction and with the given step size and default offset.
-     * @param d the direction to move or interact in
+     *
+     * @param d        the direction to move or interact in
      * @param stepSize the step size to use
      */
     protected final boolean moveOrInteract(Direction d, int stepSize, boolean ignoreMapBorders) {
-        if(d == null)
+        if (d == null)
             return false;
 
         Coordinates nextTopLeftCoords = Coordinates.nextCoords(getCoords(), d, stepSize);
 
         if (!nextTopLeftCoords.validate(this)) {
-            if(!ignoreMapBorders){
+            if (!ignoreMapBorders) {
                 this.interact(null);
                 return false;
             }
@@ -136,7 +138,7 @@ public abstract class EntityInteractable extends Entity {
 
         // Get the coordinates of the next positions that will be occupied if the entity moves in a certain direction
         // with a given step size
-        List<Coordinates> nextOccupiedCoords = getNewCoordinatesOnDirection(d, stepSize, GRID_SIZE/3 / 2);
+        List<Coordinates> nextOccupiedCoords = getNewCoordinatesOnDirection(d, stepSize, GRID_SIZE / 3 / 2);
 
         // Get a list of entities that are present in the next occupied coordinates
         List<Entity> interactedEntities = getEntitiesOnCoordinates(nextOccupiedCoords);
@@ -169,7 +171,7 @@ public abstract class EntityInteractable extends Entity {
 
         // If the entity can move or it is immune to bombs, update the entity's position
         //if the entity is instance of explosion, it'll be able to move further anyway but no more explosions will be generated in constructor
-        if(this instanceof AbstractExplosion && !canMove){
+        if (this instanceof AbstractExplosion && !canMove) {
             ((AbstractExplosion) this).onObstacle(nextTopLeftCoords);
         } else if (canMove) {
             move(nextTopLeftCoords);
@@ -179,8 +181,12 @@ public abstract class EntityInteractable extends Entity {
         return canMove;
     }
 
-    public Set<Class<? extends Entity>> getWhiteListObstacles() {
-        return whitelistObstacles;
+    public void addWhiteListObstacle(Class<? extends Entity> clazz) {
+        whitelistObstacles.add(clazz);
+    }
+
+    public void removeWhiteListObstacle(Class<? extends Entity> clazz) {
+        whitelistObstacles.remove(clazz);
     }
 
     public Set<Class<? extends Entity>> getObstacles() {
@@ -189,30 +195,29 @@ public abstract class EntityInteractable extends Entity {
 
     public abstract Set<Class<? extends Entity>> getInteractionsEntities();
 
-    public boolean isObstacle(Entity e){
+    public boolean isObstacle(Entity e) {
         return e == null || getObstacles().stream().anyMatch(c -> c.isInstance(e)) && whitelistObstacles.stream().noneMatch(c -> c.isInstance(e));
     }
 
-    public boolean canInteractWith(Entity e){
-        if(e == null) return true;
+    public boolean canInteractWith(Entity e) {
+        if (e == null) return true;
 
         return getInteractionsEntities().stream().anyMatch(c -> c.isInstance(e));
     }
 
-    public int getAttackDamage(){
+    public int getAttackDamage() {
         return attackDamage;
     }
 
-    public void setAttackDamage(int damage){
+    public void setAttackDamage(int damage) {
         attackDamage = damage;
     }
 
-    public void attack(Entity e){
-        if(e == null || e.isImmune()) return;
+    public void attack(Entity e) {
+        if (e == null || e.isImmune()) return;
 
-        if (e instanceof Character){
+        if (e instanceof Character) {
             ((Character) e).attackReceived(getAttackDamage());
-        }
-        else if (e instanceof Block) ((Block) e).destroy();
+        } else if (e instanceof Block) ((Block) e).destroy();
     }
 }

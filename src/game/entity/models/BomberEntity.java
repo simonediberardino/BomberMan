@@ -1,21 +1,21 @@
 package game.entity.models;
 
 import game.Bomberman;
-import game.entity.Player;
 import game.entity.bomb.Bomb;
-import game.entity.bomb.FireExplosion;
-import game.entity.bomb.PistolExplosion;
 import game.entity.bonus.mysterybox.MysteryBoxPerk;
 import game.items.BombItem;
 import game.items.UsableItem;
-import game.events.UpdateCurrentAvailableBombsEvent;
 import game.powerups.PowerUp;
-import game.utils.Utility;
+import game.powerups.TransparentBombsPowerUp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
-public abstract class BomberEntity extends Character implements Explosive{
+import static game.ui.panels.game.PitchPanel.GRID_SIZE;
+
+public abstract class BomberEntity extends Character implements Explosive {
     public static final int MAX_BOMB_CAN_HOLD = 10;
     private final List<Class<? extends Entity>> listInteractWithMouseClick = new ArrayList<>();
     private final List<Class<? extends Entity>> listInteractWithMouseDrag = new ArrayList<>();
@@ -25,6 +25,8 @@ public abstract class BomberEntity extends Character implements Explosive{
     private long lastPlacedBombTime = 0;
     private int currentBombs;
     private UsableItem weapon;
+    private boolean bombsSolid = true;
+    private boolean forceBombsSolid = false;
 
     /**
      * Constructs a new Character with the specified Coordinates.
@@ -40,6 +42,40 @@ public abstract class BomberEntity extends Character implements Explosive{
     protected void onSpawn() {
         super.onSpawn();
         Bomberman.getMatch().give(this, new BombItem());
+    }
+
+    @Override
+    public void move(Coordinates coordinates) {
+        super.move(coordinates);
+        handleInteractionWithBombs();
+    }
+
+    private void handleInteractionWithBombs() {
+        if (bombsSolid || forceBombsSolid) {
+            return;
+        }
+
+        if (getMinDistanceToBomb().orElse(0.0) > GRID_SIZE / 2f)
+            setBombsSolid(true);
+    }
+
+    protected Optional<Double> getMinDistanceToBomb() {
+        List<Bomb> bombs = Bomberman.getMatch().getBombs();
+        return bombs.stream().map(e -> e.getCoords().distanceTo(this.getCoords())).min(Double::compare);
+    }
+
+    public void forceSetBombsNotSolid(boolean bombsNotSolid) {
+        this.forceBombsSolid = bombsNotSolid;
+    }
+
+    public void setBombsSolid(boolean bombsSolid) {
+        this.bombsSolid = bombsSolid;
+
+        if (!bombsSolid) {
+            addWhiteListObstacle(Bomb.class);
+        } else if (!forceBombsSolid) {
+            removeWhiteListObstacle(Bomb.class);
+        }
     }
 
     public int getCurrExplosionLength() {

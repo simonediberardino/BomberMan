@@ -3,6 +3,7 @@ package game;
 import game.data.DataInputOutput;
 import game.data.SortedLinkedList;
 import game.entity.Player;
+import game.entity.bomb.Bomb;
 import game.entity.models.BomberEntity;
 import game.entity.models.Entity;
 import game.hardwareinput.ControllerManager;
@@ -17,6 +18,7 @@ import game.ui.panels.menus.PausePanel;
 import game.utils.Utility;
 import game.viewcontrollers.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class BomberManMatch {
     private ControllerManager controllerManager;
     private Level currentLevel;
     private Player player;
+    private final ArrayList<Bomb> bombs = new ArrayList<>();
     private boolean gameState = false;
     private int enemiesAlive = 0;
 
@@ -100,6 +103,18 @@ public class BomberManMatch {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void addBomb(Bomb bomb) {
+        bombs.add(bomb);
+    }
+
+    public void removeBomb(Bomb bomb) {
+        bombs.remove(bomb);
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
     }
 
     public List<? extends Entity> getEntities() {

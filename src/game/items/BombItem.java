@@ -1,5 +1,6 @@
 package game.items;
 
+import game.Bomberman;
 import game.entity.bomb.Bomb;
 import game.events.UpdateCurrentAvailableBombsEvent;
 import game.utils.Paths;
@@ -29,13 +30,15 @@ public class BombItem extends UsableItem {
 
         owner.setLastPlacedBombTime(System.currentTimeMillis());
         owner.setPlacedBombs(owner.getPlacedBombs() + 1);
+        owner.setBombsSolid(false);
 
         new UpdateCurrentAvailableBombsEvent().invoke(owner.getCurrentBombs() - 1);
-
         bombEntity = new Bomb(owner);
+        Bomberman.getMatch().addBomb(bombEntity);
 
         bombEntity.setOnExplodeListener(() -> {
             owner.setPlacedBombs(owner.getPlacedBombs() - 1);
+            Bomberman.getMatch().removeBomb(bombEntity);
             new UpdateCurrentAvailableBombsEvent().invoke(owner.getCurrentBombs() + 1);
         });
 

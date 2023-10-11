@@ -4,5 +4,3 @@ high priorities:
 - Lives power up remove;
 - Test tank & Clown;
 - Immune texture not working;
-- enemy speed to be increased
-- commandqueue task never gets stopped

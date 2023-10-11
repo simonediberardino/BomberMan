@@ -17,7 +17,6 @@ public class TransparentBombsPowerUp extends PowerUp {
         return loadAndSetImage(Paths.getPowerUpsFolder() + "/transparent_bomb_powerup.png");
     }
 
-
     @Override
     public int getDuration() {
         return DEFAULT_DURATION_SEC;
@@ -25,11 +24,13 @@ public class TransparentBombsPowerUp extends PowerUp {
 
     @Override
     protected void doApply(BomberEntity entity) {
-        entity.getWhiteListObstacles().add(Bomb.class);
+        entity.forceSetBombsNotSolid(true);
+        entity.setBombsSolid(false);
     }
 
     @Override
     protected void cancel(BomberEntity entity) {
-        entity.getWhiteListObstacles().remove(Bomb.class);
+        entity.forceSetBombsNotSolid(false);
+        entity.setBombsSolid(true);
     }
 }
