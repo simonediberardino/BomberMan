@@ -5,6 +5,7 @@ import game.data.DataInputOutput;
 import game.entity.blocks.HardBlock;
 import game.entity.models.Coordinates;
 import game.entity.models.Entity;
+import game.level.Level;
 import game.localization.Localization;
 import game.powerups.PowerUp;
 import game.ui.panels.game.PitchPanel;
@@ -26,11 +27,13 @@ abstract class MysteryBox extends HardBlock {
     private static final long CONFIRM_DELAY_MS = 5000;
     private Status status = Status.closed;
     private long lastClickInteraction = 0;
-    private Entity buyer;
+    protected Entity buyer;
+    protected Level level;
 
-    public MysteryBox(Entity entity) {
+    public MysteryBox(Level level, Entity entity) {
         super(new Coordinates(0, 0));
-        buyer = entity;
+        this.buyer = entity;
+        this.level = level;
     }
 
     abstract int getPrice();

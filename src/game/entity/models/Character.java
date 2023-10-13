@@ -1,7 +1,6 @@
 package game.entity.models;
 
 import game.Bomberman;
-import game.entity.Player;
 import game.entity.bomb.AbstractExplosion;
 import game.hardwareinput.Command;
 import game.hardwareinput.ControllerManager;
@@ -12,9 +11,7 @@ import game.utils.Utility;
 import game.values.DrawPriority;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 import static game.entity.models.Direction.*;
@@ -39,8 +36,6 @@ public abstract class Character extends MovingEntity {
      * Whether this character is alive or not.
      */
     protected volatile boolean isAlive = true;
-    protected boolean isImmune = false;
-    protected volatile AtomicReference<State> state = new AtomicReference<>();
     protected boolean canMove = true;
 
     private int maxHp = 100;
@@ -74,6 +69,7 @@ public abstract class Character extends MovingEntity {
 
     public void setAliveState(boolean s) {
         isAlive = s;
+        state.set(s ? State.SPAWNED : State.DIED);
     }
 
     /**
@@ -91,7 +87,6 @@ public abstract class Character extends MovingEntity {
      *
      * @return the image for this character
      */
-
     @Override
     public BufferedImage getImage() {
         setImageDirection();
@@ -101,17 +96,6 @@ public abstract class Character extends MovingEntity {
             currDirection = Direction.DOWN;
             return loadAndSetImage(getCharacterOrientedImages()[0]);
         }
-    }
-
-    public boolean isImmune() {
-        return isImmune;
-    }
-
-    public void setImmune(boolean immune) {
-        if (!isAlive) return;
-
-        isImmune = immune;
-        state.set(immune ? State.IMMUNE : State.ALIVE);
     }
 
     public Set<Command> getCommandQueue() {
@@ -125,23 +109,19 @@ public abstract class Character extends MovingEntity {
     @Override
     protected void onDespawn() {
         super.onDespawn();
+        setAliveState(false);
     }
 
     @Override
     protected void onSpawn() {
         super.onSpawn();
-        state.set(State.ALIVE);
-        isAlive = true;
+        setAliveState(true);
     }
 
     protected void playStepSound() {
-        if (this instanceof Player) {
-            int a = 0;
-        }
         SoundModel stepSound = getStepSound();
         if (stepSound != null) AudioManager.getInstance().play(stepSound, false);
     }
-
 
     private String[] refreshDirectionAndGetCharsImages() {
         setImageDirection();
@@ -212,9 +192,9 @@ public abstract class Character extends MovingEntity {
         String fileName = toks[0];
 
         String imagePathWithStatus = String.format("%s_%s.%s", fileName, state.toString().toLowerCase(), extension);
+        boolean hasImageWithStatus = Utility.fileExists(imagePathWithStatus);
 
-        File f = new File(imagePathWithStatus);
-        return f.exists() ? super.loadAndSetImage(imagePathWithStatus) : super.loadAndSetImage(imagePath);
+        return hasImageWithStatus ? super.loadAndSetImage(imagePathWithStatus) : super.loadAndSetImage(imagePath);
     }
 
     /**
@@ -371,7 +351,6 @@ public abstract class Character extends MovingEntity {
             return;
         }
         setAliveState(false);
-        state.set(State.DIED);
         onEliminated();
     }
 

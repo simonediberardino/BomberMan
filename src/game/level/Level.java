@@ -26,9 +26,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import static game.sound.SoundModel.BONUS_ALERT;
 import static game.ui.panels.game.PitchPanel.GRID_SIZE;
@@ -285,10 +284,44 @@ public abstract class Level {
     }
 
     public void spawnMisteryBox() {
-        Coordinates c = Coordinates.generateCoordinatesAwayFrom(Bomberman.getMatch().getPlayer().getCoords(), GRID_SIZE * 2);
-        Entity mysteryBox = new MysteryBoxPerk(Bomberman.getMatch().getPlayer());
+        Player player = Bomberman.getMatch().getPlayer();
+        Coordinates c = Coordinates.generateCoordinatesAwayFrom(player.getCoords(), GRID_SIZE * 2);
+        Entity mysteryBox = new MysteryBoxPerk(this, player);
         mysteryBox.setCoords(c);
         mysteryBox.spawn();
+    }
+
+    public final Class<? extends PowerUp>[] getAllowedPerks() {
+        Class<? extends PowerUp>[] standardPerks = PowerUp.POWER_UPS;
+        Class<? extends PowerUp>[] restrictedPerks = getRestrictedPerks();
+
+        if (restrictedPerks.length == 0)
+            return standardPerks;
+
+        Set<Class<? extends PowerUp>> restrictedPerksSet = new HashSet<>(Arrays.asList(restrictedPerks));
+
+        List<Class<? extends PowerUp>> allowedPerksList = new ArrayList<>();
+        for (Class<? extends PowerUp> perk : standardPerks) {
+            if (!restrictedPerksSet.contains(perk)) {
+                allowedPerksList.add(perk);
+            }
+        }
+
+        return allowedPerksList.toArray(new Class[0]);
+    }
+
+    public Class<? extends PowerUp>[] getRestrictedPerks() {
+        return new Class[]{};
+    }
+
+    /**
+     * Returns a random power-up class from the POWER_UPS array.
+     *
+     * @return a random power-up class
+     */
+    public Class<? extends PowerUp> getRandomPowerUpClass() {
+        Class<? extends PowerUp>[] allowedPerks = getAllowedPerks();
+        return allowedPerks[new Random().nextInt(allowedPerks.length)];
     }
 
     // This method generates destroyable blocks in the game board.
@@ -312,7 +345,7 @@ public abstract class Level {
                 if (i == 0 && !isLastLevelOfWorld() && !isArenaLevel()) {
                     block.setPowerUpClass(EndLevelPortal.class);
                 } else {
-                    block.setPowerUpClass(PowerUp.getRandomPowerUpClass());
+                    block.setPowerUpClass(getRandomPowerUpClass());
                 }
             }
 

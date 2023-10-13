@@ -2,5 +2,3 @@
 high priorities:
 - Images;
 - Lives power up remove;
-- Test tank & Clown;
-- Immune texture not working;

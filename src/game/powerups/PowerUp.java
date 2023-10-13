@@ -5,6 +5,7 @@ import game.Bomberman;
 import game.entity.Player;
 import game.entity.models.Character;
 import game.entity.models.*;
+import game.level.Level;
 import game.sound.AudioManager;
 import game.sound.SoundModel;
 import game.ui.panels.game.PitchPanel;
@@ -47,32 +48,6 @@ public abstract class PowerUp extends EntityInteractable {
         super(coordinates);
     }
 
-    /**
-     * Returns a random power-up class from the POWER_UPS array.
-     *
-     * @return a random power-up class
-     */
-    public static Class<? extends PowerUp> getRandomPowerUpClass() {
-        return POWER_UPS[new Random().nextInt(POWER_UPS.length)];
-    }
-
-    /**
-     * Spawns a random power-up at the specified coordinates.
-     *
-     * @param coordinates the coordinates to spawn the power-up at
-     * @return the spawned power-up
-     */
-    public static PowerUp spawnRandomPowerUp(Coordinates coordinates) {
-        try {
-            PowerUp powerUp = getRandomPowerUpClass().getConstructor(Coordinates.class).newInstance(coordinates);
-            powerUp.spawn(true, true);
-            return powerUp;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * Returns the duration of the power-up in milliseconds.

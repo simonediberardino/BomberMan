@@ -33,6 +33,7 @@ public class ArmorPowerUp extends PowerUp {
 
     @Override
     protected void cancel(BomberEntity entity) {
-        entity.setImmune(false);
+        if(entity.isSpawned())
+            entity.setImmune(false);
     }
 }

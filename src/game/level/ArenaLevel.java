@@ -10,10 +10,13 @@ import game.events.UpdateCurrentAvailableBombsEvent;
 import game.events.UpdateCurrentBombsLengthEvent;
 import game.events.UpdateMaxBombsEvent;
 import game.localization.Localization;
+import game.powerups.*;
 import game.ui.viewelements.misc.ToastHandler;
 
 import javax.swing.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static game.localization.Localization.ARENA_DIED;
@@ -99,6 +102,13 @@ public abstract class ArenaLevel extends Level {
 
         ToastHandler.getInstance().show(Localization.get(STARTING_ROUND).replace("%round%", String.valueOf(currentRound.get())));
         Bomberman.getMatch().getInventoryElementControllerRounds().setNumItems(currentRound.get());
+    }
+
+    @Override
+    public Class<? extends PowerUp>[] getRestrictedPerks() {
+        return new Class[] {
+                LivesPowerUp.class
+        };
     }
 
     @Override
